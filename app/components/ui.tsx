@@ -45,6 +45,9 @@ export function Skeleton({ className }: { className?: string }) {
   return <div className={cn("rp-skeleton", className)} />;
 }
 
+import { useEffect, useState, useRef } from "react";
+import { useInView } from "framer-motion";
+
 // ---- Score Circle (animated SVG) ----
 export function ScoreRing({
   score,
@@ -55,24 +58,64 @@ export function ScoreRing({
   size?: number;
   strokeWidth?: number;
 }) {
+  const [displayScore, setDisplayScore] = useState(0);
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once: true, margin: "-50px" });
+  
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
-  const offset = circumference * (1 - score / 100);
+  // Animate offset only when in view
+  const offset = isInView ? circumference * (1 - score / 100) : circumference;
   const color = scoreColor(score);
   const cx = size / 2;
   const cy = size / 2;
 
+  // Animated counter
+  useEffect(() => {
+    if (!isInView) return;
+    
+    let startTimestamp: number;
+    const duration = 1500; // ms
+    
+    const step = (timestamp: number) => {
+      if (!startTimestamp) startTimestamp = timestamp;
+      const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+      
+      // Easing function (easeOutQuart)
+      const ease = 1 - Math.pow(1 - progress, 4);
+      
+      setDisplayScore(Math.floor(ease * score));
+      
+      if (progress < 1) {
+        window.requestAnimationFrame(step);
+      }
+    };
+    
+    window.requestAnimationFrame(step);
+  }, [score, isInView]);
+
   return (
-    <div className="relative flex items-center justify-center" style={{ width: size, height: size }}>
-      <svg width={size} height={size} className="-rotate-90">
+    <div ref={ref} className="relative flex items-center justify-center group" style={{ width: size, height: size }}>
+      
+      {/* Glow Behind */}
+      <div 
+        className="absolute inset-0 rounded-full blur-2xl opacity-20 transition-opacity duration-1000 group-hover:opacity-40"
+        style={{ backgroundColor: color }}
+      />
+      
+      <svg width={size} height={size} className="-rotate-90 relative z-10 drop-shadow-lg">
+        {/* Track */}
         <circle
           cx={cx}
           cy={cy}
           r={radius}
           fill="none"
-          stroke="#1e1e35"
+          stroke="currentColor"
+          className="text-surface-300/50"
           strokeWidth={strokeWidth}
         />
+        
+        {/* Glow Stroke */}
         <circle
           cx={cx}
           cy={cy}
@@ -83,12 +126,16 @@ export function ScoreRing({
           strokeDasharray={circumference}
           strokeDashoffset={offset}
           strokeLinecap="round"
-          className="rp-stroke transition-all duration-1000"
+          className="transition-all duration-[1500ms] ease-[cubic-bezier(0.25,1,0.5,1)]"
+          style={{ filter: `drop-shadow(0 0 8px ${color}80)` }}
         />
       </svg>
-      <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <span className="text-2xl font-bold text-text-primary">{score}</span>
-        <span className="text-xs text-text-muted font-medium">/ 100</span>
+      
+      <div className="absolute inset-0 flex flex-col items-center justify-center z-20">
+        <span className="text-3xl font-black text-text-primary tracking-tighter font-mono" style={{ textShadow: `0 0 20px ${color}40` }}>
+          {displayScore}
+        </span>
+        <span className="text-[10px] text-text-muted font-bold uppercase tracking-widest mt-[-2px]">Score</span>
       </div>
     </div>
   );

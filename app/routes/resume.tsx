@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { usePuterStore } from "~/lib/puter";
 import { ScoreRing, ProgressBar, TipCard, SectionCard, Skeleton } from "~/components/ui";
 import { cn } from "~/lib/utils";
+import { PageTransition } from "~/components/motion/PageTransition";
+import { ScrollReveal } from "~/components/motion/ScrollReveal";
 
 export const meta = () => ([
   { title: "ResumePilot — Resume Analysis" },
@@ -76,50 +78,55 @@ const Resume = () => {
     : [];
 
   return (
-    <div className="flex flex-col lg:flex-row h-full gap-6">
+    <PageTransition className="flex flex-col lg:flex-row h-full gap-8 p-2">
       {/* Left — Resume Preview */}
-      <aside className="lg:w-[380px] xl:w-[420px] flex-shrink-0 border border-border-default rounded-xl bg-surface-50 flex flex-col items-center p-6 lg:h-[calc(100vh-8rem)] lg:overflow-y-auto">
+      <aside className="lg:w-[380px] xl:w-[420px] flex-shrink-0 border border-border-default/50 rounded-2xl bg-surface-50/50 backdrop-blur-md flex flex-col items-center p-6 lg:h-[calc(100vh-8rem)] lg:overflow-y-auto shadow-2xl relative overflow-hidden">
+          <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-brand-500/10 to-transparent pointer-events-none" />
+          
           {loadingData ? (
             <Skeleton className="w-full aspect-[3/4] max-w-[300px]" />
           ) : imageUrl ? (
-            <a href={resumeUrl} target="_blank" rel="noopener noreferrer" className="w-full max-w-[300px]">
-              <div className="rounded-xl overflow-hidden border border-border-muted shadow-xl transition-transform duration-200 hover:scale-[1.01] rp-scale-in">
+            <a href={resumeUrl} target="_blank" rel="noopener noreferrer" className="w-full max-w-[300px] relative z-10 group">
+              <div className="rounded-xl overflow-hidden border border-border-subtle shadow-2xl transition-all duration-500 hover:scale-[1.02] hover:shadow-[0_20px_50px_rgba(139,92,246,0.2)]">
                 <img src={imageUrl} alt="Resume preview" className="w-full h-auto" />
+                <div className="absolute inset-0 bg-brand-500/0 group-hover:bg-brand-500/10 transition-colors pointer-events-none" />
               </div>
             </a>
           ) : (
-            <div className="w-full max-w-[300px] aspect-[3/4] rounded-xl bg-surface-300 flex items-center justify-center">
+            <div className="w-full max-w-[300px] aspect-[3/4] rounded-xl bg-surface-300 flex items-center justify-center relative z-10">
               <p className="text-text-muted text-sm">Preview unavailable</p>
             </div>
           )}
 
           {/* Meta info */}
           {resumeData && (
-            <div className="mt-6 w-full max-w-[300px] flex flex-col gap-2">
+            <div className="mt-8 w-full max-w-[300px] flex flex-col gap-3 relative z-10 p-4 rounded-xl bg-surface-100/50 border border-border-subtle">
               {resumeData.companyName && (
-                <p className="text-xs text-text-muted">
-                  <span className="text-text-secondary font-medium">Company:</span> {resumeData.companyName}
-                </p>
+                <div className="flex justify-between items-center text-sm">
+                  <span className="text-text-muted uppercase tracking-wider text-xs">Target</span>
+                  <span className="text-text-primary font-medium truncate max-w-[150px]">{resumeData.companyName}</span>
+                </div>
               )}
               {resumeData.jobTitle && (
-                <p className="text-xs text-text-muted">
-                  <span className="text-text-secondary font-medium">Role:</span> {resumeData.jobTitle}
-                </p>
+                <div className="flex justify-between items-center text-sm">
+                  <span className="text-text-muted uppercase tracking-wider text-xs">Role</span>
+                  <span className="text-text-primary font-medium truncate max-w-[150px]">{resumeData.jobTitle}</span>
+                </div>
               )}
-              {resumeData.createdAt && (
-                <p className="text-xs text-text-muted">
-                  <span className="text-text-secondary font-medium">Analyzed:</span>{" "}
-                  {new Date(resumeData.createdAt).toLocaleDateString("en-US", {
-                    year: "numeric", month: "short", day: "numeric",
-                  })}
-                </p>
-              )}
+              <div className="flex justify-between items-center text-sm border-t border-border-subtle pt-3 mt-1">
+                  <span className="text-text-muted uppercase tracking-wider text-xs">Analyzed</span>
+                  <span className="text-text-primary">
+                  {resumeData.createdAt ? new Date(resumeData.createdAt).toLocaleDateString("en-US", {
+                    month: "short", day: "numeric", year: "numeric"
+                  }) : "—"}
+                  </span>
+              </div>
             </div>
           )}
         </aside>
 
         {/* Right — Analysis */}
-        <main className="flex-1 px-4 sm:px-8 py-8 max-w-3xl">
+        <main className="flex-1 px-2 sm:px-4 py-4 max-w-3xl">
           {loadingData ? (
             <div className="flex flex-col gap-6">
               <Skeleton className="h-8 w-48" />
@@ -130,45 +137,49 @@ const Resume = () => {
               <Skeleton className="h-48 w-full" />
             </div>
           ) : !feedback ? (
-            <div className="flex flex-col items-center justify-center gap-4 py-16 text-center">
-              <span className="text-4xl">⚠️</span>
-              <h3 className="text-text-primary font-semibold">Analysis not found</h3>
-              <p className="text-text-muted text-sm">This resume analysis may have been deleted.</p>
-              <Link to="/" className="rp-btn rp-md rp-primary">Go to Dashboard</Link>
+            <div className="flex flex-col items-center justify-center gap-4 py-16 text-center h-full">
+              <span className="text-4xl animate-bounce">⚠️</span>
+              <h3 className="text-text-primary font-semibold text-xl">Analysis not found</h3>
+              <p className="text-text-muted">This resume analysis may have been deleted.</p>
+              <Link to="/dashboard" className="rp-btn rp-md rp-primary mt-4">Go to Dashboard</Link>
             </div>
           ) : (
-            <div className="flex flex-col gap-8 rp-fade-in">
+            <div className="flex flex-col gap-8">
               {/* Header: Score */}
-              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
-                <ScoreRing score={feedback.overallScore} size={130} strokeWidth={12} />
-                <div className="flex flex-col gap-2">
-                  <h2 className="text-2xl font-bold text-text-primary">Resume Analysis</h2>
-                  <p className="text-text-secondary text-sm">
-                    ATS-style compatibility estimate based on content, structure, and keyword analysis.
-                  </p>
-                  <div className="flex items-center gap-2 mt-1">
-                    <ScoreLabel score={feedback.overallScore} />
-                    <span className="text-text-muted text-xs">·</span>
-                    <span className="text-xs text-text-muted">{feedback.overallScore}/100 overall</span>
+              <ScrollReveal direction="up" distance={20}>
+                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-8 bg-surface-50/50 p-6 rounded-3xl border border-border-default/50 shadow-lg">
+                  <ScoreRing score={feedback.overallScore || 0} size={140} strokeWidth={10} />
+                  <div className="flex flex-col gap-3">
+                    <h2 className="text-3xl font-black text-text-primary tracking-tight">Resume Analysis</h2>
+                    <p className="text-text-secondary leading-relaxed max-w-md">
+                      ATS-style compatibility estimate based on content, structure, and keyword analysis.
+                    </p>
+                    <div className="flex items-center gap-2 mt-2 px-3 py-1.5 rounded-full bg-surface-200 w-fit">
+                      <ScoreLabel score={feedback.overallScore || 0} />
+                      <span className="text-text-muted text-xs">·</span>
+                      <span className="text-xs text-text-muted">{(feedback.overallScore || 0)}/100 overall</span>
+                    </div>
                   </div>
                 </div>
-              </div>
+              </ScrollReveal>
 
               {/* Section score overview */}
-              <div className="rp-card flex flex-col gap-4">
-                <h3 className="text-text-primary font-semibold">Score Breakdown</h3>
-                <div className="flex flex-col gap-3">
-                  {sections.filter(s => s.data).map((s) => (
-                    <div key={s.key} className="flex flex-col gap-1.5">
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm text-text-secondary">{s.title}</span>
-                        <span className="text-sm font-semibold text-text-primary">{s.data.score || 0}/100</span>
+              <ScrollReveal delay={0.1} direction="up" distance={20}>
+                <div className="rp-card flex flex-col gap-4">
+                  <h3 className="text-text-primary font-semibold">Score Breakdown</h3>
+                  <div className="flex flex-col gap-3">
+                    {sections.filter(s => s.data).map((s) => (
+                      <div key={s.key} className="flex flex-col gap-1.5">
+                        <div className="flex items-center justify-between">
+                          <span className="text-sm text-text-secondary">{s.title}</span>
+                          <span className="text-sm font-semibold text-text-primary">{s.data.score || 0}/100</span>
+                        </div>
+                        <ProgressBar value={s.data.score || 0} />
                       </div>
-                      <ProgressBar value={s.data.score || 0} />
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
-              </div>
+              </ScrollReveal>
 
               {/* Tabs */}
               <div>
@@ -354,7 +365,7 @@ const Resume = () => {
             </div>
           )}
         </main>
-    </div>
+    </PageTransition>
   );
 };
 

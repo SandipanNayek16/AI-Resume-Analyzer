@@ -23,65 +23,71 @@ const STAGES: { key: Stage; label: string; detail: string }[] = [
   { key: "rp-step-done",     label: "Complete",         detail: "Analysis complete! Redirecting..." },
 ];
 
+import { Canvas } from "@react-three/fiber";
+import { AIOrb } from "~/components/3d/AIOrb";
+import { PageTransition } from "~/components/motion/PageTransition";
+
 function ProcessingView({ stage, error }: { stage: Stage; error?: string }) {
   const stageKeys = STAGES.map((s) => s.key);
   const currentIdx = stageKeys.indexOf(stage);
   const current = STAGES.find((s) => s.key === stage);
 
   return (
-    <div className="flex flex-col items-center justify-center gap-10 py-16 rp-fade-in">
-      {/* Animated logo pulse */}
-      <div className="relative">
-        <div className="size-20 rounded-2xl rp-gradient-brand flex items-center justify-center shadow-lg rp-glow">
-          <span className="text-white text-3xl font-bold">RP</span>
-        </div>
-        {stage !== "error" && (
-          <div className="absolute inset-0 size-20 rounded-2xl rp-gradient-brand opacity-30 animate-ping" />
-        )}
+    <PageTransition className="flex flex-col items-center justify-center min-h-[60vh] gap-8">
+      {/* Cinematic AI Orb */}
+      <div className="w-full max-w-sm h-64 relative">
+        <Canvas camera={{ position: [0, 0, 4] }}>
+          <ambientLight intensity={0.5} />
+          <AIOrb scale={error ? 0.8 : 1.2} color={error ? "#ef4444" : "#06b6d4"} />
+        </Canvas>
+        
+        {/* Scanning grid overlay */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#06b6d40a_1px,transparent_1px),linear-gradient(to_bottom,#06b6d40a_1px,transparent_1px)] bg-[size:14px_14px] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_20%,transparent_100%)] pointer-events-none" />
       </div>
 
-      {/* Stage label */}
-      <div className="text-center flex flex-col gap-2">
+      {/* Stage Context */}
+      <div className="text-center flex flex-col gap-2 relative z-10 max-w-sm w-full">
         {stage === "error" ? (
           <>
-            <p className="text-lg font-semibold text-error">Analysis Failed</p>
+            <p className="text-2xl font-black text-error font-mono">ANALYSIS_FAILED</p>
             <p className="text-sm text-text-muted">{error}</p>
           </>
         ) : (
           <>
-            <p className="text-lg font-semibold text-text-primary">{current?.label}</p>
-            <p className="text-sm text-text-secondary">{current?.detail}</p>
+            <p className="text-sm font-semibold text-accent-cyan uppercase tracking-[0.2em] animate-pulse">
+              {current?.label || "Processing"}
+            </p>
+            <p className="text-lg text-text-primary font-light">
+              {current?.detail}
+            </p>
           </>
         )}
       </div>
 
-      {/* Step indicators */}
+      {/* Cinematic Timeline */}
       {stage !== "error" && (
-        <div className="flex flex-col gap-3 w-full max-w-xs">
+        <div className="flex flex-col gap-4 w-full max-w-sm mt-4 relative z-10 p-6 rounded-2xl bg-surface-100/50 backdrop-blur-md border border-border-default/50">
           {STAGES.slice(0, -1).map((s, i) => {
             const done = i < currentIdx;
             const active = i === currentIdx;
             return (
-              <div key={s.key} className="flex items-center gap-3">
-                <div className={cn("rp-step-dot", done ? "rp-step-done" : active ? "rp-step-active" : "rp-step-pending")} />
-                <span className={cn(
-                  "text-sm",
-                  done ? "text-success" : active ? "text-text-primary font-medium" : "text-text-muted"
-                )}>
-                  {s.label}
-                </span>
-                {done && <span className="text-success text-xs ml-auto">✓</span>}
-                {active && (
-                  <span className="ml-auto">
-                    <span className="size-3 border-2 border-brand-400/30 border-t-brand-400 rounded-full animate-spin inline-block" />
-                  </span>
+              <div key={s.key} className={cn("flex items-center gap-4 transition-all duration-500", active ? "opacity-100 scale-105" : done ? "opacity-50" : "opacity-30")}>
+                {done ? (
+                  <div className="size-6 rounded-full bg-success/20 flex items-center justify-center text-success"><span className="text-xs font-bold">✓</span></div>
+                ) : active ? (
+                  <div className="size-6 rounded-full border-2 border-accent-cyan/30 border-t-accent-cyan animate-spin" />
+                ) : (
+                  <div className="size-6 rounded-full border-2 border-border-default" />
                 )}
+                <span className={cn("text-sm font-medium", active ? "text-white" : "text-text-muted")}>
+                  {s.detail}
+                </span>
               </div>
             );
           })}
         </div>
       )}
-    </div>
+    </PageTransition>
   );
 }
 
@@ -95,20 +101,20 @@ function FileDropzone({ onFileSelect, file }: { onFileSelect: (f: File | null) =
 
   if (file) {
     return (
-      <div className="rp-upload-selected">
-        <div className="flex items-center gap-3">
-          <div className="size-10 rounded-lg bg-error/15 flex items-center justify-center flex-shrink-0">
-            <span className="text-lg">📄</span>
+      <div className="p-4 rounded-xl bg-surface-100/50 backdrop-blur-sm border border-brand-500/30 flex items-center justify-between shadow-[0_0_30px_rgba(139,92,246,0.1)] transition-all">
+        <div className="flex items-center gap-4">
+          <div className="size-12 rounded-lg bg-brand-500/10 flex items-center justify-center flex-shrink-0 text-brand-400">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
           </div>
           <div>
-            <p className="text-sm font-medium text-text-primary truncate max-w-[200px] sm:max-w-xs">{file.name}</p>
-            <p className="text-xs text-text-muted">{formatSize(file.size)}</p>
+            <p className="text-sm font-semibold text-text-primary truncate max-w-[200px] sm:max-w-xs">{file.name}</p>
+            <p className="text-xs text-text-muted mt-0.5">{formatSize(file.size)}</p>
           </div>
         </div>
         <button
           type="button"
           onClick={(e) => { e.stopPropagation(); onFileSelect(null); }}
-          className="rp-btn rp-sm rp-ghost text-text-muted"
+          className="p-2 rounded-full hover:bg-surface-300 text-text-muted hover:text-white transition-colors"
           aria-label="Remove file"
         >
           ✕
@@ -118,16 +124,17 @@ function FileDropzone({ onFileSelect, file }: { onFileSelect: (f: File | null) =
   }
 
   return (
-    <div {...getRootProps()} className={cn("rp-upload-zone", isDragActive && "rp-drag-active")}>
+    <div {...getRootProps()} className={cn("relative group cursor-pointer w-full p-10 rounded-2xl border-2 border-dashed transition-all duration-300 flex flex-col items-center justify-center text-center", isDragActive ? "border-brand-400 bg-brand-500/10 scale-[1.02]" : "border-border-default bg-surface-50/50 hover:bg-surface-100 hover:border-brand-500/30")}>
       <input {...getInputProps()} aria-label="Upload PDF resume" />
-      <div className="size-14 rounded-2xl bg-surface-400 flex items-center justify-center text-2xl">
-        📄
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(139,92,246,0.05),transparent)] opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
+      <div className="size-16 rounded-2xl bg-surface-200 group-hover:bg-brand-500/20 flex items-center justify-center text-text-muted group-hover:text-brand-400 transition-colors mb-4 shadow-xl">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
       </div>
-      <div className="flex flex-col gap-1">
-        <p className="text-sm font-semibold text-text-primary">
-          {isDragActive ? "Drop it here!" : "Click to upload or drag & drop"}
+      <div className="flex flex-col gap-1.5 z-10">
+        <p className="text-base font-semibold text-text-primary group-hover:text-brand-400 transition-colors">
+          {isDragActive ? "Drop to analyze" : "Click to upload or drag & drop"}
         </p>
-        <p className="text-xs text-text-muted">PDF only · Max 20MB</p>
+        <p className="text-sm text-text-muted font-light">PDF format up to 20MB</p>
       </div>
     </div>
   );
@@ -223,22 +230,27 @@ const Upload = () => {
       {processing ? (
         <ProcessingView stage={stage} error={errorMsg} />
       ) : (
-        <div className="rp-fade-up">
-          {/* Header */}
-          <div className="flex flex-col items-center text-center mb-10">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-brand-500/30 bg-brand-500/10 text-brand-400 text-xs font-medium mb-4">
-              <span className="size-2 rounded-full bg-brand-400 animate-pulse" />
-              AI Analysis Engine
-            </div>
-            <h1 className="text-3xl font-bold text-text-primary mb-3">Analyze Your Resume</h1>
-            <p className="text-text-secondary max-w-md">
-              Upload your PDF resume and optionally add a job description for a targeted ATS score and improvement tips.
-            </p>
-          </div>
+        <PageTransition className="w-full flex justify-center">
+            <div className="w-full max-w-xl">
+              <div className="text-center mb-8">
+                <h1 className="text-3xl font-bold text-text-primary">Analyze Resume</h1>
+                <p className="text-text-secondary mt-1">Upload your resume to get instant AI feedback.</p>
+              </div>
 
-            {/* Form card */}
-            <div className="card">
-              <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+              <form
+                className="rp-card flex flex-col gap-6"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  if (!file) return;
+                  const fd = new FormData(e.currentTarget);
+                  handleAnalyze({
+                    companyName: fd.get("company-name") as string,
+                    jobTitle: fd.get("job-title") as string,
+                    jobDescription: fd.get("job-description") as string,
+                    file,
+                  });
+                }}
+              >
                 {/* Target Job (optional) */}
                 <div className="flex flex-col gap-4">
                   <p className="text-xs font-semibold text-text-muted uppercase tracking-wider">
@@ -251,7 +263,7 @@ const Upload = () => {
                         id="company-name"
                         name="company-name"
                         type="text"
-                        className="rp-input"
+                        className="rp-input bg-surface-100"
                         placeholder="e.g. Google, Microsoft"
                       />
                     </div>
@@ -261,7 +273,7 @@ const Upload = () => {
                         id="job-title"
                         name="job-title"
                         type="text"
-                        className="rp-input"
+                        className="rp-input bg-surface-100"
                         placeholder="e.g. Frontend Engineer"
                       />
                     </div>
@@ -272,7 +284,7 @@ const Upload = () => {
                       id="job-description"
                       name="job-description"
                       rows={4}
-                      className="rp-input resize-none"
+                      className="rp-input bg-surface-100 resize-none"
                       placeholder="Paste the job description here for a more targeted analysis..."
                     />
                   </div>
@@ -291,9 +303,9 @@ const Upload = () => {
                 <button
                   type="submit"
                   disabled={!file}
-                  className="rp-btn rp-lg rp-primary w-full disabled:opacity-40 disabled:cursor-not-allowed"
+                  className="rp-btn rp-lg rp-primary w-full disabled:opacity-40 disabled:cursor-not-allowed group"
                 >
-                  Analyze Resume →
+                  Analyze Resume <span className="transition-transform group-hover:translate-x-1">→</span>
                 </button>
 
                 <p className="text-xs text-text-muted text-center">
@@ -301,7 +313,7 @@ const Upload = () => {
                 </p>
               </form>
             </div>
-          </div>
+          </PageTransition>
         )}
     </div>
   );

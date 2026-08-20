@@ -44,6 +44,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
   );
 }
 
+import { GlowBackground } from "~/components/visual/GlowBackground";
+
 // Separate client-only component to safely call hooks
 function PuterInitializer() {
   const { init } = usePuterStore();
@@ -55,10 +57,10 @@ function PuterInitializer() {
 
 export default function App() {
   return (
-    <>
+    <GlowBackground>
       <PuterInitializer />
       <Outlet />
-    </>
+    </GlowBackground>
   );
 }
 

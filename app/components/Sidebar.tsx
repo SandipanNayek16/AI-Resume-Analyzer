@@ -17,7 +17,6 @@ const NAV_ITEMS = [
   { label: "Analyze", href: "/upload", icon: Upload },
   { label: "Job Match", href: "/job-match", icon: Briefcase },
   { label: "My Resumes", href: "/resumes", icon: FileText },
-  { label: "History", href: "/history", icon: History },
   { label: "AI Copilot", href: "/copilot", icon: MessageSquare },
 ];
 
