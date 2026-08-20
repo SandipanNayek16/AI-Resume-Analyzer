@@ -69,10 +69,10 @@ const Resume = () => {
   ] : [];
 
   const goodTips = feedback
-    ? sections.flatMap((s) => s.data.tips.filter((t) => t.type === "good").map((t) => ({ ...t, section: s.title })))
+    ? sections.flatMap((s) => (s.data?.tips || []).filter((t) => t.type === "good").map((t) => ({ ...t, section: s.title })))
     : [];
   const improveTips = feedback
-    ? sections.flatMap((s) => s.data.tips.filter((t) => t.type === "improve").map((t) => ({ ...t, section: s.title })))
+    ? sections.flatMap((s) => (s.data?.tips || []).filter((t) => t.type === "improve").map((t) => ({ ...t, section: s.title })))
     : [];
 
   return (
@@ -158,13 +158,13 @@ const Resume = () => {
               <div className="rp-card flex flex-col gap-4">
                 <h3 className="text-text-primary font-semibold">Score Breakdown</h3>
                 <div className="flex flex-col gap-3">
-                  {sections.map((s) => (
+                  {sections.filter(s => s.data).map((s) => (
                     <div key={s.key} className="flex flex-col gap-1.5">
                       <div className="flex items-center justify-between">
                         <span className="text-sm text-text-secondary">{s.title}</span>
-                        <span className="text-sm font-semibold text-text-primary">{s.data.score}/100</span>
+                        <span className="text-sm font-semibold text-text-primary">{s.data.score || 0}/100</span>
                       </div>
-                      <ProgressBar value={s.data.score} />
+                      <ProgressBar value={s.data.score || 0} />
                     </div>
                   ))}
                 </div>
@@ -246,12 +246,12 @@ const Resume = () => {
                 {/* Sections tab */}
                 {tab === "sections" && (
                   <div className="flex flex-col gap-5 rp-fade-in">
-                    {sections.map((s) => (
+                    {sections.filter(s => s.data).map((s) => (
                       <SectionCard
                         key={s.key}
                         title={s.title}
-                        score={s.data.score}
-                        tips={s.data.tips}
+                        score={s.data.score || 0}
+                        tips={s.data.tips || []}
                       />
                     ))}
                   </div>
@@ -272,26 +272,26 @@ const Resume = () => {
                     </div>
 
                     {/* Keywords */}
-                    {feedback.jobMatch.matchedKeywords.length > 0 && (
+                    {(feedback.jobMatch.matchedKeywords || []).length > 0 && (
                       <div className="rp-card flex flex-col gap-3">
                         <h4 className="text-text-primary font-semibold">
-                          ✓ Matched Keywords ({feedback.jobMatch.matchedKeywords.length})
+                          ✓ Matched Keywords ({(feedback.jobMatch.matchedKeywords || []).length})
                         </h4>
                         <div className="flex flex-wrap gap-2">
-                          {feedback.jobMatch.matchedKeywords.map((kw) => (
+                          {(feedback.jobMatch.matchedKeywords || []).map((kw) => (
                             <span key={kw} className="rp-badge-good">{kw}</span>
                           ))}
                         </div>
                       </div>
                     )}
 
-                    {feedback.jobMatch.missingKeywords.length > 0 && (
+                    {(feedback.jobMatch.missingKeywords || []).length > 0 && (
                       <div className="rp-card flex flex-col gap-3">
                         <h4 className="text-text-primary font-semibold">
-                          ✕ Missing Keywords ({feedback.jobMatch.missingKeywords.length})
+                          ✕ Missing Keywords ({(feedback.jobMatch.missingKeywords || []).length})
                         </h4>
                         <div className="flex flex-wrap gap-2">
-                          {feedback.jobMatch.missingKeywords.map((kw) => (
+                          {(feedback.jobMatch.missingKeywords || []).map((kw) => (
                             <span key={kw} className="rp-badge-bad">{kw}</span>
                           ))}
                         </div>
@@ -302,26 +302,26 @@ const Resume = () => {
                     )}
 
                     {/* Skills */}
-                    {feedback.jobMatch.matchedSkills.length > 0 && (
+                    {(feedback.jobMatch.matchedSkills || []).length > 0 && (
                       <div className="rp-card flex flex-col gap-3">
                         <h4 className="text-text-primary font-semibold">
                           ✓ Matched Skills
                         </h4>
                         <div className="flex flex-wrap gap-2">
-                          {feedback.jobMatch.matchedSkills.map((s) => (
+                          {(feedback.jobMatch.matchedSkills || []).map((s) => (
                             <span key={s} className="rp-badge-good">{s}</span>
                           ))}
                         </div>
                       </div>
                     )}
 
-                    {feedback.jobMatch.missingSkills.length > 0 && (
+                    {(feedback.jobMatch.missingSkills || []).length > 0 && (
                       <div className="rp-card flex flex-col gap-3">
                         <h4 className="text-text-primary font-semibold">
                           ✕ Missing Skills
                         </h4>
                         <div className="flex flex-wrap gap-2">
-                          {feedback.jobMatch.missingSkills.map((s) => (
+                          {(feedback.jobMatch.missingSkills || []).map((s) => (
                             <span key={s} className="rp-badge-bad">{s}</span>
                           ))}
                         </div>
@@ -329,10 +329,10 @@ const Resume = () => {
                     )}
 
                     {/* Tips */}
-                    {feedback.jobMatch.tips.length > 0 && (
+                    {(feedback.jobMatch.tips || []).length > 0 && (
                       <div className="flex flex-col gap-3">
                         <h4 className="text-text-primary font-semibold">Recommendations</h4>
-                        {feedback.jobMatch.tips.map((t, i) => (
+                        {(feedback.jobMatch.tips || []).map((t, i) => (
                           <TipCard key={i} {...t} />
                         ))}
                       </div>
