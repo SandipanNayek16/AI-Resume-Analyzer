@@ -1,6 +1,7 @@
 import { Link, useLocation } from "react-router";
 import { usePuterStore } from "~/lib/puter";
 import { cn } from "~/lib/utils";
+import { motion } from "framer-motion";
 import { 
   LayoutDashboard, 
   Upload, 
@@ -39,8 +40,8 @@ export function Sidebar() {
       </div>
 
       {/* Navigation */}
-      <div className="flex-1 overflow-y-auto py-6 px-4 flex flex-col gap-1">
-        <div className="px-2 mb-2 text-xs font-semibold text-text-muted uppercase tracking-wider">
+      <div className="flex-1 overflow-y-auto py-6 px-4 flex flex-col gap-1 relative z-10">
+        <div className="px-2 mb-2 text-[10px] font-bold text-text-muted uppercase tracking-widest">
           Menu
         </div>
         {NAV_ITEMS.map((item) => {
@@ -51,39 +52,73 @@ export function Sidebar() {
               key={item.href}
               to={item.href}
               className={cn(
-                "flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors",
+                "group relative flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors",
                 isActive
-                  ? "bg-brand-500/10 text-brand-400"
-                  : "text-text-secondary hover:text-text-primary hover:bg-surface-300"
+                  ? "text-text-primary"
+                  : "text-text-secondary hover:text-text-primary"
               )}
             >
-              <Icon size={18} className={isActive ? "text-brand-400" : "text-text-muted"} />
-              {item.label}
+              {isActive && (
+                <motion.div
+                  layoutId="sidebar-active-indicator"
+                  className="absolute inset-0 bg-brand-500/10 rounded-lg border border-brand-500/20"
+                  initial={false}
+                  transition={{ type: "spring", stiffness: 350, damping: 30 }}
+                />
+              )}
+              
+              <div className="relative z-10 flex items-center gap-3">
+                <Icon 
+                  size={18} 
+                  className={cn(
+                    "transition-colors",
+                    isActive ? "text-brand-400" : "text-text-muted group-hover:text-brand-400/70"
+                  )} 
+                />
+                <span className="relative z-10">{item.label}</span>
+              </div>
+              
+              {isActive && (
+                <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-1/2 bg-brand-400 rounded-r-full shadow-[0_0_10px_rgba(139,92,246,0.5)]" />
+              )}
             </Link>
           );
         })}
       </div>
 
       {/* Footer / User */}
-      <div className="p-4 border-t border-border-default">
+      <div className="p-4 border-t border-border-default/50 relative z-10">
         <Link
           to="/settings"
           className={cn(
-            "flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors mb-2",
+            "group relative flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors mb-1",
             location.pathname === "/settings"
-              ? "bg-brand-500/10 text-brand-400"
-              : "text-text-secondary hover:text-text-primary hover:bg-surface-300"
+              ? "text-text-primary"
+              : "text-text-secondary hover:text-text-primary"
           )}
         >
-          <Settings size={18} className="text-text-muted" />
-          Settings
+          {location.pathname === "/settings" && (
+            <motion.div
+              layoutId="sidebar-active-indicator"
+              className="absolute inset-0 bg-brand-500/10 rounded-lg border border-brand-500/20"
+              initial={false}
+              transition={{ type: "spring", stiffness: 350, damping: 30 }}
+            />
+          )}
+          <div className="relative z-10 flex items-center gap-3">
+            <Settings size={18} className={cn("transition-colors", location.pathname === "/settings" ? "text-brand-400" : "text-text-muted group-hover:text-text-secondary")} />
+            <span className="relative z-10">Settings</span>
+          </div>
         </Link>
         <button
           onClick={() => auth.signOut()}
-          className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-text-secondary hover:text-error hover:bg-error/10 transition-colors"
+          className="group relative w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-text-secondary hover:text-error transition-colors"
         >
-          <LogOut size={18} className="text-text-muted" />
-          Sign Out
+          <div className="absolute inset-0 rounded-lg bg-error/0 group-hover:bg-error/10 transition-colors" />
+          <div className="relative z-10 flex items-center gap-3 w-full">
+            <LogOut size={18} className="text-text-muted group-hover:text-error transition-colors" />
+            <span>Sign Out</span>
+          </div>
         </button>
       </div>
     </aside>

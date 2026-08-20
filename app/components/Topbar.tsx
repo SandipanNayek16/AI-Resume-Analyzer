@@ -6,7 +6,7 @@ export function Topbar({ onMenuClick }: { onMenuClick: () => void }) {
   const { auth } = usePuterStore();
 
   return (
-    <header className="h-16 border-b border-border-default bg-surface-50 flex items-center justify-between px-4 md:hidden sticky top-0 z-40">
+    <header className="h-16 border-b border-border-default/50 bg-surface-50/50 backdrop-blur-md flex items-center justify-between px-4 md:hidden sticky top-0 z-40">
       <div className="flex items-center gap-3">
         <button
           onClick={onMenuClick}
