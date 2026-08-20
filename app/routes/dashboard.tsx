@@ -97,7 +97,7 @@ export default function Dashboard() {
         
         {/* Metric Card 1 */}
         <ScrollReveal delay={0.1} direction="up" distance={30}>
-          <TiltCard tiltAmount={10}>
+          <TiltCard tiltAmount={3}>
             <div className="rp-card bg-surface-100/50 backdrop-blur-md border border-border-default/50 hover:border-brand-500/50 transition-colors flex items-center gap-5 p-6 shadow-xl">
               <div className="size-14 rounded-2xl bg-brand-500/10 flex items-center justify-center text-brand-400 shadow-[inset_0_0_20px_rgba(139,92,246,0.1)]">
                 <FileText size={26} />
@@ -112,7 +112,7 @@ export default function Dashboard() {
 
         {/* Metric Card 2 */}
         <ScrollReveal delay={0.2} direction="up" distance={30}>
-          <TiltCard tiltAmount={10}>
+          <TiltCard tiltAmount={3}>
             <div className="rp-card bg-surface-100/50 backdrop-blur-md border border-border-default/50 hover:border-brand-500/50 transition-colors flex items-center gap-5 p-6 shadow-xl">
               <div className="size-14 rounded-2xl bg-brand-500/10 flex items-center justify-center text-brand-400 shadow-[inset_0_0_20px_rgba(139,92,246,0.1)]">
                 <TrendingUp size={26} />
@@ -132,7 +132,7 @@ export default function Dashboard() {
 
         {/* Metric Card 3 */}
         <ScrollReveal delay={0.3} direction="up" distance={30}>
-          <TiltCard tiltAmount={10}>
+          <TiltCard tiltAmount={3}>
             <div className="rp-card bg-surface-100/50 backdrop-blur-md border border-border-default/50 hover:border-brand-500/50 transition-colors flex items-center gap-5 p-6 shadow-xl">
               <div className="size-14 rounded-2xl bg-brand-500/10 flex items-center justify-center text-brand-400 shadow-[inset_0_0_20px_rgba(139,92,246,0.1)]">
                 <Award size={26} />

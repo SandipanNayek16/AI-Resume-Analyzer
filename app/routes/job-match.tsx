@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import { usePuterStore } from "~/lib/puter";
+import { Briefcase, Building, ChevronLeft, ChevronRight, FileText, Share2, Star, Sparkles } from "lucide-react";
 import { ScoreRing, Skeleton, TipCard } from "~/components/ui";
 import { PageTransition } from "~/components/motion/PageTransition";
 import { ScrollReveal } from "~/components/motion/ScrollReveal";
 import { TiltCard } from "~/components/motion/TiltCard";
+import { TextLoop } from "~/components/reactbits/TextLoop";
 
 function SkillNetwork({ matched, missing }: { matched: string[], missing: string[] }) {
   return (
@@ -196,18 +198,25 @@ Only return raw JSON.`;
         <div className="md:col-span-7 flex flex-col gap-6">
           {processing ? (
             <div className="flex flex-col gap-6 pt-8 md:pt-0 h-full justify-center">
-              <div className="flex items-center justify-center py-12">
+              <div className="absolute inset-0 flex flex-col items-center justify-center z-50 bg-surface-0/50 backdrop-blur-sm transition-opacity duration-1000">
                 <div className="relative size-32">
-                  <div className="absolute inset-0 rounded-full border-4 border-surface-200" />
-                  <div className="absolute inset-0 rounded-full border-4 border-brand-500 border-t-transparent animate-spin" />
-                  <div className="absolute inset-0 flex items-center justify-center text-brand-400 animate-pulse">
-                    <span className="text-3xl">⚙</span>
-                  </div>
+                  <div className="absolute inset-0 rounded-full border-t-2 border-brand-400 animate-spin" />
+                  <div className="absolute inset-2 rounded-full border-r-2 border-brand-500 animate-[spin_2s_linear_infinite]" />
+                  <div className="absolute inset-4 rounded-full border-b-2 border-accent-cyan animate-[spin_3s_linear_infinite]" />
+                  <Sparkles className="absolute inset-0 m-auto text-brand-300 animate-pulse" size={32} />
                 </div>
-              </div>
-              <div className="text-center space-y-2">
-                <h3 className="text-xl font-bold text-text-primary animate-pulse">Computing Match Matrix...</h3>
-                <p className="text-text-muted text-sm">Aligning neural embeddings with job requirements</p>
+                
+                <TextLoop 
+                  className="mt-8 text-xl font-medium text-brand-300 tracking-wider font-mono w-[300px] text-center" 
+                  texts={[
+                    "INITIALIZING NEURAL NET...",
+                    "PARSING RESUME VECTORS...",
+                    "ANALYZING JOB DESCRIPTION...",
+                    "MAPPING SKILL CONSTELLATION...",
+                    "COMPUTING MATCH PROBABILITY..."
+                  ]}
+                  interval={2500}
+                />
               </div>
             </div>
           ) : matchResult ? (

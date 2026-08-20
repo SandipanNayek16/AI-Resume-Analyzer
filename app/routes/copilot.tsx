@@ -3,6 +3,7 @@ import { usePuterStore } from "~/lib/puter";
 import { Send, Bot, User, Sparkles } from "lucide-react";
 import { PageTransition } from "~/components/motion/PageTransition";
 import { ScrollReveal } from "~/components/motion/ScrollReveal";
+import { BorderGlow } from "~/components/reactbits/BorderGlow";
 import { AIOrb } from "~/components/3d/AIOrb";
 import { motion, AnimatePresence } from "framer-motion";
 import { Canvas } from "@react-three/fiber";
@@ -174,31 +175,33 @@ If the user asks you to rewrite a bullet point, provide the new bullet point dir
         </div>
 
         {/* Input Area */}
-        <div className="p-4 border-t border-border-default/50 bg-surface-100/50 backdrop-blur-md relative z-10">
-          <div className="relative flex items-center group">
-            <div className="absolute inset-0 bg-brand-500/20 rounded-full blur-md opacity-0 group-focus-within:opacity-100 transition-opacity pointer-events-none" />
-            <textarea 
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' && !e.shiftKey) {
-                  e.preventDefault();
-                  handleSend();
-                }
-              }}
-              placeholder={selectedResumeId ? "Ask the copilot something..." : "Please select a resume first..."}
-              className="rp-input pr-12 resize-none min-h-[52px] py-3.5 rounded-full bg-surface-200/50 backdrop-blur-md border-border-default hover:border-brand-500/50 focus:border-brand-500 shadow-inner"
-              rows={1}
-              disabled={!selectedResumeId || isTyping}
-            />
-            <button 
-              onClick={handleSend}
-              disabled={!input.trim() || !selectedResumeId || isTyping}
-              className="absolute right-2 top-1/2 -translate-y-1/2 p-2.5 bg-brand-500 hover:bg-brand-400 text-white rounded-full shadow-[0_0_15px_rgba(139,92,246,0.4)] hover:shadow-[0_0_20px_rgba(139,92,246,0.6)] transition-all disabled:opacity-50 disabled:shadow-none"
-            >
-              <Send size={16} />
-            </button>
-          </div>
+        <div className="shrink-0 p-4 border-t border-border-default/50 bg-surface-50/50 backdrop-blur-xl">
+          <BorderGlow glowColor="#a78bfa" className="max-w-4xl mx-auto rounded-xl">
+            <div className="flex gap-4 p-1">
+              <textarea 
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    handleSend();
+                  }
+                }}
+                placeholder={selectedResumeId ? "Ask the copilot something..." : "Please select a resume first..."}
+                className="flex-1 bg-surface-100 border-none text-text-primary rounded-xl px-4 py-3 focus:outline-none transition-all placeholder:text-text-muted/50 resize-none min-h-[52px]"
+                rows={1}
+                disabled={isTyping || !selectedResumeId}
+              />
+              <button 
+                onClick={handleSend}
+                disabled={!input.trim() || isTyping || !selectedResumeId}
+                className="px-6 py-3 bg-brand-500 hover:bg-brand-600 text-white font-medium rounded-xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 shadow-[0_0_20px_rgba(139,92,246,0.2)] h-[52px]"
+              >
+                <span>Send</span>
+                <Send size={18} className={isTyping ? "animate-pulse" : ""} />
+              </button>
+            </div>
+          </BorderGlow>
           <p className="text-center text-[10px] text-text-muted mt-3 font-medium uppercase tracking-wider">
             Press Enter to send, Shift+Enter for new line. AI can make mistakes.
           </p>

@@ -8,7 +8,7 @@ interface TiltCardProps {
   tiltAmount?: number;
 }
 
-export function TiltCard({ children, className, tiltAmount = 15 }: TiltCardProps) {
+export function TiltCard({ children, className, tiltAmount = 5 }: TiltCardProps) {
   const ref = useRef<HTMLDivElement>(null);
 
   const x = useMotionValue(0);
