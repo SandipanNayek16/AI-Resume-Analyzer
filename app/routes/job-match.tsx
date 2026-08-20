@@ -9,33 +9,46 @@ import { TextLoop } from "~/components/reactbits/TextLoop";
 
 function SkillNetwork({ matched, missing }: { matched: string[], missing: string[] }) {
   return (
-    <div className="flex flex-col gap-4 bg-surface-100/50 p-6 rounded-2xl border border-border-default/50">
-      <div className="flex justify-between text-xs font-bold text-text-muted uppercase tracking-widest px-2 mb-2">
-        <span>Resume</span>
-        <span>Job Description</span>
+    <div className="flex flex-col gap-6 bg-surface-100/50 p-6 rounded-2xl border border-border-default/50">
+      
+      <div>
+        <h4 className="text-sm font-bold text-success uppercase tracking-widest mb-3 flex items-center gap-2">
+          <div className="size-2 rounded-full bg-success animate-pulse" />
+          Matched Skills
+        </h4>
+        {matched.length > 0 ? (
+          <div className="flex flex-wrap gap-2">
+            {matched.map(s => (
+              <span key={s} className="text-sm font-medium text-success bg-success/10 px-3 py-1.5 rounded-lg border border-success/20">
+                {s}
+              </span>
+            ))}
+          </div>
+        ) : (
+          <p className="text-sm text-text-muted italic">No matched skills found.</p>
+        )}
+      </div>
+
+      <div className="w-full h-px bg-border-default/50" />
+      
+      <div>
+        <h4 className="text-sm font-bold text-warning uppercase tracking-widest mb-3 flex items-center gap-2">
+          <div className="size-2 rounded-full bg-warning" />
+          Missing Skills
+        </h4>
+        {missing.length > 0 ? (
+          <div className="flex flex-wrap gap-2">
+            {missing.map(s => (
+              <span key={s} className="text-sm font-medium text-warning bg-warning/10 px-3 py-1.5 rounded-lg border border-warning/20">
+                {s}
+              </span>
+            ))}
+          </div>
+        ) : (
+          <p className="text-sm text-text-muted italic">No missing skills found.</p>
+        )}
       </div>
       
-      {matched.map(s => (
-        <div key={s} className="flex items-center justify-between group">
-          <span className="text-sm font-medium text-brand-300 bg-brand-500/10 px-3 py-1.5 rounded-md border border-brand-500/20">{s}</span>
-          <div className="flex-1 mx-4 h-[1px] bg-gradient-to-r from-brand-500/20 via-brand-500/40 to-brand-500/20 relative">
-            <div className="absolute top-1/2 left-0 w-2 h-2 rounded-full bg-brand-400 -translate-y-1/2 shadow-[0_0_10px_rgba(139,92,246,0.8)]" />
-            <div className="absolute top-1/2 right-0 w-2 h-2 rounded-full bg-brand-400 -translate-y-1/2 shadow-[0_0_10px_rgba(139,92,246,0.8)]" />
-            <div className="absolute inset-0 bg-brand-400/50 blur-sm scale-y-150 opacity-0 group-hover:opacity-100 transition-opacity" />
-          </div>
-          <span className="text-sm font-medium text-brand-300 bg-brand-500/10 px-3 py-1.5 rounded-md border border-brand-500/20">{s}</span>
-        </div>
-      ))}
-      
-      {missing.map(s => (
-        <div key={s} className="flex items-center justify-between opacity-70 group hover:opacity-100 transition-opacity">
-          <span className="text-sm font-medium text-text-muted border border-border-default border-dashed px-3 py-1.5 rounded-md w-[80px] text-center bg-surface-200/50">?</span>
-          <div className="flex-1 mx-4 h-[1px] bg-border-default border-t border-dashed border-border-muted relative">
-            <div className="absolute top-1/2 right-0 w-2 h-2 rounded-full bg-warning -translate-y-1/2 shadow-[0_0_10px_rgba(245,158,11,0.5)]" />
-          </div>
-          <span className="text-sm font-medium text-warning bg-warning/10 px-3 py-1.5 rounded-md border border-warning/20">{s}</span>
-        </div>
-      ))}
     </div>
   );
 }
@@ -115,10 +128,11 @@ Only return raw JSON.`;
         ? aiResponse.message.content 
         : aiResponse.message.content[0].text;
       
-      // Cleanup markdown code blocks if present
-      text = text.replace(/^```json\n/, "").replace(/\n```$/, "").trim();
-
-      const result: JobMatchResult = JSON.parse(text);
+      // Extract JSON using regex in case AI adds conversational padding
+      const jsonMatch = text.match(/\{[\s\S]*\}/);
+      if (!jsonMatch) throw new Error("No JSON found in response");
+      
+      const result: JobMatchResult = JSON.parse(jsonMatch[0]);
       setMatchResult(result);
     } catch (err) {
       console.error(err);
@@ -175,14 +189,14 @@ Only return raw JSON.`;
             </div>
           </ScrollReveal>
 
-          <ScrollReveal delay={0.3} direction="up" distance={20}>
+          <div className="mt-2">
             <button 
               onClick={handleMatch}
               disabled={processing || !selectedResumeId || !jobDescription.trim()}
-              className="group relative w-full rp-btn rp-lg rp-primary disabled:opacity-50 overflow-hidden"
+              className="group relative w-full rp-btn rp-lg rp-primary disabled:opacity-50 overflow-hidden shadow-[0_0_20px_rgba(139,92,246,0.2)]"
             >
               <div className="absolute inset-0 bg-gradient-to-r from-brand-400 to-brand-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              <span className="relative z-10 flex items-center justify-center gap-2">
+              <span className="relative z-10 flex items-center justify-center gap-2 font-bold tracking-wide">
                 {processing ? "Analyzing Match..." : "Initialize Match Sequence →"}
               </span>
             </button>
@@ -191,7 +205,7 @@ Only return raw JSON.`;
                 {error}
               </div>
             )}
-          </ScrollReveal>
+          </div>
         </div>
 
         {/* Output Section */}
@@ -241,8 +255,8 @@ Only return raw JSON.`;
                   <span className="text-brand-400">⚡</span> Skill Network Constellation
                 </h3>
                 <SkillNetwork 
-                  matched={[...new Set([...matchResult.matchedSkills, ...matchResult.matchedKeywords])]} 
-                  missing={[...new Set([...matchResult.missingSkills, ...matchResult.missingKeywords])]} 
+                  matched={[...new Set([...(matchResult.matchedSkills || []), ...(matchResult.matchedKeywords || [])])]} 
+                  missing={[...new Set([...(matchResult.missingSkills || []), ...(matchResult.missingKeywords || [])])]} 
                 />
               </ScrollReveal>
 
