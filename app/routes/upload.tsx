@@ -219,22 +219,22 @@ const Upload = () => {
   };
 
   return (
-    <div className="min-h-screen bg-surface-0">
-      <Navbar />
-
-      <div className="max-w-2xl mx-auto px-4 py-12">
-        {processing ? (
-          <ProcessingView stage={stage} error={errorMsg} />
-        ) : (
-          <div className="rp-fade-up">
-            {/* Header */}
-            <div className="page-header text-center items-center mb-10">
-              <span className="rp-hero-badge">AI Analysis</span>
-              <h1 className="text-3xl font-bold text-text-primary">Analyze Your Resume</h1>
-              <p className="text-text-secondary max-w-md">
-                Upload your PDF resume and optionally add a job description for a targeted ATS score and improvement tips.
-              </p>
+    <div className="max-w-2xl mx-auto py-8">
+      {processing ? (
+        <ProcessingView stage={stage} error={errorMsg} />
+      ) : (
+        <div className="rp-fade-up">
+          {/* Header */}
+          <div className="flex flex-col items-center text-center mb-10">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-brand-500/30 bg-brand-500/10 text-brand-400 text-xs font-medium mb-4">
+              <span className="size-2 rounded-full bg-brand-400 animate-pulse" />
+              AI Analysis Engine
             </div>
+            <h1 className="text-3xl font-bold text-text-primary mb-3">Analyze Your Resume</h1>
+            <p className="text-text-secondary max-w-md">
+              Upload your PDF resume and optionally add a job description for a targeted ATS score and improvement tips.
+            </p>
+          </div>
 
             {/* Form card */}
             <div className="card">
@@ -303,10 +303,8 @@ const Upload = () => {
             </div>
           </div>
         )}
-      </div>
     </div>
   );
 };
 
 export default Upload;
-

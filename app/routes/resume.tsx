@@ -76,38 +76,9 @@ const Resume = () => {
     : [];
 
   return (
-    <div className="min-h-screen bg-surface-0">
-      {/* Top nav */}
-      <nav className="flex items-center justify-between px-4 sm:px-6 py-4 border-b border-border-subtle bg-surface-50/80 backdrop-blur-xl sticky top-0 z-50">
-        <Link
-          to="/"
-          className="flex items-center gap-2 text-sm font-medium text-text-secondary hover:text-text-primary transition-colors"
-        >
-          ← Back to Dashboard
-        </Link>
-        <div className="flex items-center gap-2.5">
-          <div className="size-6 rounded rp-gradient-brand flex items-center justify-center">
-            <span className="text-white text-xs font-bold">RP</span>
-          </div>
-          <span className="text-sm font-bold text-text-primary">
-            Resume<span className="rp-text-gradient">Pilot</span>
-          </span>
-        </div>
-        {resumeUrl && (
-          <a
-            href={resumeUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="rp-btn rp-sm rp-secondary text-xs"
-          >
-            View PDF ↗
-          </a>
-        )}
-      </nav>
-
-      <div className="flex flex-col lg:flex-row min-h-[calc(100vh-65px)]">
-        {/* Left — Resume Preview */}
-        <aside className="lg:w-[380px] xl:w-[420px] flex-shrink-0 border-r border-border-subtle bg-surface-50 flex flex-col items-center py-8 px-4 lg:sticky lg:top-[65px] lg:h-[calc(100vh-65px)] lg:overflow-y-auto">
+    <div className="flex flex-col lg:flex-row h-full gap-6">
+      {/* Left — Resume Preview */}
+      <aside className="lg:w-[380px] xl:w-[420px] flex-shrink-0 border border-border-default rounded-xl bg-surface-50 flex flex-col items-center p-6 lg:h-[calc(100vh-8rem)] lg:overflow-y-auto">
           {loadingData ? (
             <Skeleton className="w-full aspect-[3/4] max-w-[300px]" />
           ) : imageUrl ? (
@@ -383,10 +354,8 @@ const Resume = () => {
             </div>
           )}
         </main>
-      </div>
     </div>
   );
 };
 
 export default Resume;
-

@@ -4,7 +4,7 @@
 @import "./components.css";
 
 /* ============================================================
-   RESUMEPILOT — DESIGN TOKENS (Tailwind v4 @theme)
+   ResumeIQ — DESIGN TOKENS (Tailwind v4 @theme)
    ============================================================ */
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;

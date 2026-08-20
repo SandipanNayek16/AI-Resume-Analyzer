@@ -1,14 +1,12 @@
 import type { Route } from "./+types/home";
-import Navbar from "~/components/Navbar";
-import ResumeCard from "~/components/ResumeCard";
-import { usePuterStore } from "~/lib/puter";
 import { Link, useNavigate } from "react-router";
-import { useEffect, useState } from "react";
-import { EmptyState, Skeleton } from "~/components/ui";
+import { useEffect } from "react";
+import { usePuterStore } from "~/lib/puter";
+import { ArrowRight, CheckCircle2, FileSearch, Sparkles, Target } from "lucide-react";
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "ResumePilot — AI Resume Intelligence Platform" },
+    { title: "ResumeIQ — AI Resume Intelligence Platform" },
     {
       name: "description",
       content:
@@ -17,351 +15,195 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
-// ============================================================
-// LANDING PAGE (unauthenticated)
-// ============================================================
-function LandingPage() {
-  const { auth } = usePuterStore();
-  const navigate = useNavigate();
-
-  const features = [
-    {
-      icon: "📊",
-      title: "ATS Score Analysis",
-      description:
-        "Get an ATS-style compatibility score with detailed breakdown across tone, structure, content, and skills.",
-    },
-    {
-      icon: "🔍",
-      title: "Job Description Matching",
-      description:
-        "Compare your resume against any job description to see matched and missing keywords and skills.",
-    },
-    {
-      icon: "✨",
-      title: "AI-Powered Insights",
-      description:
-        "Receive specific, actionable recommendations powered by Claude AI to improve every section of your resume.",
-    },
-    {
-      icon: "📈",
-      title: "Track Your Progress",
-      description:
-        "Save multiple resume versions and track how your score improves over time with each iteration.",
-    },
-    {
-      icon: "🎯",
-      title: "Keyword Optimization",
-      description:
-        "Identify missing keywords from job descriptions and understand which skills to highlight.",
-    },
-    {
-      icon: "🔒",
-      title: "Private & Secure",
-      description:
-        "Your resume data stays in your private Puter cloud storage. We never share or train on your data.",
-    },
-  ];
-
-  const steps = [
-    { num: "01", title: "Upload Resume", desc: "Drag & drop your PDF resume — up to 20MB." },
-    { num: "02", title: "Add Job Description", desc: "Optionally paste the job description you're targeting." },
-    { num: "03", title: "Get AI Analysis", desc: "Receive a full ATS score, keyword analysis, and actionable tips." },
-    { num: "04", title: "Improve & Repeat", desc: "Apply suggestions, re-analyze, and track your score over time." },
-  ];
-
-  return (
-    <div className="min-h-screen bg-surface-0">
-      <Navbar />
-
-      {/* Hero */}
-      <section className="relative flex flex-col items-center justify-center text-center px-4 pt-24 pb-32 overflow-hidden">
-        {/* Background glow */}
-        <div className="absolute top-20 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-brand-500/8 rounded-full blur-3xl pointer-events-none" />
-
-        <div className="rp-fade-up relative z-10 flex flex-col items-center gap-6 max-w-4xl mx-auto">
-          <span className="rp-hero-badge">
-            <span className="size-2 rounded-full bg-success animate-pulse" />
-            Powered by Claude AI
-          </span>
-
-          <h1 className="rp-text-gradient">
-            Turn your resume into your<br className="hidden sm:block" /> unfair advantage.
-          </h1>
-
-          <p className="text-lg text-text-secondary max-w-2xl leading-relaxed">
-            Analyze your resume, optimize it for ATS systems, match it against real job descriptions,
-            and improve every section with AI-powered recommendations.
-          </p>
-
-          <div className="flex flex-col sm:flex-row gap-3 mt-2">
-            <button
-              onClick={() => navigate("/auth?next=/upload")}
-              className="rp-btn rp-xl rp-primary"
-            >
-              Analyze My Resume →
-            </button>
-            <a
-              href="#how-it-works"
-              className="rp-btn rp-xl rp-secondary"
-            >
-              See How It Works
-            </a>
-          </div>
-
-          <p className="text-xs text-text-muted">
-            Free to use · No credit card required · Powered by Puter + Claude
-          </p>
-        </div>
-      </section>
-
-      {/* Stats bar */}
-      <section className="border-y border-border-subtle py-8 px-4">
-        <div className="max-w-4xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
-          {[
-            { val: "ATS", label: "Compatibility Analysis" },
-            { val: "9+", label: "Scoring Categories" },
-            { val: "AI", label: "Powered by Claude 3.7" },
-            { val: "Free", label: "No Hidden Costs" },
-          ].map((s) => (
-            <div key={s.label} className="flex flex-col gap-1">
-              <span className="text-2xl font-bold rp-text-gradient">{s.val}</span>
-              <span className="text-xs text-text-muted">{s.label}</span>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Features */}
-      <section className="py-24 px-4 max-w-6xl mx-auto">
-        <div className="flex flex-col items-center gap-4 text-center mb-16">
-          <span className="rp-hero-badge">Features</span>
-          <h2 className="text-text-primary">Everything you need to land your next role</h2>
-          <p className="text-text-secondary max-w-xl">
-            ResumePilot combines ATS intelligence, AI analysis, and job matching into one platform.
-          </p>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {features.map((f, i) => (
-            <div
-              key={f.title}
-              className={`rp-feature-card rp-fade-up delay-${(i % 3) * 100 + 100}`}
-            >
-              <div className="rp-feature-icon text-2xl">{f.icon}</div>
-              <div className="flex flex-col gap-1">
-                <h3 className="text-text-primary">{f.title}</h3>
-                <p className="text-sm text-text-secondary leading-relaxed">{f.description}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* How it works */}
-      <section id="how-it-works" className="py-24 px-4 border-t border-border-subtle bg-surface-50">
-        <div className="max-w-4xl mx-auto">
-          <div className="flex flex-col items-center gap-4 text-center mb-16">
-            <span className="rp-hero-badge">How It Works</span>
-            <h2 className="text-text-primary">From upload to optimized in minutes</h2>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {steps.map((s, i) => (
-              <div key={s.num} className={`flex flex-col gap-4 rp-fade-up delay-${i * 100 + 100}`}>
-                <div className="size-12 rounded-xl rp-gradient-brand flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
-                  {s.num}
-                </div>
-                <div className="flex flex-col gap-1">
-                  <h4 className="text-text-primary font-semibold">{s.title}</h4>
-                  <p className="text-sm text-text-secondary">{s.desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="py-24 px-4 text-center">
-        <div className="max-w-2xl mx-auto flex flex-col items-center gap-6">
-          <h2 className="text-text-primary">Ready to optimize your resume?</h2>
-          <p className="text-text-secondary">
-            Join thousands of job seekers using AI to get past ATS filters and land more interviews.
-          </p>
-          <button
-            onClick={() => navigate("/auth?next=/upload")}
-            className="rp-btn rp-xl rp-primary"
-          >
-            Start Free Analysis →
-          </button>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="border-t border-border-subtle py-8 px-4">
-        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            <div className="size-6 rounded rp-gradient-brand flex items-center justify-center">
-              <span className="text-white text-xs font-bold">RP</span>
-            </div>
-            <span className="text-sm font-semibold text-text-primary">ResumePilot</span>
-          </div>
-          <p className="text-xs text-text-muted">
-            © 2025 ResumePilot · ATS scores are estimates, not guarantees · Built with Puter + Claude AI
-          </p>
-        </div>
-      </footer>
-    </div>
-  );
-}
-
-// ============================================================
-// DASHBOARD (authenticated)
-// ============================================================
-function Dashboard() {
-  const { auth, kv } = usePuterStore();
-  const navigate = useNavigate();
-  const [resumes, setResumes] = useState<Resume[]>([]);
-  const [loadingResumes, setLoadingResumes] = useState(false);
-
-  useEffect(() => {
-    const loadResumes = async () => {
-      setLoadingResumes(true);
-      try {
-        const raw = (await kv.list("resume:*", true)) as KVItem[];
-        const parsed = (raw || [])
-          .map((item) => {
-            try { return JSON.parse(item.value) as Resume; } catch { return null; }
-          })
-          .filter(Boolean) as Resume[];
-        // Sort by newest first (fallback: by id)
-        parsed.sort((a, b) =>
-          (b.createdAt ?? b.id) > (a.createdAt ?? a.id) ? 1 : -1
-        );
-        setResumes(parsed);
-      } finally {
-        setLoadingResumes(false);
-      }
-    };
-    loadResumes();
-  }, []);
-
-  const avgScore = resumes.length
-    ? Math.round(resumes.reduce((s, r) => s + r.feedback.overallScore, 0) / resumes.length)
-    : null;
-
-  const topScore = resumes.length
-    ? Math.max(...resumes.map((r) => r.feedback.overallScore))
-    : null;
-
-  const recent = resumes.slice(0, 3);
-
-  return (
-    <div className="min-h-screen bg-surface-0">
-      <Navbar />
-
-      <div className="max-w-6xl mx-auto px-4 py-10">
-        {/* Welcome */}
-        <div className="page-header rp-fade-up">
-          <h1 className="text-3xl font-bold text-text-primary">
-            Welcome back, <span className="rp-text-gradient">{auth.user?.username}</span> 👋
-          </h1>
-          <p className="text-text-secondary">
-            Track your resume performance and continue optimizing for your dream job.
-          </p>
-        </div>
-
-        {/* Stats row */}
-        {resumes.length > 0 && (
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-10 rp-fade-up delay-100">
-            {[
-              { label: "Resumes Analyzed", val: resumes.length, type: "brand" },
-              { label: "Average Score", val: avgScore ? `${avgScore}/100` : "—", type: avgScore && avgScore >= 70 ? "good" : avgScore && avgScore >= 40 ? "warn" : "bad" },
-              { label: "Best Score", val: topScore ? `${topScore}/100` : "—", type: "good" },
-              { label: "AI Analyses", val: resumes.length, type: "brand" },
-            ].map((stat) => (
-              <div key={stat.label} className={`rp-stat-card rp-stat-${stat.type}`}>
-                <p className="text-xs text-text-muted font-medium uppercase tracking-wider">{stat.label}</p>
-                <p className="text-2xl font-bold text-text-primary">{stat.val}</p>
-              </div>
-            ))}
-          </div>
-        )}
-
-        {/* Quick actions */}
-        <div className="flex flex-wrap gap-3 mb-10 rp-fade-up delay-100">
-          <button onClick={() => navigate("/upload")} className="rp-btn rp-md rp-primary">
-            + Analyze New Resume
-          </button>
-          <button onClick={() => navigate("/history")} className="rp-btn rp-md rp-secondary">
-            View History
-          </button>
-        </div>
-
-        {/* Resumes */}
-        <div className="section-title rp-fade-up delay-200">
-          {loadingResumes ? "Loading..." : resumes.length > 0 ? "Your Analyses" : ""}
-        </div>
-
-        {loadingResumes && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {[1, 2, 3].map((i) => (
-              <div key={i} className="rp-card flex flex-col gap-4">
-                <Skeleton className="h-6 w-3/4" />
-                <Skeleton className="h-4 w-1/2" />
-                <Skeleton className="h-48 w-full" />
-              </div>
-            ))}
-          </div>
-        )}
-
-        {!loadingResumes && resumes.length > 0 && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 rp-fade-in">
-            {resumes.map((resume, i) => (
-              <div key={resume.id} className={`rp-fade-up delay-${Math.min(i * 100, 400)}`}>
-                <ResumeCard resume={resume} />
-              </div>
-            ))}
-          </div>
-        )}
-
-        {!loadingResumes && resumes.length === 0 && (
-          <div className="rp-fade-in">
-            <EmptyState
-              icon="📄"
-              title="No analyses yet"
-              description="Upload your first resume to receive an AI-powered ATS score and personalized improvement tips."
-              action={
-                <button onClick={() => navigate("/upload")} className="rp-btn rp-lg rp-primary mt-2">
-                  Analyze My Resume
-                </button>
-              }
-            />
-          </div>
-        )}
-      </div>
-    </div>
-  );
-}
-
-// ============================================================
-// ROOT — decides which view to show
-// ============================================================
 export default function Home() {
   const { auth, isLoading } = usePuterStore();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!isLoading && auth.isAuthenticated) {
+      navigate("/dashboard");
+    }
+  }, [isLoading, auth.isAuthenticated, navigate]);
 
   if (isLoading) {
     return (
       <div className="min-h-screen bg-surface-0 flex items-center justify-center">
-        <div className="flex flex-col items-center gap-4">
-          <div className="size-12 rounded-xl rp-gradient-brand flex items-center justify-center animate-pulse">
-            <span className="text-white text-lg font-bold">RP</span>
-          </div>
-          <p className="text-text-muted text-sm">Loading...</p>
-        </div>
+        <div className="size-8 rounded-full border-2 border-brand-500 border-t-transparent animate-spin" />
       </div>
     );
   }
 
-  return auth.isAuthenticated ? <Dashboard /> : <LandingPage />;
-}
+  const features = [
+    {
+      icon: Target,
+      title: "ATS Intelligence",
+      description: "Advanced parsing to determine exactly how ATS systems view your resume, with multi-dimensional scoring."
+    },
+    {
+      icon: FileSearch,
+      title: "Job Matching",
+      description: "Compare your resume directly against target job descriptions. Discover missing keywords instantly."
+    },
+    {
+      icon: Sparkles,
+      title: "AI Copilot",
+      description: "An intelligent assistant that answers questions about your resume and helps tailor bullet points."
+    }
+  ];
 
+  return (
+    <div className="min-h-screen bg-surface-0 text-text-primary selection:bg-brand-500/30">
+      {/* Navbar */}
+      <nav className="h-16 border-b border-border-default/50 bg-surface-0/80 backdrop-blur-md sticky top-0 z-50 px-4 md:px-8 flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <div className="size-8 rounded-lg bg-brand-500 flex items-center justify-center shadow-[0_0_15px_rgba(99,102,241,0.5)]">
+            <span className="text-white text-sm font-bold">IQ</span>
+          </div>
+          <span className="text-lg font-bold tracking-tight">
+            Resume<span className="text-brand-400">IQ</span>
+          </span>
+        </div>
+        <div className="flex items-center gap-4">
+          <button 
+            onClick={() => navigate("/auth")}
+            className="text-sm font-medium text-text-secondary hover:text-text-primary transition-colors"
+          >
+            Sign In
+          </button>
+          <button 
+            onClick={() => navigate("/auth")}
+            className="hidden md:flex items-center gap-2 px-4 py-2 bg-text-primary text-surface-0 rounded-full text-sm font-semibold hover:bg-white transition-colors"
+          >
+            Get Started <ArrowRight size={16} />
+          </button>
+        </div>
+      </nav>
+
+      <main className="flex flex-col items-center">
+        {/* Hero Section */}
+        <section className="w-full max-w-6xl px-4 pt-32 pb-24 flex flex-col items-center text-center relative">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-brand-500/10 rounded-[100%] blur-[100px] pointer-events-none" />
+          
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-brand-500/30 bg-brand-500/10 text-brand-400 text-xs font-medium mb-8">
+            <Sparkles size={14} />
+            <span>Resume Intelligence Engine 2.0</span>
+          </div>
+          
+          <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-8 max-w-4xl bg-gradient-to-b from-white to-white/60 bg-clip-text text-transparent leading-[1.1]">
+            Turn your resume into your unfair advantage.
+          </h1>
+          
+          <p className="text-lg md:text-xl text-text-secondary max-w-2xl mb-10 leading-relaxed">
+            AI-powered resume analysis, ATS optimization, and job matching. 
+            Stop guessing what recruiters want and start optimizing with data.
+          </p>
+
+          <div className="flex flex-col sm:flex-row items-center gap-4">
+            <button 
+              onClick={() => navigate("/auth")}
+              className="px-8 py-4 bg-brand-500 hover:bg-brand-400 text-white rounded-full text-lg font-semibold transition-all shadow-[0_0_30px_rgba(99,102,241,0.3)] hover:shadow-[0_0_40px_rgba(99,102,241,0.5)] flex items-center gap-2"
+            >
+              Analyze My Resume <ArrowRight size={20} />
+            </button>
+            <a 
+              href="#how-it-works"
+              className="px-8 py-4 bg-surface-100 hover:bg-surface-200 border border-border-default text-text-primary rounded-full text-lg font-semibold transition-colors"
+            >
+              See How It Works
+            </a>
+          </div>
+        </section>
+
+        {/* Product Preview / Stats Dashboard Mockup */}
+        <section className="w-full max-w-5xl px-4 pb-32">
+          <div className="rounded-2xl border border-border-default/50 bg-surface-100/50 backdrop-blur-sm shadow-2xl p-2">
+            <div className="rounded-xl border border-border-default bg-surface-50 overflow-hidden relative">
+              <div className="absolute top-0 w-full h-px bg-gradient-to-r from-transparent via-brand-500/50 to-transparent" />
+              
+              <div className="p-8 grid md:grid-cols-3 gap-8">
+                <div className="col-span-1 md:col-span-2 flex flex-col gap-6">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h3 className="text-xl font-bold">Frontend Engineer</h3>
+                      <p className="text-sm text-text-muted">Analyzed just now</p>
+                    </div>
+                    <div className="px-3 py-1 rounded-full bg-success/10 border border-success/20 text-success text-sm font-medium">
+                      High Match
+                    </div>
+                  </div>
+                  
+                  <div className="h-48 rounded-lg border border-border-default bg-surface-100 flex items-center justify-center relative overflow-hidden">
+                    <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]" />
+                    <div className="flex flex-col items-center gap-2 z-10">
+                      <span className="text-5xl font-bold tracking-tighter">87<span className="text-2xl text-text-muted">/100</span></span>
+                      <span className="text-sm text-text-secondary uppercase tracking-widest font-semibold">ATS Compatibility</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex flex-col gap-4">
+                  <h4 className="text-sm font-semibold text-text-muted uppercase tracking-wider">Health Checks</h4>
+                  <div className="flex flex-col gap-3">
+                    {["Keyword Optimization", "Formatting", "Impact Metrics"].map(label => (
+                      <div key={label} className="flex items-center justify-between p-3 rounded-lg border border-border-default bg-surface-0">
+                        <span className="text-sm font-medium">{label}</span>
+                        <CheckCircle2 size={16} className="text-success" />
+                      </div>
+                    ))}
+                    <div className="flex items-center justify-between p-3 rounded-lg border border-border-default bg-surface-0">
+                      <span className="text-sm font-medium">Skills Coverage</span>
+                      <span className="text-sm font-bold text-warning">78%</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Features Section */}
+        <section id="how-it-works" className="w-full max-w-6xl px-4 py-24 border-t border-border-default/30">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-6">Engineered for Success</h2>
+            <p className="text-lg text-text-secondary max-w-2xl mx-auto">
+              Everything you need to bypass ATS filters and land your dream job, packed into one clean interface.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {features.map((f, i) => (
+              <div key={i} className="p-6 rounded-2xl border border-border-default bg-surface-50 hover:bg-surface-100 transition-colors">
+                <div className="size-12 rounded-xl bg-brand-500/10 border border-brand-500/20 flex items-center justify-center mb-6">
+                  <f.icon size={24} className="text-brand-400" />
+                </div>
+                <h3 className="text-xl font-bold mb-3">{f.title}</h3>
+                <p className="text-text-secondary leading-relaxed">{f.description}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* CTA */}
+        <section className="w-full px-4 py-32 border-t border-border-default/30 flex flex-col items-center text-center">
+          <h2 className="text-4xl font-bold tracking-tight mb-6">Ready to get hired?</h2>
+          <p className="text-text-secondary mb-10 max-w-xl">
+            Join thousands of developers and professionals using ResumeIQ to optimize their resumes and land interviews.
+          </p>
+          <button 
+            onClick={() => navigate("/auth")}
+            className="px-8 py-4 bg-text-primary text-surface-0 rounded-full text-lg font-bold hover:bg-white transition-colors"
+          >
+            Start For Free
+          </button>
+        </section>
+      </main>
+
+      {/* Footer */}
+      <footer className="border-t border-border-default/50 bg-surface-50 py-12 px-4 text-center">
+        <p className="text-text-muted text-sm">
+          © {new Date().getFullYear()} ResumeIQ. Built for the modern job seeker.
+        </p>
+      </footer>
+    </div>
+  );
+}

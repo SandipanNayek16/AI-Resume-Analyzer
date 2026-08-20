@@ -56,12 +56,9 @@ const History = () => {
   const scoreBg = (s: number) => s >= 70 ? "bg-success/10 border-success/20" : s >= 40 ? "bg-warning/10 border-warning/20" : "bg-error/10 border-error/20";
 
   return (
-    <div className="min-h-screen bg-surface-0">
-      <Navbar />
-
-      <div className="max-w-4xl mx-auto px-4 py-10">
-        {/* Header */}
-        <div className="page-header rp-fade-up">
+    <div className="max-w-4xl mx-auto py-8">
+      {/* Header */}
+      <div className="flex items-center justify-between flex-wrap gap-4 mb-8 rp-fade-up">
           <div className="flex items-center justify-between flex-wrap gap-4">
             <div>
               <h2 className="text-text-primary text-2xl font-bold">Analysis History</h2>
@@ -206,10 +203,8 @@ const History = () => {
             ))}
           </div>
         )}
-      </div>
     </div>
   );
 };
 
 export default History;
-

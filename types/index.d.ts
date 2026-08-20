@@ -25,6 +25,15 @@ interface ScoredSection {
   tips: Tip[];
 }
 
+interface JobMatchResult {
+  score: number;
+  matchedKeywords: string[];
+  missingKeywords: string[];
+  matchedSkills: string[];
+  missingSkills: string[];
+  tips: Tip[];
+}
+
 interface Feedback {
   overallScore: number;
   ATS: ScoredSection;
@@ -32,14 +41,7 @@ interface Feedback {
   content: ScoredSection;
   structure: ScoredSection;
   skills: ScoredSection;
-  jobMatch?: {
-    score: number;
-    matchedKeywords: string[];
-    missingKeywords: string[];
-    matchedSkills: string[];
-    missingSkills: string[];
-    tips: Tip[];
-  };
+  jobMatch?: JobMatchResult;
 }
 
 // ============================================================
