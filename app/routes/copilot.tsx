@@ -69,7 +69,7 @@ If the user asks you to rewrite a bullet point, provide the new bullet point dir
         { role: "user", content: [{ type: "file", puter_path: resume.resumePath }, { type: "text", text: "Here is my resume." }] },
         ...chatMessages,
         { role: "user", content: userMsg }
-      ], { model: "claude-3-5-haiku" });
+      ], { model: "gpt-4o-mini" });
 
       if (!aiResponse) throw new Error("No response from AI.");
 
