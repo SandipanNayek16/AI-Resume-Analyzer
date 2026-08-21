@@ -43,6 +43,112 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
+function ScoringFeature() {
+  const container = useRef<HTMLDivElement>(null);
+  
+  useEffect(() => {
+    let ctx = gsap.context(() => {
+      // Circle animation
+      gsap.fromTo(".score-circle", 
+        { strokeDashoffset: 289 },
+        { strokeDashoffset: 28.9, duration: 2, ease: "power3.out", scrollTrigger: { trigger: container.current, start: "top 80%" } }
+      );
+      // Number count up
+      gsap.from(".score-text", {
+        textContent: 0,
+        duration: 2,
+        ease: "power3.out",
+        snap: { textContent: 1 },
+        scrollTrigger: { trigger: container.current, start: "top 80%" }
+      });
+      // Bars filling up
+      gsap.fromTo(".score-bar",
+        { scaleX: 0 },
+        { scaleX: 1, transformOrigin: "left center", duration: 1.5, stagger: 0.2, ease: "power3.out", scrollTrigger: { trigger: container.current, start: "top 80%" } }
+      );
+    }, container);
+    return () => ctx.revert();
+  }, []);
+
+  return (
+    <div ref={container} className="relative z-10 w-full rounded-3xl border border-border bg-white/80 p-8 shadow-2xl flex flex-col items-center gap-6 group hover:shadow-[0_20px_40px_-15px_rgba(37,99,235,0.15)] transition-all duration-500 hover:-translate-y-1">
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(37,99,235,0.03),transparent)] pointer-events-none rounded-3xl" />
+      
+      <div className="size-36 rounded-full border-[8px] border-slate-50 flex items-center justify-center relative shadow-inner group-hover:scale-105 transition-transform duration-500">
+         <svg className="absolute inset-0 size-full -rotate-90 drop-shadow-md" viewBox="0 0 100 100">
+           <circle cx="50" cy="50" r="46" fill="none" stroke="rgba(37,99,235,0.1)" strokeWidth="8" />
+           <circle className="score-circle" cx="50" cy="50" r="46" fill="none" stroke="#2563eb" strokeWidth="8" strokeDasharray="289" strokeDashoffset="289" strokeLinecap="round" />
+         </svg>
+         <span className="text-5xl font-black font-mono score-text bg-clip-text text-transparent bg-gradient-to-br from-slate-900 to-slate-600">90</span>
+      </div>
+      
+      <div className="w-full space-y-5 pt-2">
+         <div className="space-y-2">
+           <div className="flex justify-between text-sm font-medium"><span className="text-slate-500 font-semibold">Keywords</span><span className="text-emerald-500 font-bold tracking-wide">Perfect</span></div>
+           <div className="h-2.5 w-full bg-slate-100 rounded-full overflow-hidden shadow-inner"><div className="score-bar h-full w-[95%] bg-gradient-to-r from-emerald-400 to-emerald-500 rounded-full shadow-[0_0_10px_rgba(16,185,129,0.3)]" /></div>
+         </div>
+         
+         <div className="space-y-2">
+           <div className="flex justify-between text-sm font-medium"><span className="text-slate-500 font-semibold">Formatting</span><span className="text-amber-500 font-bold tracking-wide">Review</span></div>
+           <div className="h-2.5 w-full bg-slate-100 rounded-full overflow-hidden shadow-inner"><div className="score-bar h-full w-[65%] bg-gradient-to-r from-amber-400 to-amber-500 rounded-full shadow-[0_0_10px_rgba(245,158,11,0.3)]" /></div>
+         </div>
+      </div>
+    </div>
+  );
+}
+
+function IterationFeature() {
+  const container = useRef<HTMLDivElement>(null);
+  
+  useEffect(() => {
+    let ctx = gsap.context(() => {
+      // Parallax float effect while scrolling
+      gsap.to(".iter-item-1", {
+        y: -30,
+        scrollTrigger: { trigger: container.current, start: "top bottom", end: "bottom top", scrub: 1 }
+      });
+      gsap.to(".iter-item-3", {
+        y: 30,
+        scrollTrigger: { trigger: container.current, start: "top bottom", end: "bottom top", scrub: 1 }
+      });
+      
+      // Entrance animation
+      gsap.from(".iter-item", {
+        y: 50,
+        opacity: 0,
+        duration: 1,
+        stagger: 0.2,
+        ease: "back.out(1.2)",
+        scrollTrigger: { trigger: container.current, start: "top 85%" }
+      });
+    }, container);
+    return () => ctx.revert();
+  }, []);
+
+  return (
+    <div ref={container} className="relative z-10 w-full flex flex-col gap-5 py-12 px-4">
+      {/* Background glow for the stack */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-blue-600/5 blur-3xl rounded-full pointer-events-none" />
+      
+      <div className="iter-item iter-item-1 p-5 rounded-2xl border border-slate-200/60 bg-white/60 backdrop-blur-md shadow-lg flex items-center gap-5 translate-x-6 opacity-70 hover:opacity-100 transition-opacity">
+        <div className="size-12 rounded-xl bg-slate-100/50 flex items-center justify-center border border-slate-200"><CheckCircle2 size={24} className="text-slate-400" /></div>
+        <div className="flex-1 space-y-3"><div className="h-2.5 w-32 bg-slate-200 rounded-full" /><div className="h-2.5 w-48 bg-slate-100 rounded-full" /></div>
+      </div>
+      
+      <div className="iter-item iter-item-2 p-6 rounded-2xl border border-blue-500/30 bg-gradient-to-r from-blue-600/10 to-blue-500/5 backdrop-blur-xl shadow-2xl flex items-center gap-5 scale-110 z-10 hover:scale-[1.15] transition-transform duration-500 relative">
+        <div className="absolute inset-0 bg-blue-600/5 opacity-50 blur-md rounded-2xl -z-10 animate-pulse" />
+        <div className="size-12 rounded-xl bg-gradient-to-br from-blue-600 to-blue-500 flex items-center justify-center shadow-inner"><Zap size={24} className="text-white fill-white/20" /></div>
+        <div className="flex-1 space-y-3"><div className="h-2.5 w-40 bg-blue-400 rounded-full shadow-[0_0_10px_rgba(96,165,250,0.3)]" /><div className="h-2.5 w-full bg-blue-500/40 rounded-full" /></div>
+      </div>
+      
+      <div className="iter-item iter-item-3 p-5 rounded-2xl border border-slate-200/60 bg-white/60 backdrop-blur-md shadow-lg flex items-center gap-5 -translate-x-6 opacity-70 hover:opacity-100 transition-opacity">
+        <div className="size-12 rounded-xl bg-slate-100/50 flex items-center justify-center border border-slate-200"><CheckCircle2 size={24} className="text-slate-400" /></div>
+        <div className="flex-1 space-y-3"><div className="h-2.5 w-24 bg-slate-200 rounded-full" /><div className="h-2.5 w-56 bg-slate-100 rounded-full" /></div>
+      </div>
+    </div>
+  );
+}
+
 export default function Home() {
   const { auth, isLoading } = usePuterStore();
   const navigate = useNavigate();
@@ -199,22 +305,7 @@ export default function Home() {
              <ScrollReveal direction="left">
                <SpotlightCard spotlightColor="rgba(37,99,235,0.1)" spotlightSize={500} className="relative h-[400px] border border-border-subtle bg-white/50 overflow-hidden backdrop-blur-xl flex items-center justify-center p-8 shadow-sm rounded-2xl">
                  <div className="w-full max-w-sm">
-                   <div className="relative z-10 w-full rounded-2xl border border-border-subtle bg-white p-8 shadow-xl flex flex-col items-center gap-6">
-                      <div className="size-32 rounded-full border-[6px] border-slate-100 flex items-center justify-center relative">
-                         <svg className="absolute inset-0 size-full -rotate-90" viewBox="0 0 100 100">
-                           <circle cx="50" cy="50" r="46" fill="none" stroke="rgba(37,99,235,0.2)" strokeWidth="8" />
-                           <circle cx="50" cy="50" r="46" fill="none" stroke="#2563eb" strokeWidth="8" strokeDasharray="289" strokeDashoffset="28.9" className="transition-all duration-1000 ease-out" />
-                         </svg>
-                         <span className="text-4xl font-black font-mono">90</span>
-                      </div>
-                      <div className="w-full space-y-4">
-                         <div className="flex justify-between text-sm font-medium"><span className="text-text-muted">Keywords</span><span className="text-success">Perfect</span></div>
-                         <div className="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden"><div className="h-full w-[95%] bg-success" /></div>
-                         
-                         <div className="flex justify-between text-sm font-medium"><span className="text-text-muted">Formatting</span><span className="text-warning">Review</span></div>
-                         <div className="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden"><div className="h-full w-[65%] bg-warning" /></div>
-                      </div>
-                   </div>
+                   <ScoringFeature />
                  </div>
                </SpotlightCard>
              </ScrollReveal>
@@ -225,20 +316,7 @@ export default function Home() {
              <ScrollReveal direction="right" className="order-2 md:order-1">
                <SpotlightCard spotlightColor="rgba(37,99,235,0.1)" spotlightSize={500} className="relative h-[400px] border border-border-subtle bg-white/50 overflow-hidden backdrop-blur-xl flex items-center justify-center p-8 shadow-sm rounded-2xl">
                  <div className="w-full">
-                   <div className="relative z-10 w-full flex flex-col gap-4">
-                      <div className="p-4 rounded-xl border border-border-subtle bg-white shadow-xl flex items-center gap-4 translate-x-4 opacity-80">
-                        <div className="size-10 rounded-lg bg-slate-100 flex items-center justify-center"><CheckCircle2 size={20} className="text-slate-400" /></div>
-                        <div className="flex-1 space-y-2"><div className="h-2 w-32 bg-slate-300 rounded" /><div className="h-2 w-48 bg-slate-200 rounded" /></div>
-                      </div>
-                      <div className="p-4 rounded-xl border border-blue-600/30 bg-blue-600/10 shadow-lg flex items-center gap-4 scale-105 z-10">
-                        <div className="size-10 rounded-lg bg-blue-600 flex items-center justify-center"><Zap size={20} className="text-white" /></div>
-                        <div className="flex-1 space-y-2"><div className="h-2 w-40 bg-blue-300 rounded" /><div className="h-2 w-full bg-blue-600/50 rounded" /></div>
-                      </div>
-                      <div className="p-4 rounded-xl border border-border-subtle bg-white shadow-xl flex items-center gap-4 -translate-x-4 opacity-80">
-                        <div className="size-10 rounded-lg bg-slate-100 flex items-center justify-center"><CheckCircle2 size={20} className="text-slate-400" /></div>
-                        <div className="flex-1 space-y-2"><div className="h-2 w-24 bg-slate-300 rounded" /><div className="h-2 w-56 bg-slate-200 rounded" /></div>
-                      </div>
-                   </div>
+                   <IterationFeature />
                  </div>
                </SpotlightCard>
              </ScrollReveal>
