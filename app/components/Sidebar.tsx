@@ -30,11 +30,11 @@ export function Sidebar() {
       {/* Brand */}
       <div className="h-16 flex items-center px-6 border-b border-border">
         <Link to="/" className="flex items-center gap-2.5">
-          <div className="size-8 rounded-lg bg-gradient-to-br from-primary to-secondary flex items-center justify-center shadow-sm">
+          <div className="size-8 rounded-lg bg-gradient-to-br from-blue-600 to-blue-500 flex items-center justify-center shadow-sm">
             <span className="text-white text-sm font-bold">IQ</span>
           </div>
           <span className="text-lg font-bold text-foreground tracking-tight">
-            Resume<span className="text-primary">IQ</span>
+            Resume<span className="text-blue-600">IQ</span>
           </span>
         </Link>
       </div>
@@ -54,14 +54,14 @@ export function Sidebar() {
               className={cn(
                 "group relative flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors",
                 isActive
-                  ? "text-primary"
+                  ? "text-blue-600"
                   : "text-slate-600 hover:text-foreground"
               )}
             >
               {isActive && (
                 <motion.div
                   layoutId="sidebar-active-indicator"
-                  className="absolute inset-0 bg-primary/10 rounded-lg border border-primary/20"
+                  className="absolute inset-0 bg-blue-600/10 rounded-lg border border-blue-600/20"
                   initial={false}
                   transition={{ type: "spring", stiffness: 350, damping: 30 }}
                 />
@@ -72,14 +72,14 @@ export function Sidebar() {
                   size={18} 
                   className={cn(
                     "transition-colors",
-                    isActive ? "text-primary" : "text-slate-500 group-hover:text-primary/70"
+                    isActive ? "text-blue-600" : "text-slate-500 group-hover:text-blue-600/70"
                   )} 
                 />
                 <span className="relative z-10">{item.label}</span>
               </div>
               
               {isActive && (
-                <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-1/2 bg-primary rounded-r-full shadow-[0_0_10px_rgba(37,99,235,0.5)]" />
+                <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-1/2 bg-blue-600 rounded-r-full shadow-[0_0_10px_rgba(37,99,235,0.5)]" />
               )}
             </Link>
           );
@@ -93,20 +93,20 @@ export function Sidebar() {
           className={cn(
             "group relative flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors mb-1",
             location.pathname === "/settings"
-              ? "text-primary"
+              ? "text-blue-600"
               : "text-slate-600 hover:text-foreground"
           )}
         >
           {location.pathname === "/settings" && (
             <motion.div
               layoutId="sidebar-active-indicator"
-              className="absolute inset-0 bg-primary/10 rounded-lg border border-primary/20"
+              className="absolute inset-0 bg-blue-600/10 rounded-lg border border-blue-600/20"
               initial={false}
               transition={{ type: "spring", stiffness: 350, damping: 30 }}
             />
           )}
           <div className="relative z-10 flex items-center gap-3">
-            <Settings size={18} className={cn("transition-colors", location.pathname === "/settings" ? "text-primary" : "text-slate-500 group-hover:text-slate-600")} />
+            <Settings size={18} className={cn("transition-colors", location.pathname === "/settings" ? "text-blue-600" : "text-slate-500 group-hover:text-slate-600")} />
             <span className="relative z-10">Settings</span>
           </div>
         </Link>

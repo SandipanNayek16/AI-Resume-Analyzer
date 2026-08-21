@@ -101,29 +101,29 @@ export default function Home() {
   if (isLoading) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="size-8 rounded-full border-2 border-primary border-t-transparent animate-spin" />
+        <div className="size-8 rounded-full border-2 border-blue-600 border-t-transparent animate-spin" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-background text-foreground overflow-x-hidden selection:bg-primary/30 font-sans">
+    <div className="min-h-screen bg-background text-foreground overflow-x-hidden selection:bg-blue-600/30 font-sans">
       <MagicCursor colors={["37 99 235", "234 88 12"]} />
       
       {/* Navbar */}
       <nav className="h-20 border-b border-border-subtle bg-background/70 backdrop-blur-xl sticky top-0 z-50 px-6 md:px-12 flex items-center justify-between">
         <div className="flex items-center gap-3 group cursor-pointer" onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}>
-          <div className="size-10 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center shadow-[0_0_20px_rgba(37,99,235,0.3)] transition-transform group-hover:scale-105">
+          <div className="size-10 rounded-xl bg-gradient-to-br from-blue-600 to-blue-500 flex items-center justify-center shadow-[0_0_20px_rgba(37,99,235,0.3)] transition-transform group-hover:scale-105">
             <span className="text-white text-sm font-bold tracking-wider">IQ</span>
           </div>
           <span className="text-xl font-bold tracking-tight text-foreground">
-            Resume<span className="text-primary">IQ</span>
+            Resume<span className="text-blue-600">IQ</span>
           </span>
         </div>
         <div className="flex items-center gap-6">
           <button 
             onClick={() => navigate("/auth")}
-            className="text-sm font-medium text-text-secondary hover:text-foreground transition-colors"
+            className="text-sm font-medium text-text-blue-500 hover:text-foreground transition-colors"
           >
             Sign In
           </button>
@@ -153,7 +153,7 @@ export default function Home() {
         
         {/* 3D Canvas Background for Hero */}
         <div ref={sceneContainerRef} className="fixed inset-0 z-0 pointer-events-none opacity-80" style={{ transformOrigin: 'center center' }}>
-          <WebGLErrorBoundary fallback={<div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent" />}>
+          <WebGLErrorBoundary fallback={<div className="absolute inset-0 bg-gradient-to-b from-blue-600/5 to-transparent" />}>
             <Suspense fallback={null}>
               <Canvas camera={{ position: [0, 0, 5], fov: 45 }}>
                 <ambientLight intensity={0.5} />
@@ -167,8 +167,8 @@ export default function Home() {
 
         <div className="relative z-10 flex flex-col items-center mt-[-5vh]">
           <ScrollReveal delay={0.1} direction="up" distance={30}>
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary/20 bg-primary/10 text-primary text-xs font-semibold uppercase tracking-widest mb-8 shadow-sm">
-              <Sparkles size={14} className="text-primary" />
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-blue-600/20 bg-blue-600/10 text-blue-600 text-xs font-semibold uppercase tracking-widest mb-8 shadow-sm">
+              <Sparkles size={14} className="text-blue-600" />
               <span>Resume Intelligence Engine</span>
             </div>
           </ScrollReveal>
@@ -190,7 +190,7 @@ export default function Home() {
           </div>
           
           <ScrollReveal delay={0.8} direction="up" distance={40}>
-            <p className="text-lg md:text-xl text-text-secondary max-w-2xl mb-12 leading-relaxed font-light">
+            <p className="text-lg md:text-xl text-text-blue-500 max-w-2xl mb-12 leading-relaxed font-light">
               Stop guessing what recruiters want. Let our AI engine analyze, optimize, and score your resume precisely against ATS algorithms.
             </p>
           </ScrollReveal>
@@ -222,7 +222,7 @@ export default function Home() {
             titleComponent={
               <h1 className="text-4xl font-semibold text-foreground mb-8">
                 Unleash the power of <br />
-                <span className="text-4xl md:text-[6rem] font-bold mt-1 leading-none text-primary">
+                <span className="text-4xl md:text-[6rem] font-bold mt-1 leading-none text-blue-600">
                   AI-Powered Analysis
                 </span>
               </h1>
@@ -245,11 +245,11 @@ export default function Home() {
            {/* Step 1 */}
            <div className="grid md:grid-cols-2 gap-16 items-center">
              <ScrollReveal direction="right" className="flex flex-col gap-6">
-               <div className="size-16 rounded-2xl bg-blue-50 border border-primary/20 flex items-center justify-center text-primary shadow-lg">
+               <div className="size-16 rounded-2xl bg-blue-50 border border-blue-600/20 flex items-center justify-center text-blue-600 shadow-lg">
                  <Target size={32} />
                </div>
                <h2 className="text-4xl md:text-5xl font-bold tracking-tight">Precision Scoring.</h2>
-               <p className="text-lg text-text-secondary leading-relaxed">
+               <p className="text-lg text-text-blue-500 leading-relaxed">
                  Our proprietary engine simulates enterprise Applicant Tracking Systems to calculate exactly how your resume will be parsed and ranked.
                </p>
              </ScrollReveal>
@@ -314,7 +314,7 @@ export default function Home() {
                  <FileSearch size={32} />
                </div>
                <h2 className="text-4xl md:text-5xl font-bold tracking-tight">AI-Powered Iteration.</h2>
-               <p className="text-lg text-text-secondary leading-relaxed">
+               <p className="text-lg text-text-blue-500 leading-relaxed">
                  Compare your resume against any job description. Instantly identify missing skills and let the AI Copilot help you rewrite bullet points to guarantee an interview.
                </p>
              </ScrollReveal>

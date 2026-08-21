@@ -50,7 +50,7 @@ const ResumeCard = ({ resume: { id, companyName, jobTitle, feedback, imagePath }
       {/* Header */}
       <div className="flex items-start justify-between gap-3">
         <div className="flex flex-col gap-1 min-w-0">
-          <p className="font-bold text-text-primary truncate">
+          <p className="font-bold text-text-blue-600 truncate">
             {jobTitle || "Resume Analysis"}
           </p>
           {companyName && (
@@ -66,7 +66,7 @@ const ResumeCard = ({ resume: { id, companyName, jobTitle, feedback, imagePath }
           <div key={s.label} className="flex flex-col gap-1">
             <div className="flex justify-between items-center">
               <span className="text-xs text-text-muted">{s.label}</span>
-              <span className="text-xs font-medium text-text-secondary">{s.val}/100</span>
+              <span className="text-xs font-medium text-text-blue-500">{s.val}/100</span>
             </div>
             <ProgressBar value={s.val} />
           </div>
@@ -93,7 +93,7 @@ const ResumeCard = ({ resume: { id, companyName, jobTitle, feedback, imagePath }
       {/* Footer */}
       <div className="flex items-center justify-between">
         <span className="text-xs text-text-muted">
-          Overall: <span className="text-text-secondary font-medium">{feedback.overallScore}/100</span>
+          Overall: <span className="text-text-blue-500 font-medium">{feedback.overallScore}/100</span>
         </span>
         <span className="text-xs text-brand-400 font-medium group-hover:underline">
           View Analysis →

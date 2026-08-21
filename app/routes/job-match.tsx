@@ -145,8 +145,8 @@ Only return raw JSON.`;
   return (
     <PageTransition className="flex flex-col gap-8 max-w-5xl mx-auto py-8 px-4">
       <ScrollReveal direction="up" distance={20} className="flex flex-col gap-3 text-center md:text-left">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-bold uppercase tracking-widest w-fit mx-auto md:mx-0">
-          <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" /> Intelligence
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-600/10 border border-blue-600/20 text-blue-600 text-xs font-bold uppercase tracking-widest w-fit mx-auto md:mx-0">
+          <span className="w-1.5 h-1.5 rounded-full bg-blue-600 animate-pulse" /> Intelligence
         </div>
         <h1 className="text-4xl md:text-5xl font-black text-foreground tracking-tight">Job Match Engine</h1>
         <p className="text-slate-600 max-w-2xl text-lg">
@@ -163,7 +163,7 @@ Only return raw JSON.`;
               <select 
                 value={selectedResumeId} 
                 onChange={(e) => setSelectedResumeId(e.target.value)}
-                className="w-full px-4 py-2 bg-white border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+                className="w-full px-4 py-2 bg-white border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 transition-all"
                 disabled={processing}
               >
                 {resumes.length === 0 && <option value="">No resumes found</option>}
@@ -182,7 +182,7 @@ Only return raw JSON.`;
               <textarea 
                 value={jobDescription}
                 onChange={(e) => setJobDescription(e.target.value)}
-                className="w-full min-h-[300px] px-4 py-3 bg-white border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all resize-y"
+                className="w-full min-h-[300px] px-4 py-3 bg-white border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 transition-all resize-y"
                 placeholder="Paste the full job description here..."
                 disabled={processing}
               />
@@ -193,7 +193,7 @@ Only return raw JSON.`;
             <button 
               onClick={handleMatch}
               disabled={processing || !selectedResumeId || !jobDescription.trim()}
-              className="group relative w-full px-8 py-4 bg-primary text-white rounded-xl text-lg font-semibold shadow-[0_0_20px_rgba(37,99,235,0.2)] hover:bg-blue-700 transition-colors disabled:opacity-50 overflow-hidden"
+              className="group relative w-full px-8 py-4 bg-blue-600 text-white rounded-xl text-lg font-semibold shadow-[0_0_20px_rgba(37,99,235,0.2)] hover:bg-blue-700 transition-colors disabled:opacity-50 overflow-hidden"
             >
               <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-blue-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               <span className="relative z-10 flex items-center justify-center gap-2 font-bold tracking-wide">
@@ -214,14 +214,14 @@ Only return raw JSON.`;
             <div className="flex flex-col gap-6 pt-8 md:pt-0 h-full justify-center">
               <div className="absolute inset-0 flex flex-col items-center justify-center z-50 bg-white/50 backdrop-blur-sm transition-opacity duration-1000">
                 <div className="relative size-32">
-                  <div className="absolute inset-0 rounded-full border-t-2 border-primary animate-spin" />
+                  <div className="absolute inset-0 rounded-full border-t-2 border-blue-600 animate-spin" />
                   <div className="absolute inset-2 rounded-full border-r-2 border-blue-700 animate-[spin_2s_linear_infinite]" />
                   <div className="absolute inset-4 rounded-full border-b-2 border-cyan-500 animate-[spin_3s_linear_infinite]" />
-                  <Sparkles className="absolute inset-0 m-auto text-primary animate-pulse" size={32} />
+                  <Sparkles className="absolute inset-0 m-auto text-blue-600 animate-pulse" size={32} />
                 </div>
                 
                 <TextLoop 
-                  className="mt-8 text-xl font-medium text-primary tracking-wider font-mono w-[300px] text-center" 
+                  className="mt-8 text-xl font-medium text-blue-600 tracking-wider font-mono w-[300px] text-center" 
                   texts={[
                     "INITIALIZING NEURAL NET...",
                     "PARSING RESUME VECTORS...",
@@ -236,8 +236,8 @@ Only return raw JSON.`;
           ) : matchResult ? (
             <div className="flex flex-col gap-8 h-full">
               <ScrollReveal direction="left" distance={40}>
-                <TiltCard className="flex flex-col sm:flex-row items-center gap-8 bg-white/50 p-8 rounded-3xl border border-primary/20 shadow-[0_0_40px_rgba(37,99,235,0.1)] relative overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent pointer-events-none" />
+                <TiltCard className="flex flex-col sm:flex-row items-center gap-8 bg-white/50 p-8 rounded-3xl border border-blue-600/20 shadow-[0_0_40px_rgba(37,99,235,0.1)] relative overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-br from-blue-600/10 to-transparent pointer-events-none" />
                   <div className="relative z-10 flex-shrink-0">
                     <ScoreRing score={matchResult.score} size={160} strokeWidth={12} />
                   </div>
@@ -252,7 +252,7 @@ Only return raw JSON.`;
 
               <ScrollReveal delay={0.1} direction="up" distance={20}>
                 <h3 className="text-xl font-bold text-foreground mb-4 flex items-center gap-3">
-                  <span className="text-primary">⚡</span> Skill Network Constellation
+                  <span className="text-blue-600">⚡</span> Skill Network Constellation
                 </h3>
                 <SkillNetwork 
                   matched={[...new Set([...(matchResult.matchedSkills || []), ...(matchResult.matchedKeywords || [])])]} 

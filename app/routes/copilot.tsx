@@ -96,7 +96,7 @@ If the user asks you to rewrite a bullet point, provide the new bullet point dir
       {/* Visual Header / Orb Area */}
       <div className="lg:w-1/3 flex flex-col gap-6 py-6 lg:border-r border-border pr-8">
         <ScrollReveal direction="right" distance={20} className="flex flex-col gap-2">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-bold uppercase tracking-widest w-fit">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-600/10 border border-blue-600/20 text-blue-600 text-xs font-bold uppercase tracking-widest w-fit">
             <Sparkles size={14} /> Intelligence
           </div>
           <h1 className="text-3xl font-black text-foreground tracking-tight">AI Copilot</h1>
@@ -117,7 +117,7 @@ If the user asks you to rewrite a bullet point, provide the new bullet point dir
           <select 
             value={selectedResumeId} 
             onChange={(e) => setSelectedResumeId(e.target.value)}
-            className="w-full px-4 py-2 bg-white border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+            className="w-full px-4 py-2 bg-white border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 transition-all"
             disabled={isTyping}
           >
             {resumes.length === 0 && <option value="">No resumes found</option>}
@@ -132,7 +132,7 @@ If the user asks you to rewrite a bullet point, provide the new bullet point dir
 
       {/* Workspace Area */}
       <div className="lg:w-2/3 flex flex-col bg-white/70 backdrop-blur-xl border border-border rounded-2xl overflow-hidden shadow-2xl relative">
-        <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-b from-blue-600/5 to-transparent pointer-events-none" />
         
         {/* Chat Area */}
         <div className="flex-1 overflow-y-auto p-6 flex flex-col gap-6 relative z-10 scrollbar-thin">
@@ -145,7 +145,7 @@ If the user asks you to rewrite a bullet point, provide the new bullet point dir
                 transition={{ duration: 0.3, type: "spring", bounce: 0.2 }}
                 className={`flex gap-4 max-w-[85%] ${msg.role === 'user' ? 'self-end flex-row-reverse' : 'self-start'}`}
               >
-                <div className={`size-8 rounded-full flex items-center justify-center flex-shrink-0 mt-1 shadow-lg ${msg.role === 'user' ? 'bg-slate-200 text-slate-700' : 'bg-primary/20 text-primary border border-primary/30'}`}>
+                <div className={`size-8 rounded-full flex items-center justify-center flex-shrink-0 mt-1 shadow-lg ${msg.role === 'user' ? 'bg-slate-200 text-slate-700' : 'bg-blue-600/20 text-blue-600 border border-blue-600/30'}`}>
                   {msg.role === 'user' ? <User size={16} /> : <Bot size={16} />}
                 </div>
                 <div className={`px-5 py-4 rounded-2xl shadow-md ${msg.role === 'user' ? 'bg-slate-200 text-slate-800 rounded-tr-sm' : 'bg-white border border-border text-foreground rounded-tl-sm backdrop-blur-md'}`}>
@@ -160,13 +160,13 @@ If the user asks you to rewrite a bullet point, provide the new bullet point dir
                 animate={{ opacity: 1, y: 0 }}
                 className="flex gap-4 max-w-[85%] self-start"
               >
-                <div className="size-8 rounded-full bg-primary/20 text-primary border border-primary/30 shadow-lg flex items-center justify-center flex-shrink-0 mt-1">
+                <div className="size-8 rounded-full bg-blue-600/20 text-blue-600 border border-blue-600/30 shadow-lg flex items-center justify-center flex-shrink-0 mt-1">
                   <Bot size={16} />
                 </div>
                 <div className="px-5 py-4 rounded-2xl bg-white backdrop-blur-md border border-border rounded-tl-sm flex items-center gap-2 shadow-md">
-                  <div className="size-2 bg-primary rounded-full animate-bounce [animation-delay:-0.3s]" />
-                  <div className="size-2 bg-primary rounded-full animate-bounce [animation-delay:-0.15s]" />
-                  <div className="size-2 bg-primary rounded-full animate-bounce" />
+                  <div className="size-2 bg-blue-600 rounded-full animate-bounce [animation-delay:-0.3s]" />
+                  <div className="size-2 bg-blue-600 rounded-full animate-bounce [animation-delay:-0.15s]" />
+                  <div className="size-2 bg-blue-600 rounded-full animate-bounce" />
                 </div>
               </motion.div>
             )}
@@ -188,14 +188,14 @@ If the user asks you to rewrite a bullet point, provide the new bullet point dir
                   }
                 }}
                 placeholder={selectedResumeId ? "Ask the copilot something..." : "Please select a resume first..."}
-                className="flex-1 bg-white border border-border text-foreground placeholder:text-slate-400 focus:ring-2 focus:ring-primary/20 focus:border-primary rounded-xl px-4 py-3 focus:outline-none transition-all resize-none min-h-[52px]"
+                className="flex-1 bg-white border border-border text-foreground placeholder:text-slate-400 focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 rounded-xl px-4 py-3 focus:outline-none transition-all resize-none min-h-[52px]"
                 rows={1}
                 disabled={isTyping || !selectedResumeId}
               />
               <button 
                 onClick={handleSend}
                 disabled={!input.trim() || isTyping || !selectedResumeId}
-                className="px-6 py-3 bg-primary hover:bg-blue-700 text-white font-medium rounded-xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 shadow-[0_0_20px_rgba(37,99,235,0.2)] h-[52px]"
+                className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 shadow-[0_0_20px_rgba(37,99,235,0.2)] h-[52px]"
               >
                 <span>Send</span>
                 <Send size={18} className={isTyping ? "animate-pulse" : ""} />

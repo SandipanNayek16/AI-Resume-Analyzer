@@ -69,7 +69,7 @@ const Resumes = () => {
       {/* Header */}
       <ScrollReveal direction="down" distance={20} className="flex flex-col sm:flex-row items-start sm:items-center justify-between flex-wrap gap-6 mb-12">
         <div className="flex flex-col gap-2">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-bold uppercase tracking-widest w-fit">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-600/10 border border-blue-600/20 text-blue-600 text-xs font-bold uppercase tracking-widest w-fit">
             <Clock size={14} /> Career Timeline
           </div>
           <h2 className="text-4xl font-black text-foreground tracking-tight">Analysis History</h2>
@@ -94,7 +94,7 @@ const Resumes = () => {
                   className={cn(
                     "flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg transition-all cursor-pointer",
                     sortKey === s.key
-                      ? "bg-primary/20 text-primary border border-primary/30 shadow-[0_0_10px_rgba(37,99,235,0.2)]"
+                      ? "bg-blue-600/20 text-blue-600 border border-blue-600/30 shadow-[0_0_10px_rgba(37,99,235,0.2)]"
                       : "text-slate-500 hover:text-foreground hover:bg-slate-100 border border-transparent"
                   )}
                 >
@@ -128,13 +128,13 @@ const Resumes = () => {
       {!loading && resumes.length === 0 && (
         <ScrollReveal direction="up" distance={20} className="mt-8">
           <div className="border border-dashed border-border/50 rounded-3xl bg-slate-50/50 backdrop-blur-sm p-12 relative overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-b from-blue-600/5 to-transparent pointer-events-none" />
             <EmptyState
               icon="🚀"
               title="Your Vault is Empty"
               description="Upload your first resume to begin your career progression tracking."
               action={
-                <Link to="/upload" className="px-8 py-4 bg-primary text-white rounded-xl text-lg font-semibold mt-4 group relative overflow-hidden inline-flex items-center">
+                <Link to="/upload" className="px-8 py-4 bg-blue-600 text-white rounded-xl text-lg font-semibold mt-4 group relative overflow-hidden inline-flex items-center">
                   <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-blue-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   <span className="relative z-10">Initialize First Analysis →</span>
                 </Link>
@@ -157,8 +157,8 @@ const Resumes = () => {
               className="relative z-10"
             >
               <TiltCard className="h-full">
-                <div className="flex flex-col gap-5 h-full bg-white/80 rounded-xl p-6 backdrop-blur-xl border border-border/50 hover:border-primary/30 transition-colors shadow-lg hover:shadow-[0_8px_30px_rgba(37,99,235,0.1)] relative overflow-hidden group">
-                  <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                <div className="flex flex-col gap-5 h-full bg-white/80 rounded-xl p-6 backdrop-blur-xl border border-border/50 hover:border-blue-600/30 transition-colors shadow-lg hover:shadow-[0_8px_30px_rgba(37,99,235,0.1)] relative overflow-hidden group">
+                  <div className="absolute inset-0 bg-gradient-to-br from-blue-600/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
                   
                   <div className="flex items-start gap-5 relative z-10">
                     {/* Score badge */}
@@ -187,7 +187,7 @@ const Resumes = () => {
                       </div>
                       
                       {resume.companyName && (
-                        <span className="text-primary font-semibold text-xs mt-1 truncate">
+                        <span className="text-blue-600 font-semibold text-xs mt-1 truncate">
                           @ {resume.companyName}
                         </span>
                       )}
@@ -205,7 +205,7 @@ const Resumes = () => {
                       <span>{resume.feedback.ATS?.score ?? "—"}/100</span>
                       <span>{resume.feedback.skills?.score ?? "—"}/100</span>
                       {resume.feedback.jobMatch && resume.feedback.jobMatch.score > 0 && (
-                        <span className="text-primary">{resume.feedback.jobMatch.score}%</span>
+                        <span className="text-blue-600">{resume.feedback.jobMatch.score}%</span>
                       )}
                     </div>
                     <ProgressBar value={resume.feedback?.overallScore || 0} className="mt-1" />
@@ -215,7 +215,7 @@ const Resumes = () => {
                   <div className="flex gap-3 relative z-10 pt-2">
                     <Link
                       to={`/resume/${resume.id}`}
-                      className="group/btn relative flex-1 px-4 py-2 rounded-lg bg-slate-100/50 hover:bg-primary hover:text-white border border-transparent hover:border-primary/50 flex items-center justify-center transition-colors text-slate-700 overflow-hidden"
+                      className="group/btn relative flex-1 px-4 py-2 rounded-lg bg-slate-100/50 hover:bg-blue-600 hover:text-white border border-transparent hover:border-blue-600/50 flex items-center justify-center transition-colors text-slate-700 overflow-hidden"
                     >
                       <span className="relative z-10 font-bold">View Analytics →</span>
                     </Link>

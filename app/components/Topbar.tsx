@@ -15,18 +15,18 @@ export function Topbar({ onMenuClick }: { onMenuClick: () => void }) {
           <Menu size={20} />
         </button>
         <Link to="/" className="flex items-center gap-2">
-          <div className="size-6 rounded-md bg-gradient-to-br from-primary to-secondary flex items-center justify-center shadow-sm">
+          <div className="size-6 rounded-md bg-gradient-to-br from-blue-600 to-blue-500 flex items-center justify-center shadow-sm">
             <span className="text-white text-xs font-bold">IQ</span>
           </div>
           <span className="font-bold text-foreground">
-            Resume<span className="text-primary">IQ</span>
+            Resume<span className="text-blue-600">IQ</span>
           </span>
         </Link>
       </div>
 
       <div className="flex items-center">
         {auth.isAuthenticated && (
-          <div className="size-8 rounded-full bg-primary flex items-center justify-center text-sm font-bold text-white shadow-sm">
+          <div className="size-8 rounded-full bg-blue-600 flex items-center justify-center text-sm font-bold text-white shadow-sm">
             {auth.user?.username?.[0]?.toUpperCase() ?? "U"}
           </div>
         )}

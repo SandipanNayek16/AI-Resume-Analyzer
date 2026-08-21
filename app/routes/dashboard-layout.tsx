@@ -25,7 +25,7 @@ export default function DashboardLayout() {
   if (isLoading || !auth.isAuthenticated) {
     return (
       <div className="h-screen w-full flex items-center justify-center bg-background">
-        <div className="size-8 rounded-full border-2 border-primary border-t-transparent animate-spin" />
+        <div className="size-8 rounded-full border-2 border-blue-600 border-t-transparent animate-spin" />
       </div>
     );
   }

@@ -29,7 +29,7 @@ export default function Navbar() {
         <div className="size-8 rounded-lg rp-gradient-brand flex items-center justify-center">
           <span className="text-white text-sm font-bold">RP</span>
         </div>
-        <span className="text-lg font-bold text-text-primary tracking-tight">
+        <span className="text-lg font-bold text-text-blue-600 tracking-tight">
           Resume<span className="rp-text-gradient">Pilot</span>
         </span>
       </Link>
@@ -44,7 +44,7 @@ export default function Navbar() {
               "px-3 py-2 rounded-lg text-sm font-medium transition-all duration-150",
               location.pathname === item.href
                 ? "bg-brand-500/15 text-brand-400"
-                : "text-text-secondary hover:text-text-primary hover:bg-surface-300"
+                : "text-text-blue-500 hover:text-text-blue-600 hover:bg-surface-300"
             )}
           >
             {item.label}
@@ -70,7 +70,7 @@ export default function Navbar() {
           <div className="flex items-center gap-2">
             <button
               onClick={handleAuth}
-              className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm text-text-secondary hover:text-text-primary hover:bg-surface-300 transition-all cursor-pointer"
+              className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm text-text-blue-500 hover:text-text-blue-600 hover:bg-surface-300 transition-all cursor-pointer"
             >
               <div className="size-6 rounded-full rp-gradient-brand flex items-center justify-center flex-shrink-0">
                 <span className="text-white text-xs font-bold">

@@ -54,7 +54,7 @@ function ProcessingView({ stage, error }: { stage: Stage; error?: string }) {
           </>
         ) : (
           <>
-            <p className="text-sm font-semibold text-primary uppercase tracking-[0.2em] animate-pulse">
+            <p className="text-sm font-semibold text-blue-600 uppercase tracking-[0.2em] animate-pulse">
               {current?.label || "Processing"}
             </p>
             <p className="text-lg text-foreground font-light">
@@ -75,7 +75,7 @@ function ProcessingView({ stage, error }: { stage: Stage; error?: string }) {
                 {done ? (
                   <div className="size-6 rounded-full bg-success/20 flex items-center justify-center text-success"><span className="text-xs font-bold">✓</span></div>
                 ) : active ? (
-                  <div className="size-6 rounded-full border-2 border-primary/30 border-t-primary animate-spin" />
+                  <div className="size-6 rounded-full border-2 border-blue-600/30 border-t-primary animate-spin" />
                 ) : (
                   <div className="size-6 rounded-full border-2 border-border" />
                 )}
@@ -103,7 +103,7 @@ function FileDropzone({ onFileSelect, file }: { onFileSelect: (f: File | null) =
     return (
       <div className="p-4 rounded-xl bg-white border border-border/50 flex items-center justify-between shadow-sm transition-all">
         <div className="flex items-center gap-4">
-          <div className="size-12 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0 text-primary">
+          <div className="size-12 rounded-lg bg-blue-600/10 flex items-center justify-center flex-shrink-0 text-blue-600">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
           </div>
           <div>
@@ -124,14 +124,14 @@ function FileDropzone({ onFileSelect, file }: { onFileSelect: (f: File | null) =
   }
 
   return (
-    <div {...getRootProps()} className={cn("relative group cursor-pointer w-full p-10 rounded-2xl border-2 border-dashed transition-all duration-300 flex flex-col items-center justify-center text-center", isDragActive ? "border-primary bg-primary/10 scale-[1.02]" : "border-border bg-slate-50/50 hover:bg-slate-100/50 hover:border-primary/30")}>
+    <div {...getRootProps()} className={cn("relative group cursor-pointer w-full p-10 rounded-2xl border-2 border-dashed transition-all duration-300 flex flex-col items-center justify-center text-center", isDragActive ? "border-blue-600 bg-blue-600/10 scale-[1.02]" : "border-border bg-slate-50/50 hover:bg-slate-100/50 hover:border-blue-600/30")}>
       <input {...getInputProps()} aria-label="Upload PDF resume" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(37,99,235,0.05),transparent)] opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
-      <div className="size-16 rounded-2xl bg-white border border-border group-hover:bg-primary/10 flex items-center justify-center text-slate-500 group-hover:text-primary transition-colors mb-4 shadow-sm">
+      <div className="size-16 rounded-2xl bg-white border border-border group-hover:bg-blue-600/10 flex items-center justify-center text-slate-500 group-hover:text-blue-600 transition-colors mb-4 shadow-sm">
         <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
       </div>
       <div className="flex flex-col gap-1.5 z-10">
-        <p className="text-base font-semibold text-foreground group-hover:text-primary transition-colors">
+        <p className="text-base font-semibold text-foreground group-hover:text-blue-600 transition-colors">
           {isDragActive ? "Drop to analyze" : "Click to upload or drag & drop"}
         </p>
         <p className="text-sm text-slate-500 font-light">PDF format up to 20MB</p>
@@ -263,7 +263,7 @@ const Upload = () => {
                         id="company-name"
                         name="company-name"
                         type="text"
-                        className="w-full px-4 py-2 bg-white border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+                        className="w-full px-4 py-2 bg-white border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 transition-all"
                         placeholder="e.g. Google, Microsoft"
                       />
                     </div>
@@ -273,7 +273,7 @@ const Upload = () => {
                         id="job-title"
                         name="job-title"
                         type="text"
-                        className="w-full px-4 py-2 bg-white border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+                        className="w-full px-4 py-2 bg-white border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 transition-all"
                         placeholder="e.g. Frontend Engineer"
                       />
                     </div>
@@ -284,7 +284,7 @@ const Upload = () => {
                       id="job-description"
                       name="job-description"
                       rows={4}
-                      className="w-full px-4 py-2 bg-white border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all resize-none"
+                      className="w-full px-4 py-2 bg-white border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 transition-all resize-none"
                       placeholder="Paste the job description here for a more targeted analysis..."
                     />
                   </div>
@@ -303,7 +303,7 @@ const Upload = () => {
                 <button
                   type="submit"
                   disabled={!file}
-                  className="px-8 py-4 bg-primary text-white rounded-xl text-lg font-semibold shadow-sm hover:shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all w-full disabled:opacity-40 disabled:cursor-not-allowed group"
+                  className="px-8 py-4 bg-blue-600 text-white rounded-xl text-lg font-semibold shadow-sm hover:shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all w-full disabled:opacity-40 disabled:cursor-not-allowed group"
                 >
                   Analyze Resume <span className="transition-transform group-hover:translate-x-1">→</span>
                 </button>

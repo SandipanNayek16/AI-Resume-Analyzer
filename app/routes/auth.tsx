@@ -20,15 +20,15 @@ const Auth = () => {
   return (
     <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4 relative overflow-hidden">
       {/* Background glow */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-96 h-96 bg-primary/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl pointer-events-none" />
 
       {/* Logo */}
       <div className="flex items-center gap-3 mb-10 rp-fade-up">
-        <div className="size-10 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
+        <div className="size-10 rounded-xl bg-gradient-to-br from-blue-600 to-blue-500 flex items-center justify-center">
           <span className="text-white font-bold">RP</span>
         </div>
         <span className="text-xl font-bold text-foreground">
-          Resume<span className="text-primary">Pilot</span>
+          Resume<span className="text-blue-600">Pilot</span>
         </span>
       </div>
 
@@ -44,7 +44,7 @@ const Auth = () => {
         {/* Auth action */}
         <div className="flex flex-col gap-4">
           {isLoading ? (
-            <div className="flex items-center gap-2 px-8 py-4 bg-accent/70 text-white rounded-xl text-lg font-semibold justify-center pointer-events-none">
+            <div className="flex items-center gap-2 px-8 py-4 bg-orange-500/70 text-white rounded-xl text-lg font-semibold justify-center pointer-events-none">
               <div className="size-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
               <span>Signing you in...</span>
             </div>
@@ -53,8 +53,8 @@ const Auth = () => {
               Sign Out
             </button>
           ) : (
-            <button className="group relative px-8 py-4 bg-accent text-white rounded-xl text-lg font-semibold overflow-hidden transition-all hover:scale-105 shadow-lg hover:shadow-orange-500/20" onClick={auth.signIn}>
-              <div className="absolute inset-0 bg-gradient-to-r from-orange-400 to-accent opacity-0 group-hover:opacity-10 transition-opacity" />
+            <button className="group relative px-8 py-4 bg-orange-500 text-white rounded-xl text-lg font-semibold overflow-hidden transition-all hover:scale-105 shadow-lg hover:shadow-orange-500/20" onClick={auth.signIn}>
+              <div className="absolute inset-0 bg-gradient-to-r from-orange-400 to-orange-500 opacity-0 group-hover:opacity-10 transition-opacity" />
               <span className="relative z-10">Continue with Puter →</span>
             </button>
           )}

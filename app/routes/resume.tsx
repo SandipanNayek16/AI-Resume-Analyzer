@@ -81,7 +81,7 @@ const Resume = () => {
     <PageTransition className="flex flex-col lg:flex-row h-full gap-8 p-2">
       {/* Left — Resume Preview */}
       <aside className="lg:w-[380px] xl:w-[420px] flex-shrink-0 border border-border/50 rounded-2xl bg-slate-50/50 backdrop-blur-md flex flex-col items-center p-6 lg:h-[calc(100vh-8rem)] lg:overflow-y-auto shadow-2xl relative overflow-hidden">
-          <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-primary/10 to-transparent pointer-events-none" />
+          <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-blue-600/10 to-transparent pointer-events-none" />
           
           {loadingData ? (
             <Skeleton className="w-full aspect-[3/4] max-w-[300px]" />
@@ -89,7 +89,7 @@ const Resume = () => {
             <a href={resumeUrl} target="_blank" rel="noopener noreferrer" className="w-full max-w-[300px] relative z-10 group">
               <div className="rounded-xl overflow-hidden border border-border shadow-2xl transition-all duration-500 hover:scale-[1.02] hover:shadow-[0_20px_50px_rgba(37,99,235,0.2)]">
                 <img src={imageUrl} alt="Resume preview" className="w-full h-auto" />
-                <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/10 transition-colors pointer-events-none" />
+                <div className="absolute inset-0 bg-blue-600/0 group-hover:bg-blue-600/10 transition-colors pointer-events-none" />
               </div>
             </a>
           ) : (
@@ -141,7 +141,7 @@ const Resume = () => {
               <span className="text-4xl animate-bounce">⚠️</span>
               <h3 className="text-foreground font-semibold text-xl">Analysis not found</h3>
               <p className="text-slate-500">This resume analysis may have been deleted.</p>
-              <Link to="/dashboard" className="px-6 py-3 bg-primary text-white rounded-xl font-semibold mt-4">Go to Dashboard</Link>
+              <Link to="/dashboard" className="px-6 py-3 bg-blue-600 text-white rounded-xl font-semibold mt-4">Go to Dashboard</Link>
             </div>
           ) : (
             <div className="flex flex-col gap-8">
@@ -193,7 +193,7 @@ const Resume = () => {
                   ] as { key: Tab; label: string }[]).map((t) => (
                     <button
                       key={t.key}
-                      className={cn("px-4 py-2 rounded-lg font-medium whitespace-nowrap transition-colors", tab === t.key ? "bg-primary text-white" : "bg-white/50 text-slate-600 hover:bg-slate-100")}
+                      className={cn("px-4 py-2 rounded-lg font-medium whitespace-nowrap transition-colors", tab === t.key ? "bg-blue-600 text-white" : "bg-white/50 text-slate-600 hover:bg-slate-100")}
                       onClick={() => setTab(t.key)}
                     >
                       {t.label}
@@ -353,12 +353,12 @@ const Resume = () => {
               </div>
 
               {/* CTA */}
-              <div className="bg-primary/5 border border-primary/20 rounded-2xl p-6 shadow-sm backdrop-blur-xl flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div className="bg-blue-600/5 border border-blue-600/20 rounded-2xl p-6 shadow-sm backdrop-blur-xl flex flex-col sm:flex-row items-center justify-between gap-4">
                 <div className="flex flex-col gap-1">
                   <h4 className="text-foreground font-semibold">Ready to improve?</h4>
                   <p className="text-slate-500 text-sm">Implement the suggestions above and re-analyze to track your progress.</p>
                 </div>
-                <Link to="/upload" className="px-6 py-3 bg-primary text-white rounded-xl font-semibold flex-shrink-0">
+                <Link to="/upload" className="px-6 py-3 bg-blue-600 text-white rounded-xl font-semibold flex-shrink-0">
                   Analyze Another →
                 </Link>
               </div>
