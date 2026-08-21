@@ -8,6 +8,7 @@ import { PageTransition } from "~/components/motion/PageTransition";
 import { ScrollReveal } from "~/components/motion/ScrollReveal";
 import { TypewriterEffect } from "~/components/ui/typewriter-effect";
 import { SparklesCore } from "~/components/ui/sparkles";
+import { MagicCursor } from "~/components/ui/magic-cursor";
 import { ContainerScroll } from "~/components/ui/container-scroll-animation";
 import { ResumeScene } from "~/components/3d/ResumeScene";
 import { SpotlightCard } from "~/components/reactbits/SpotlightCard";
@@ -177,6 +178,8 @@ export default function Home() {
           </button>
         </div>
       </nav>
+
+      <MagicCursor />
 
       {/* Centered Hero Section with Typewriter & Sparkles */}
       <section className="relative w-full min-h-[90vh] flex flex-col items-center justify-center px-6 md:px-12 overflow-hidden bg-background">
