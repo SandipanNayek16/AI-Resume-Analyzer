@@ -7,7 +7,7 @@ interface BorderGlowProps extends React.HTMLAttributes<HTMLDivElement> {
 export function BorderGlow({ 
   children, 
   className, 
-  glowColor = "#8b5cf6",
+  glowColor = "#2563eb",
   ...props 
 }: BorderGlowProps) {
   return (
@@ -21,7 +21,7 @@ export function BorderGlow({
       />
       
       {/* Inner Content Container */}
-      <div className="relative w-full h-full bg-surface-0 rounded-xl overflow-hidden">
+      <div className="relative w-full h-full bg-white rounded-xl overflow-hidden">
         {children}
       </div>
     </div>

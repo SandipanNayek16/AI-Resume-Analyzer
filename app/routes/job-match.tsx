@@ -9,7 +9,7 @@ import { TextLoop } from "~/components/reactbits/TextLoop";
 
 function SkillNetwork({ matched, missing }: { matched: string[], missing: string[] }) {
   return (
-    <div className="flex flex-col gap-6 bg-surface-100/50 p-6 rounded-2xl border border-border-default/50">
+    <div className="flex flex-col gap-6 bg-slate-50/50 p-6 rounded-2xl border border-border/50">
       
       <div>
         <h4 className="text-sm font-bold text-success uppercase tracking-widest mb-3 flex items-center gap-2">
@@ -25,11 +25,11 @@ function SkillNetwork({ matched, missing }: { matched: string[], missing: string
             ))}
           </div>
         ) : (
-          <p className="text-sm text-text-muted italic">No matched skills found.</p>
+          <p className="text-sm text-slate-500 italic">No matched skills found.</p>
         )}
       </div>
 
-      <div className="w-full h-px bg-border-default/50" />
+      <div className="w-full h-px bg-border/50" />
       
       <div>
         <h4 className="text-sm font-bold text-warning uppercase tracking-widest mb-3 flex items-center gap-2">
@@ -45,7 +45,7 @@ function SkillNetwork({ matched, missing }: { matched: string[], missing: string
             ))}
           </div>
         ) : (
-          <p className="text-sm text-text-muted italic">No missing skills found.</p>
+          <p className="text-sm text-slate-500 italic">No missing skills found.</p>
         )}
       </div>
       
@@ -145,11 +145,11 @@ Only return raw JSON.`;
   return (
     <PageTransition className="flex flex-col gap-8 max-w-5xl mx-auto py-8 px-4">
       <ScrollReveal direction="up" distance={20} className="flex flex-col gap-3 text-center md:text-left">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-500/10 border border-brand-500/20 text-brand-400 text-xs font-bold uppercase tracking-widest w-fit mx-auto md:mx-0">
-          <span className="w-1.5 h-1.5 rounded-full bg-brand-400 animate-pulse" /> Intelligence
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-bold uppercase tracking-widest w-fit mx-auto md:mx-0">
+          <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" /> Intelligence
         </div>
-        <h1 className="text-4xl md:text-5xl font-black text-text-primary tracking-tight">Job Match Engine</h1>
-        <p className="text-text-secondary max-w-2xl text-lg">
+        <h1 className="text-4xl md:text-5xl font-black text-foreground tracking-tight">Job Match Engine</h1>
+        <p className="text-slate-600 max-w-2xl text-lg">
           Connect your resume to reality. Map your skills against actual job descriptions to reveal missing keywords and exact match percentages.
         </p>
       </ScrollReveal>
@@ -158,12 +158,12 @@ Only return raw JSON.`;
         {/* Input Section */}
         <div className="md:col-span-5 flex flex-col gap-6">
           <ScrollReveal delay={0.1} direction="up" distance={20}>
-            <div className="rp-card flex flex-col gap-4 border-border-default/50 bg-surface-50/50 backdrop-blur-sm">
-              <label className="text-xs font-bold text-text-muted uppercase tracking-widest">Select Target Resume</label>
+            <div className="flex flex-col gap-4 bg-white/50 border border-border/50 p-6 rounded-2xl backdrop-blur-sm">
+              <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">Select Target Resume</label>
               <select 
                 value={selectedResumeId} 
                 onChange={(e) => setSelectedResumeId(e.target.value)}
-                className="rp-input bg-surface-100"
+                className="w-full px-4 py-2 bg-white border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
                 disabled={processing}
               >
                 {resumes.length === 0 && <option value="">No resumes found</option>}
@@ -177,12 +177,12 @@ Only return raw JSON.`;
           </ScrollReveal>
 
           <ScrollReveal delay={0.2} direction="up" distance={20}>
-            <div className="rp-card flex flex-col gap-4 border-border-default/50 bg-surface-50/50 backdrop-blur-sm">
-              <label className="text-xs font-bold text-text-muted uppercase tracking-widest">Job Description</label>
+            <div className="flex flex-col gap-4 bg-white/50 border border-border/50 p-6 rounded-2xl backdrop-blur-sm">
+              <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">Job Description</label>
               <textarea 
                 value={jobDescription}
                 onChange={(e) => setJobDescription(e.target.value)}
-                className="rp-input min-h-[300px] bg-surface-100 resize-y"
+                className="w-full min-h-[300px] px-4 py-3 bg-white border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all resize-y"
                 placeholder="Paste the full job description here..."
                 disabled={processing}
               />
@@ -193,9 +193,9 @@ Only return raw JSON.`;
             <button 
               onClick={handleMatch}
               disabled={processing || !selectedResumeId || !jobDescription.trim()}
-              className="group relative w-full rp-btn rp-lg rp-primary disabled:opacity-50 overflow-hidden shadow-[0_0_20px_rgba(139,92,246,0.2)]"
+              className="group relative w-full px-8 py-4 bg-primary text-white rounded-xl text-lg font-semibold shadow-[0_0_20px_rgba(37,99,235,0.2)] hover:bg-blue-700 transition-colors disabled:opacity-50 overflow-hidden"
             >
-              <div className="absolute inset-0 bg-gradient-to-r from-brand-400 to-brand-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-blue-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               <span className="relative z-10 flex items-center justify-center gap-2 font-bold tracking-wide">
                 {processing ? "Analyzing Match..." : "Initialize Match Sequence →"}
               </span>
@@ -212,16 +212,16 @@ Only return raw JSON.`;
         <div className="md:col-span-7 flex flex-col gap-6">
           {processing ? (
             <div className="flex flex-col gap-6 pt-8 md:pt-0 h-full justify-center">
-              <div className="absolute inset-0 flex flex-col items-center justify-center z-50 bg-surface-0/50 backdrop-blur-sm transition-opacity duration-1000">
+              <div className="absolute inset-0 flex flex-col items-center justify-center z-50 bg-white/50 backdrop-blur-sm transition-opacity duration-1000">
                 <div className="relative size-32">
-                  <div className="absolute inset-0 rounded-full border-t-2 border-brand-400 animate-spin" />
-                  <div className="absolute inset-2 rounded-full border-r-2 border-brand-500 animate-[spin_2s_linear_infinite]" />
-                  <div className="absolute inset-4 rounded-full border-b-2 border-accent-cyan animate-[spin_3s_linear_infinite]" />
-                  <Sparkles className="absolute inset-0 m-auto text-brand-300 animate-pulse" size={32} />
+                  <div className="absolute inset-0 rounded-full border-t-2 border-primary animate-spin" />
+                  <div className="absolute inset-2 rounded-full border-r-2 border-blue-700 animate-[spin_2s_linear_infinite]" />
+                  <div className="absolute inset-4 rounded-full border-b-2 border-cyan-500 animate-[spin_3s_linear_infinite]" />
+                  <Sparkles className="absolute inset-0 m-auto text-primary animate-pulse" size={32} />
                 </div>
                 
                 <TextLoop 
-                  className="mt-8 text-xl font-medium text-brand-300 tracking-wider font-mono w-[300px] text-center" 
+                  className="mt-8 text-xl font-medium text-primary tracking-wider font-mono w-[300px] text-center" 
                   texts={[
                     "INITIALIZING NEURAL NET...",
                     "PARSING RESUME VECTORS...",
@@ -236,14 +236,14 @@ Only return raw JSON.`;
           ) : matchResult ? (
             <div className="flex flex-col gap-8 h-full">
               <ScrollReveal direction="left" distance={40}>
-                <TiltCard className="flex flex-col sm:flex-row items-center gap-8 bg-surface-50/50 p-8 rounded-3xl border border-brand-500/20 shadow-[0_0_40px_rgba(139,92,246,0.1)] relative overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-br from-brand-500/10 to-transparent pointer-events-none" />
+                <TiltCard className="flex flex-col sm:flex-row items-center gap-8 bg-white/50 p-8 rounded-3xl border border-primary/20 shadow-[0_0_40px_rgba(37,99,235,0.1)] relative overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent pointer-events-none" />
                   <div className="relative z-10 flex-shrink-0">
                     <ScoreRing score={matchResult.score} size={160} strokeWidth={12} />
                   </div>
                   <div className="relative z-10 flex flex-col gap-2 text-center sm:text-left">
-                    <h3 className="text-3xl font-black text-text-primary tracking-tight">Match Score</h3>
-                    <p className="text-text-secondary leading-relaxed">
+                    <h3 className="text-3xl font-black text-foreground tracking-tight">Match Score</h3>
+                    <p className="text-slate-600 leading-relaxed">
                       This represents the precise alignment between your resume contents and the core requirements of the job description.
                     </p>
                   </div>
@@ -251,8 +251,8 @@ Only return raw JSON.`;
               </ScrollReveal>
 
               <ScrollReveal delay={0.1} direction="up" distance={20}>
-                <h3 className="text-xl font-bold text-text-primary mb-4 flex items-center gap-3">
-                  <span className="text-brand-400">⚡</span> Skill Network Constellation
+                <h3 className="text-xl font-bold text-foreground mb-4 flex items-center gap-3">
+                  <span className="text-primary">⚡</span> Skill Network Constellation
                 </h3>
                 <SkillNetwork 
                   matched={[...new Set([...(matchResult.matchedSkills || []), ...(matchResult.matchedKeywords || [])])]} 
@@ -262,7 +262,7 @@ Only return raw JSON.`;
 
               {matchResult.tips && matchResult.tips.length > 0 && (
                 <ScrollReveal delay={0.2} direction="up" distance={20} className="flex flex-col gap-4">
-                  <h4 className="font-semibold text-text-primary uppercase tracking-widest text-xs">AI Recommendations</h4>
+                  <h4 className="font-semibold text-foreground uppercase tracking-widest text-xs">AI Recommendations</h4>
                   {matchResult.tips.map((tip, i) => (
                     <TipCard key={i} {...tip} />
                   ))}
@@ -270,13 +270,13 @@ Only return raw JSON.`;
               )}
             </div>
           ) : (
-            <div className="h-full flex items-center justify-center p-12 border border-dashed border-border-default/50 rounded-3xl bg-surface-50/20">
+            <div className="h-full flex items-center justify-center p-12 border border-dashed border-border/50 rounded-3xl bg-slate-50/50">
               <div className="text-center flex flex-col items-center gap-4 opacity-50">
-                <div className="size-24 rounded-full bg-surface-200 flex items-center justify-center mb-2">
+                <div className="size-24 rounded-full bg-slate-200 flex items-center justify-center mb-2">
                   <span className="text-4xl">🎯</span>
                 </div>
-                <h3 className="text-xl font-bold text-text-primary">Awaiting Target</h3>
-                <p className="text-sm text-text-muted max-w-sm">
+                <h3 className="text-xl font-bold text-foreground">Awaiting Target</h3>
+                <p className="text-sm text-slate-500 max-w-sm">
                   Select a resume and paste a job description to initiate the intelligence matching sequence.
                 </p>
               </div>

@@ -18,25 +18,25 @@ const Auth = () => {
   }, [auth.isAuthenticated, next]);
 
   return (
-    <div className="min-h-screen bg-surface-0 flex flex-col items-center justify-center p-4 relative overflow-hidden">
+    <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4 relative overflow-hidden">
       {/* Background glow */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-96 h-96 bg-brand-500/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-96 h-96 bg-primary/10 rounded-full blur-3xl pointer-events-none" />
 
       {/* Logo */}
       <div className="flex items-center gap-3 mb-10 rp-fade-up">
-        <div className="size-10 rounded-xl rp-gradient-brand flex items-center justify-center">
+        <div className="size-10 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
           <span className="text-white font-bold">RP</span>
         </div>
-        <span className="text-xl font-bold text-text-primary">
-          Resume<span className="rp-text-gradient">Pilot</span>
+        <span className="text-xl font-bold text-foreground">
+          Resume<span className="text-primary">Pilot</span>
         </span>
       </div>
 
       {/* Card */}
-      <div className="rp-auth-card rp-scale-in relative z-10">
+      <div className="w-full max-w-md border border-border bg-white/70 shadow-xl backdrop-blur-xl rounded-2xl p-8 rp-scale-in relative z-10">
         <div className="flex flex-col items-center gap-2 text-center mb-8">
-          <h2 className="text-text-primary">Welcome back</h2>
-          <p className="text-text-secondary text-sm">
+          <h2 className="text-foreground text-2xl font-bold">Welcome back</h2>
+          <p className="text-slate-500 text-sm">
             Sign in with your Puter account to continue
           </p>
         </div>
@@ -44,24 +44,25 @@ const Auth = () => {
         {/* Auth action */}
         <div className="flex flex-col gap-4">
           {isLoading ? (
-            <div className="rp-btn rp-xl rp-primary opacity-70 pointer-events-none justify-center">
+            <div className="flex items-center gap-2 px-8 py-4 bg-accent/70 text-white rounded-xl text-lg font-semibold justify-center pointer-events-none">
               <div className="size-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
               <span>Signing you in...</span>
             </div>
           ) : auth.isAuthenticated ? (
-            <button className="rp-btn rp-xl rp-danger" onClick={auth.signOut}>
+            <button className="px-8 py-4 bg-red-50 text-red-600 border border-red-200 rounded-xl text-lg font-semibold hover:bg-red-100 transition-colors" onClick={auth.signOut}>
               Sign Out
             </button>
           ) : (
-            <button className="rp-btn rp-xl rp-primary" onClick={auth.signIn}>
-              Continue with Puter →
+            <button className="group relative px-8 py-4 bg-accent text-white rounded-xl text-lg font-semibold overflow-hidden transition-all hover:scale-105 shadow-lg hover:shadow-orange-500/20" onClick={auth.signIn}>
+              <div className="absolute inset-0 bg-gradient-to-r from-orange-400 to-accent opacity-0 group-hover:opacity-10 transition-opacity" />
+              <span className="relative z-10">Continue with Puter →</span>
             </button>
           )}
         </div>
 
         {/* Info */}
         <div className="mt-8 pt-6 border-t border-border-subtle">
-          <p className="text-xs text-text-muted text-center leading-relaxed">
+          <p className="text-xs text-slate-500 text-center leading-relaxed">
             ResumePilot uses Puter for authentication and secure cloud storage.
             Your resume data is private and stored in your own Puter account.
           </p>
@@ -69,10 +70,10 @@ const Auth = () => {
       </div>
 
       {/* Features list */}
-      <div className="mt-8 flex flex-wrap justify-center gap-4 text-xs text-text-muted animate-fade-in delay-300">
+      <div className="mt-8 flex flex-wrap justify-center gap-4 text-xs text-slate-500 animate-fade-in delay-300 relative z-10">
         {["ATS Score Analysis", "Job Matching", "AI Recommendations", "History Tracking"].map((f) => (
           <span key={f} className="flex items-center gap-1.5">
-            <span className="text-success">✓</span> {f}
+            <span className="text-success font-bold">✓</span> {f}
           </span>
         ))}
       </div>

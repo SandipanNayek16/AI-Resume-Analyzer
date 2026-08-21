@@ -2,7 +2,9 @@ import { cn } from "~/lib/utils";
 
 // ---- Score Badge ----
 export function ScoreBadge({ score, className }: { score: number; className?: string }) {
-  const cls = score >= 70 ? "rp-badge-good" : score >= 40 ? "rp-badge-warn" : "rp-badge-bad";
+  const cls = score >= 70 ? "px-2.5 py-0.5 rounded-full text-xs font-semibold bg-green-100 text-green-800 border border-green-200" 
+    : score >= 40 ? "px-2.5 py-0.5 rounded-full text-xs font-semibold bg-yellow-100 text-yellow-800 border border-yellow-200" 
+    : "px-2.5 py-0.5 rounded-full text-xs font-semibold bg-red-100 text-red-800 border border-red-200";
   const label = score >= 70 ? "Good" : score >= 40 ? "Fair" : "Needs Work";
   return (
     <span className={cn(cls, className)}>
@@ -31,9 +33,9 @@ export function ProgressBar({
   const pct = Math.min(100, (value / max) * 100);
   const color = scoreColor(value);
   return (
-    <div className={cn("rp-progress-track", className)}>
+    <div className={cn("w-full h-2 bg-slate-100 rounded-full overflow-hidden", className)}>
       <div
-        className="rp-progress-fill"
+        className="h-full rounded-full transition-all duration-500 ease-out"
         style={{ width: `${pct}%`, background: color }}
       />
     </div>
@@ -42,7 +44,7 @@ export function ProgressBar({
 
 // ---- Skeleton ----
 export function Skeleton({ className }: { className?: string }) {
-  return <div className={cn("rp-skeleton", className)} />;
+  return <div className={cn("animate-pulse bg-slate-200 rounded-md", className)} />;
 }
 
 import { useEffect, useState, useRef } from "react";
@@ -111,7 +113,7 @@ export function ScoreRing({
           r={radius}
           fill="none"
           stroke="currentColor"
-          className="text-surface-300/50"
+          className="text-slate-200"
           strokeWidth={strokeWidth}
         />
         
@@ -132,10 +134,10 @@ export function ScoreRing({
       </svg>
       
       <div className="absolute inset-0 flex flex-col items-center justify-center z-20">
-        <span className="text-3xl font-black text-text-primary tracking-tighter font-mono" style={{ textShadow: `0 0 20px ${color}40` }}>
+        <span className="text-3xl font-black text-foreground tracking-tighter font-mono" style={{ textShadow: `0 0 20px ${color}40` }}>
           {displayScore}
         </span>
-        <span className="text-[10px] text-text-muted font-bold uppercase tracking-widest mt-[-2px]">Score</span>
+        <span className="text-[10px] text-slate-500 font-bold uppercase tracking-widest mt-[-2px]">Score</span>
       </div>
     </div>
   );
@@ -145,7 +147,7 @@ export function ScoreRing({
 export function TipCard({ type, tip, explanation }: { type: "good" | "improve"; tip: string; explanation?: string }) {
   const isGood = type === "good";
   return (
-    <div className={cn("rounded-xl p-4", isGood ? "rp-tip-good" : "rp-tip-warn")}>
+    <div className={cn("rounded-xl p-4", isGood ? "bg-green-50/50 border border-green-100 text-green-800" : "bg-yellow-50/50 border border-yellow-100 text-yellow-800")}>
       <div className="flex items-start gap-3">
         <span className="text-lg flex-shrink-0">{isGood ? "✓" : "⚠"}</span>
         <div className="flex flex-col gap-1">
@@ -173,8 +175,8 @@ export function EmptyState({
     <div className="flex flex-col items-center justify-center gap-4 py-16 text-center">
       <div className="text-5xl">{icon}</div>
       <div className="flex flex-col gap-2">
-        <h3 className="text-lg font-semibold text-text-primary">{title}</h3>
-        <p className="text-sm text-text-muted max-w-sm">{description}</p>
+        <h3 className="text-lg font-semibold text-foreground">{title}</h3>
+        <p className="text-sm text-slate-500 max-w-sm">{description}</p>
       </div>
       {action}
     </div>
@@ -193,9 +195,9 @@ export function SectionCard({
 }) {
   const color = scoreColor(score);
   return (
-    <div className="rp-card flex flex-col gap-4">
+    <div className="bg-white border border-border p-6 rounded-2xl shadow-sm flex flex-col gap-4">
       <div className="flex items-center justify-between">
-        <h4 className="text-text-primary font-semibold">{title}</h4>
+        <h4 className="text-foreground font-semibold">{title}</h4>
         <span className="text-2xl font-bold" style={{ color }}>{score}</span>
       </div>
       <ProgressBar value={score} />

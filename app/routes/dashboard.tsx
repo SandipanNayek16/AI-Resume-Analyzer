@@ -82,13 +82,13 @@ export default function Dashboard() {
     <PageTransition className="flex flex-col gap-10 max-w-5xl mx-auto pb-12 relative z-10">
       
       {/* Background glow specific to dashboard header */}
-      <div className="absolute top-0 left-0 w-full h-64 bg-gradient-to-b from-brand-500/5 to-transparent pointer-events-none -z-10 rounded-3xl" />
+      <div className="absolute top-0 left-0 w-full h-64 bg-gradient-to-b from-primary/5 to-transparent pointer-events-none -z-10 rounded-3xl" />
 
       {/* Header */}
       <ScrollReveal direction="up" distance={20}>
         <div className="pt-4">
-          <h1 className="text-4xl font-black text-text-primary tracking-tight">Dashboard</h1>
-          <p className="text-text-secondary mt-2 text-lg font-light">Your resume intelligence at a glance.</p>
+          <h1 className="text-4xl font-black text-foreground tracking-tight">Dashboard</h1>
+          <p className="text-slate-600 mt-2 text-lg font-light">Your resume intelligence at a glance.</p>
         </div>
       </ScrollReveal>
 
@@ -98,13 +98,13 @@ export default function Dashboard() {
         {/* Metric Card 1 */}
         <ScrollReveal delay={0.1} direction="up" distance={30}>
           <TiltCard tiltAmount={3}>
-            <div className="rp-card bg-surface-100/50 backdrop-blur-md border border-border-default/50 hover:border-brand-500/50 transition-colors flex items-center gap-5 p-6 shadow-xl">
-              <div className="size-14 rounded-2xl bg-brand-500/10 flex items-center justify-center text-brand-400 shadow-[inset_0_0_20px_rgba(139,92,246,0.1)]">
+            <div className="bg-white/70 rounded-xl backdrop-blur-md border border-border/50 hover:border-primary/50 transition-colors flex items-center gap-5 p-6 shadow-sm">
+              <div className="size-14 rounded-2xl bg-primary/10 flex items-center justify-center text-primary shadow-sm">
                 <FileText size={26} />
               </div>
               <div>
-                <p className="text-text-muted text-sm font-medium uppercase tracking-wider">Total Analyzed</p>
-                <p className="text-3xl font-black text-text-primary font-mono mt-1">{totalAnalyzed}</p>
+                <p className="text-slate-500 text-sm font-medium uppercase tracking-wider">Total Analyzed</p>
+                <p className="text-3xl font-black text-foreground font-mono mt-1">{totalAnalyzed}</p>
               </div>
             </div>
           </TiltCard>
@@ -113,17 +113,17 @@ export default function Dashboard() {
         {/* Metric Card 2 */}
         <ScrollReveal delay={0.2} direction="up" distance={30}>
           <TiltCard tiltAmount={3}>
-            <div className="rp-card bg-surface-100/50 backdrop-blur-md border border-border-default/50 hover:border-brand-500/50 transition-colors flex items-center gap-5 p-6 shadow-xl">
-              <div className="size-14 rounded-2xl bg-brand-500/10 flex items-center justify-center text-brand-400 shadow-[inset_0_0_20px_rgba(139,92,246,0.1)]">
+            <div className="bg-white/70 rounded-xl backdrop-blur-md border border-border/50 hover:border-primary/50 transition-colors flex items-center gap-5 p-6 shadow-sm">
+              <div className="size-14 rounded-2xl bg-primary/10 flex items-center justify-center text-primary shadow-sm">
                 <TrendingUp size={26} />
               </div>
               <div>
-                <p className="text-text-muted text-sm font-medium uppercase tracking-wider">Average Score</p>
+                <p className="text-slate-500 text-sm font-medium uppercase tracking-wider">Average Score</p>
                 <div className="flex items-baseline gap-1 mt-1 font-mono">
                   <p className="text-3xl font-black" style={{ color: avgScore > 0 ? scoreColor(avgScore) : "inherit" }}>
                     {avgScore || "—"}
                   </p>
-                  <span className="text-text-muted text-sm">/100</span>
+                  <span className="text-slate-500 text-sm">/100</span>
                 </div>
               </div>
             </div>
@@ -133,17 +133,17 @@ export default function Dashboard() {
         {/* Metric Card 3 */}
         <ScrollReveal delay={0.3} direction="up" distance={30}>
           <TiltCard tiltAmount={3}>
-            <div className="rp-card bg-surface-100/50 backdrop-blur-md border border-border-default/50 hover:border-brand-500/50 transition-colors flex items-center gap-5 p-6 shadow-xl">
-              <div className="size-14 rounded-2xl bg-brand-500/10 flex items-center justify-center text-brand-400 shadow-[inset_0_0_20px_rgba(139,92,246,0.1)]">
+            <div className="bg-white/70 rounded-xl backdrop-blur-md border border-border/50 hover:border-primary/50 transition-colors flex items-center gap-5 p-6 shadow-sm">
+              <div className="size-14 rounded-2xl bg-primary/10 flex items-center justify-center text-primary shadow-sm">
                 <Award size={26} />
               </div>
               <div>
-                <p className="text-text-muted text-sm font-medium uppercase tracking-wider">Highest Score</p>
+                <p className="text-slate-500 text-sm font-medium uppercase tracking-wider">Highest Score</p>
                 <div className="flex items-baseline gap-1 mt-1 font-mono">
                   <p className="text-3xl font-black" style={{ color: highestScore > 0 ? scoreColor(highestScore) : "inherit" }}>
                     {highestScore || "—"}
                   </p>
-                  <span className="text-text-muted text-sm">/100</span>
+                  <span className="text-slate-500 text-sm">/100</span>
                 </div>
               </div>
             </div>
@@ -157,8 +157,8 @@ export default function Dashboard() {
         {/* Main Content Area: Recent Activity */}
         <div className="lg:col-span-2 flex flex-col gap-6">
           <div className="flex items-center justify-between">
-            <h2 className="text-xl font-bold text-text-primary tracking-tight">Recent Analyses</h2>
-            <Link to="/resumes" className="text-sm text-brand-400 hover:text-brand-300 font-medium transition-colors hover:underline underline-offset-4">
+            <h2 className="text-xl font-bold text-foreground tracking-tight">Recent Analyses</h2>
+            <Link to="/resumes" className="text-sm text-primary hover:text-blue-500 font-medium transition-colors hover:underline underline-offset-4">
               View All →
             </Link>
           </div>
@@ -169,12 +169,12 @@ export default function Dashboard() {
               <Link
                 to={`/resume/${resume.id}`}
                 className={cn(
-                  "rp-card bg-surface-50/80 backdrop-blur-sm p-5 flex flex-col sm:flex-row sm:items-center gap-5 group transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_10px_40px_-10px_rgba(139,92,246,0.2)] hover:border-brand-500/30",
+                  "bg-white/80 border border-border rounded-xl p-5 flex flex-col sm:flex-row sm:items-center gap-5 group transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_10px_40px_-10px_rgba(37,99,235,0.15)] hover:border-primary/30",
 
                 )}
               >
                 {/* Minimal Score Ring */}
-                <div className="flex-shrink-0 size-12 rounded-full border border-border-subtle flex items-center justify-center" style={{ borderColor: scoreColor(resume.feedback?.overallScore || 0) + '40', background: scoreColor(resume.feedback?.overallScore || 0) + '10' }}>
+                <div className="flex-shrink-0 size-12 rounded-full border border-border flex items-center justify-center" style={{ borderColor: scoreColor(resume.feedback?.overallScore || 0) + '40', background: scoreColor(resume.feedback?.overallScore || 0) + '10' }}>
                   <span className="text-sm font-bold" style={{ color: scoreColor(resume.feedback?.overallScore || 0) }}>
                     {resume.feedback?.overallScore || 0}
                   </span>
@@ -182,11 +182,11 @@ export default function Dashboard() {
 
                 <div className="flex-1 min-w-0 flex flex-col gap-1.5">
                   <div className="flex items-center gap-2">
-                    <p className="font-semibold text-text-primary text-sm truncate group-hover:text-brand-400 transition-colors">
+                    <p className="font-semibold text-foreground text-sm truncate group-hover:text-primary transition-colors">
                       {resume.jobTitle || "Resume Analysis"}
                     </p>
                     {resume.companyName && (
-                      <span className="px-1.5 py-0.5 rounded bg-surface-300 text-[10px] text-text-secondary flex-shrink-0">
+                      <span className="px-1.5 py-0.5 rounded bg-slate-200 text-[10px] text-slate-600 flex-shrink-0">
                         {resume.companyName}
                       </span>
                     )}
@@ -196,9 +196,9 @@ export default function Dashboard() {
                   </div>
                 </div>
 
-                <div className="text-xs text-text-muted flex-shrink-0 flex sm:flex-col items-center sm:items-end gap-2">
+                <div className="text-xs text-slate-500 flex-shrink-0 flex sm:flex-col items-center sm:items-end gap-2">
                   <span>{new Date(resume.createdAt ?? "").toLocaleDateString()}</span>
-                  <ArrowRight size={14} className="opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all text-brand-400" />
+                  <ArrowRight size={14} className="opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all text-primary" />
                 </div>
               </Link>
               </ScrollReveal>
@@ -208,33 +208,33 @@ export default function Dashboard() {
 
         {/* Sidebar: Quick Actions */}
         <div className="flex flex-col gap-4">
-          <h2 className="text-lg font-semibold text-text-primary">Quick Actions</h2>
+          <h2 className="text-lg font-semibold text-foreground">Quick Actions</h2>
           
           <div className="flex flex-col gap-3 rp-fade-up delay-300">
-            <Link to="/upload" className="rp-card hover:bg-brand-500/5 hover:border-brand-500/30 transition-all group flex items-start gap-4 cursor-pointer p-4">
-              <div className="p-2 rounded-lg bg-surface-200 text-brand-400 group-hover:bg-brand-500 group-hover:text-white transition-colors">
+            <Link to="/upload" className="bg-white border border-border rounded-xl hover:bg-primary/5 hover:border-primary/30 shadow-sm transition-all group flex items-start gap-4 cursor-pointer p-4">
+              <div className="p-2 rounded-lg bg-slate-100 text-primary group-hover:bg-primary group-hover:text-white transition-colors">
                 <Upload size={20} />
               </div>
               <div>
-                <h3 className="font-semibold text-text-primary text-sm group-hover:text-brand-400 transition-colors">Analyze Resume</h3>
-                <p className="text-xs text-text-muted mt-0.5">Upload a PDF for a new AI analysis.</p>
+                <h3 className="font-semibold text-foreground text-sm group-hover:text-primary transition-colors">Analyze Resume</h3>
+                <p className="text-xs text-slate-500 mt-0.5">Upload a PDF for a new AI analysis.</p>
               </div>
             </Link>
 
-            <Link to="/job-match" className="rp-card hover:bg-brand-500/5 hover:border-brand-500/30 transition-all group flex items-start gap-4 cursor-pointer p-4">
-              <div className="p-2 rounded-lg bg-surface-200 text-brand-400 group-hover:bg-brand-500 group-hover:text-white transition-colors">
+            <Link to="/job-match" className="bg-white border border-border rounded-xl hover:bg-primary/5 hover:border-primary/30 shadow-sm transition-all group flex items-start gap-4 cursor-pointer p-4">
+              <div className="p-2 rounded-lg bg-slate-100 text-primary group-hover:bg-primary group-hover:text-white transition-colors">
                 <Briefcase size={20} />
               </div>
               <div>
-                <h3 className="font-semibold text-text-primary text-sm group-hover:text-brand-400 transition-colors">Job Match</h3>
-                <p className="text-xs text-text-muted mt-0.5">Compare your resume against a job description.</p>
+                <h3 className="font-semibold text-foreground text-sm group-hover:text-primary transition-colors">Job Match</h3>
+                <p className="text-xs text-slate-500 mt-0.5">Compare your resume against a job description.</p>
               </div>
             </Link>
           </div>
 
-          <div className="mt-4 rp-card bg-surface-100/50 border-dashed border-border-subtle p-4">
-             <h4 className="text-sm font-medium text-text-secondary mb-2 flex items-center gap-1.5"><TrendingUp size={16}/> Pro Tip</h4>
-             <p className="text-xs text-text-muted leading-relaxed">
+          <div className="mt-4 bg-slate-50/50 border-dashed border-border rounded-xl p-4">
+             <h4 className="text-sm font-medium text-slate-600 mb-2 flex items-center gap-1.5"><TrendingUp size={16}/> Pro Tip</h4>
+             <p className="text-xs text-slate-500 leading-relaxed">
                For the best results, tailor your summary and core skills sections heavily based on the job description you're targeting.
              </p>
           </div>

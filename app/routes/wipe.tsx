@@ -47,55 +47,55 @@ const Settings = () => {
   };
 
   return (
-    <div className="min-h-screen bg-surface-0">
+    <div className="min-h-screen bg-slate-50">
       <Navbar />
 
       <div className="max-w-2xl mx-auto px-4 py-10">
         <div className="page-header rp-fade-up">
-          <h2 className="text-text-primary text-2xl font-bold">Settings</h2>
-          <p className="text-text-secondary text-sm">Manage your account and data.</p>
+          <h2 className="text-foreground text-2xl font-bold">Settings</h2>
+          <p className="text-slate-600 text-sm">Manage your account and data.</p>
         </div>
 
         {/* Account */}
-        <div className="card mb-5 rp-fade-up delay-100">
-          <h3 className="font-semibold text-text-primary mb-4">Account</h3>
+        <div className="bg-white/70 border border-border/50 p-6 rounded-2xl backdrop-blur-sm shadow-sm mb-5 rp-fade-up delay-100">
+          <h3 className="font-semibold text-foreground mb-4">Account</h3>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="size-10 rounded-full rp-gradient-brand flex items-center justify-center">
+              <div className="size-10 rounded-full bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center">
                 <span className="text-white font-bold">
                   {auth.user?.username?.[0]?.toUpperCase() ?? "U"}
                 </span>
               </div>
               <div>
-                <p className="font-medium text-text-primary text-sm">{auth.user?.username}</p>
-                <p className="text-xs text-text-muted">Puter Account</p>
+                <p className="font-medium text-foreground text-sm">{auth.user?.username}</p>
+                <p className="text-xs text-slate-500">Puter Account</p>
               </div>
             </div>
-            <button onClick={auth.signOut} className="rp-btn rp-sm rp-secondary text-xs">
+            <button onClick={auth.signOut} className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl font-medium transition-colors text-xs">
               Sign Out
             </button>
           </div>
         </div>
 
         {/* Data stats */}
-        <div className="card mb-5 rp-fade-up delay-200">
-          <h3 className="font-semibold text-text-primary mb-4">Storage</h3>
+        <div className="bg-white/70 border border-border/50 p-6 rounded-2xl backdrop-blur-sm shadow-sm mb-5 rp-fade-up delay-200">
+          <h3 className="font-semibold text-foreground mb-4">Storage</h3>
           <div className="grid grid-cols-2 gap-4">
-            <div className="bg-surface-200 rounded-xl p-4">
-              <p className="text-2xl font-bold text-text-primary">{kvKeys.length}</p>
-              <p className="text-xs text-text-muted mt-1">Resume analyses</p>
+            <div className="bg-slate-100 rounded-xl p-4">
+              <p className="text-2xl font-bold text-foreground">{kvKeys.length}</p>
+              <p className="text-xs text-slate-500 mt-1">Resume analyses</p>
             </div>
-            <div className="bg-surface-200 rounded-xl p-4">
-              <p className="text-2xl font-bold text-text-primary">{files.length}</p>
-              <p className="text-xs text-text-muted mt-1">Stored files</p>
+            <div className="bg-slate-100 rounded-xl p-4">
+              <p className="text-2xl font-bold text-foreground">{files.length}</p>
+              <p className="text-xs text-slate-500 mt-1">Stored files</p>
             </div>
           </div>
         </div>
 
         {/* Danger zone */}
-        <div className="rp-card border-error/20 bg-error/5 rp-fade-up delay-300">
+        <div className="bg-red-50/50 border border-red-200 p-6 rounded-2xl backdrop-blur-sm rp-fade-up delay-300">
           <h3 className="font-semibold text-error mb-2">Danger Zone</h3>
-          <p className="text-sm text-text-secondary mb-4">
+          <p className="text-sm text-slate-600 mb-4">
             Wipe all ResumePilot data from your Puter account. This deletes all uploaded resumes,
             preview images, and analysis history. This action cannot be undone.
           </p>
@@ -107,7 +107,7 @@ const Settings = () => {
             <button
               onClick={handleWipe}
               disabled={wiping || (files.length === 0 && kvKeys.length === 0)}
-              className="rp-btn rp-md rp-danger"
+              className="px-6 py-3 bg-red-600 text-white rounded-xl font-medium hover:bg-red-700 transition-colors flex items-center justify-center gap-2 shadow-sm disabled:opacity-50"
             >
               {wiping ? (
                 <>

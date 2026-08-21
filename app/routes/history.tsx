@@ -61,8 +61,8 @@ const History = () => {
       <div className="flex items-center justify-between flex-wrap gap-4 mb-8 rp-fade-up">
           <div className="flex items-center justify-between flex-wrap gap-4">
             <div>
-              <h2 className="text-text-primary text-2xl font-bold">Analysis History</h2>
-              <p className="text-text-secondary text-sm mt-1">
+              <h2 className="text-foreground text-2xl font-bold">Analysis History</h2>
+              <p className="text-slate-600 text-sm mt-1">
                 {loading ? "Loading..." : `${resumes.length} total ${resumes.length === 1 ? "analysis" : "analyses"}`}
               </p>
             </div>
@@ -70,8 +70,8 @@ const History = () => {
             {/* Sort */}
             {!loading && resumes.length > 1 && (
               <div className="flex items-center gap-2">
-                <span className="text-xs text-text-muted">Sort:</span>
-                <div className="flex gap-1 bg-surface-200 rounded-lg p-1 border border-border-subtle">
+                <span className="text-xs text-slate-500">Sort:</span>
+                <div className="flex gap-1 bg-slate-100 rounded-lg p-1 border border-border/50">
                   {([
                     { key: "newest", label: "Newest" },
                     { key: "oldest", label: "Oldest" },
@@ -84,8 +84,8 @@ const History = () => {
                       className={cn(
                         "px-2.5 py-1 text-xs rounded-md transition-all cursor-pointer",
                         sortKey === s.key
-                          ? "bg-surface-400 text-text-primary font-medium"
-                          : "text-text-muted hover:text-text-secondary"
+                          ? "bg-white text-foreground shadow-sm font-medium"
+                          : "text-slate-500 hover:text-slate-700"
                       )}
                     >
                       {s.label}
@@ -101,7 +101,7 @@ const History = () => {
         {loading && (
           <div className="flex flex-col gap-3">
             {[1,2,3,4].map((i) => (
-              <div key={i} className="rp-card flex items-center gap-4">
+              <div key={i} className="flex items-center gap-4 bg-white/70 border border-border/50 p-4 rounded-2xl backdrop-blur-sm shadow-sm">
                 <Skeleton className="size-12 rounded-xl flex-shrink-0" />
                 <div className="flex-1 flex flex-col gap-2">
                   <Skeleton className="h-4 w-1/3" />
@@ -120,7 +120,7 @@ const History = () => {
             title="No analyses yet"
             description="Upload and analyze your first resume to see it here."
             action={
-              <Link to="/upload" className="rp-btn rp-lg rp-primary mt-2">
+              <Link to="/upload" className="inline-block px-6 py-3 bg-primary text-white rounded-xl font-medium shadow-sm hover:bg-blue-700 transition-colors mt-2">
                 Analyze a Resume
               </Link>
             }
@@ -134,7 +134,7 @@ const History = () => {
               <div
                 key={resume.id}
                 className={cn(
-                  "rp-card rp-card-hover flex flex-col sm:flex-row items-start sm:items-center gap-4 group rp-fade-up",
+                  "flex flex-col sm:flex-row items-start sm:items-center gap-4 group rp-fade-up bg-white/70 border border-border/50 p-4 rounded-2xl backdrop-blur-sm shadow-sm hover:shadow-md transition-all hover:bg-white",
                   `delay-${Math.min(i * 50, 300)}`
                 )}
               >
@@ -146,24 +146,24 @@ const History = () => {
                   <span className={cn("text-lg font-bold leading-none", scoreColor(resume.feedback.overallScore))}>
                     {resume.feedback.overallScore}
                   </span>
-                  <span className="text-[10px] text-text-muted">/100</span>
+                  <span className="text-[10px] text-slate-500">/100</span>
                 </div>
 
                 {/* Info */}
                 <div className="flex-1 flex flex-col gap-1.5 min-w-0">
                   <div className="flex items-start gap-2 flex-wrap">
-                    <p className="font-semibold text-text-primary text-sm truncate">
+                    <p className="font-semibold text-foreground text-sm truncate">
                       {resume.jobTitle || "Resume Analysis"}
                     </p>
                     {resume.companyName && (
-                      <span className="badge-good text-xs flex-shrink-0">{resume.companyName}</span>
+                      <span className="px-2 py-1 bg-green-100 text-green-700 rounded-md font-medium border border-green-200 text-[10px] uppercase tracking-wider flex-shrink-0">{resume.companyName}</span>
                     )}
                   </div>
                   {/* Mini score bar */}
                   <div className="w-full max-w-xs">
                     <ProgressBar value={resume.feedback.overallScore} />
                   </div>
-                  <div className="flex gap-4 text-xs text-text-muted">
+                  <div className="flex gap-4 text-xs text-slate-500">
                     <span>ATS: {resume.feedback.ATS?.score ?? "—"}/100</span>
                     <span>Skills: {resume.feedback.skills?.score ?? "—"}/100</span>
                     {resume.feedback.jobMatch && resume.feedback.jobMatch.score > 0 && (
@@ -171,7 +171,7 @@ const History = () => {
                     )}
                   </div>
                   {resume.createdAt && (
-                    <p className="text-xs text-text-muted">
+                    <p className="text-xs text-slate-500">
                       {new Date(resume.createdAt).toLocaleDateString("en-US", {
                         year: "numeric", month: "short", day: "numeric",
                         hour: "2-digit", minute: "2-digit",
@@ -184,14 +184,14 @@ const History = () => {
                 <div className="flex gap-2 flex-shrink-0 w-full sm:w-auto">
                   <Link
                     to={`/resume/${resume.id}`}
-                    className="rp-btn rp-sm rp-secondary flex-1 sm:flex-none text-xs"
+                    className="flex-1 sm:flex-none text-xs px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl font-medium transition-colors text-center"
                   >
                     View →
                   </Link>
                   <button
                     onClick={() => handleDelete(resume.id)}
                     disabled={deleting === resume.id}
-                    className="rp-btn rp-sm rp-danger text-xs"
+                    className="text-xs px-4 py-2 bg-red-100 hover:bg-red-200 text-red-600 rounded-xl font-medium transition-colors"
                     aria-label="Delete analysis"
                   >
                     {deleting === resume.id ? (

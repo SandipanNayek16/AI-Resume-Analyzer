@@ -24,14 +24,14 @@ export default function DashboardLayout() {
 
   if (isLoading || !auth.isAuthenticated) {
     return (
-      <div className="h-screen w-full flex items-center justify-center bg-surface-0">
-        <div className="size-8 rounded-full border-2 border-brand-500 border-t-transparent animate-spin" />
+      <div className="h-screen w-full flex items-center justify-center bg-background">
+        <div className="size-8 rounded-full border-2 border-primary border-t-transparent animate-spin" />
       </div>
     );
   }
 
   return (
-    <div className="flex h-screen bg-surface-0 overflow-hidden">
+    <div className="flex h-screen bg-background overflow-hidden">
       {/* Desktop Sidebar */}
       <div className="hidden md:flex">
         <Sidebar />
@@ -44,7 +44,7 @@ export default function DashboardLayout() {
             className="absolute inset-0 bg-black/50 backdrop-blur-sm"
             onClick={() => setMobileMenuOpen(false)}
           />
-          <div className="absolute inset-y-0 left-0 w-64 bg-surface-50 shadow-xl flex flex-col transform transition-transform">
+          <div className="absolute inset-y-0 left-0 w-64 bg-background border-r border-border shadow-xl flex flex-col transform transition-transform">
             <Sidebar />
           </div>
         </div>

@@ -69,19 +69,19 @@ const Resumes = () => {
       {/* Header */}
       <ScrollReveal direction="down" distance={20} className="flex flex-col sm:flex-row items-start sm:items-center justify-between flex-wrap gap-6 mb-12">
         <div className="flex flex-col gap-2">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-500/10 border border-brand-500/20 text-brand-400 text-xs font-bold uppercase tracking-widest w-fit">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-bold uppercase tracking-widest w-fit">
             <Clock size={14} /> Career Timeline
           </div>
-          <h2 className="text-4xl font-black text-text-primary tracking-tight">Analysis History</h2>
-          <p className="text-text-secondary text-lg mt-1">
+          <h2 className="text-4xl font-black text-foreground tracking-tight">Analysis History</h2>
+          <p className="text-slate-600 text-lg mt-1">
             {loading ? "Loading archives..." : `${resumes.length} total ${resumes.length === 1 ? "analysis" : "analyses"} stored in your secure vault.`}
           </p>
         </div>
 
         {/* Sort */}
         {!loading && resumes.length > 1 && (
-          <div className="flex items-center gap-3 bg-surface-50/50 backdrop-blur-md p-2 rounded-xl border border-border-default/50 shadow-sm">
-            <span className="text-xs font-bold text-text-muted uppercase tracking-widest pl-2">Sort By</span>
+          <div className="flex items-center gap-3 bg-white/50 backdrop-blur-md p-2 rounded-xl border border-border/50 shadow-sm">
+            <span className="text-xs font-bold text-slate-500 uppercase tracking-widest pl-2">Sort By</span>
             <div className="flex gap-1">
               {([
                 { key: "newest", icon: <TrendingUp size={14} />, label: "Newest" },
@@ -94,8 +94,8 @@ const Resumes = () => {
                   className={cn(
                     "flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg transition-all cursor-pointer",
                     sortKey === s.key
-                      ? "bg-brand-500/20 text-brand-400 border border-brand-500/30 shadow-[0_0_10px_rgba(139,92,246,0.2)]"
-                      : "text-text-muted hover:text-text-primary hover:bg-surface-200 border border-transparent"
+                      ? "bg-primary/20 text-primary border border-primary/30 shadow-[0_0_10px_rgba(37,99,235,0.2)]"
+                      : "text-slate-500 hover:text-foreground hover:bg-slate-100 border border-transparent"
                   )}
                 >
                   {s.icon} <span className="hidden sm:inline">{s.label}</span>
@@ -110,7 +110,7 @@ const Resumes = () => {
       {loading && (
         <div className="grid md:grid-cols-2 gap-6">
           {[1,2,3,4].map((i) => (
-            <div key={i} className="rp-card flex flex-col gap-4 bg-surface-50/50 backdrop-blur-sm border-border-default/50">
+            <div key={i} className="flex flex-col gap-4 bg-white/50 rounded-xl p-4 backdrop-blur-sm border border-border/50">
               <div className="flex items-center gap-4">
                 <Skeleton className="size-16 rounded-2xl flex-shrink-0" />
                 <div className="flex-1 flex flex-col gap-2">
@@ -127,15 +127,15 @@ const Resumes = () => {
       {/* Empty */}
       {!loading && resumes.length === 0 && (
         <ScrollReveal direction="up" distance={20} className="mt-8">
-          <div className="border border-dashed border-border-default/50 rounded-3xl bg-surface-50/20 backdrop-blur-sm p-12 relative overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-b from-brand-500/5 to-transparent pointer-events-none" />
+          <div className="border border-dashed border-border/50 rounded-3xl bg-slate-50/50 backdrop-blur-sm p-12 relative overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent pointer-events-none" />
             <EmptyState
               icon="🚀"
               title="Your Vault is Empty"
               description="Upload your first resume to begin your career progression tracking."
               action={
-                <Link to="/upload" className="rp-btn rp-lg rp-primary mt-4 group relative overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-r from-brand-400 to-brand-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <Link to="/upload" className="px-8 py-4 bg-primary text-white rounded-xl text-lg font-semibold mt-4 group relative overflow-hidden inline-flex items-center">
+                  <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-blue-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   <span className="relative z-10">Initialize First Analysis →</span>
                 </Link>
               }
@@ -147,7 +147,7 @@ const Resumes = () => {
       {/* List */}
       {!loading && sorted.length > 0 && (
         <div className="grid lg:grid-cols-2 gap-6 relative">
-          <div className="absolute left-1/2 -ml-px top-0 bottom-0 w-[2px] bg-gradient-to-b from-transparent via-brand-500/20 to-transparent hidden lg:block pointer-events-none" />
+          <div className="absolute left-1/2 -ml-px top-0 bottom-0 w-[2px] bg-gradient-to-b from-transparent via-primary/20 to-transparent hidden lg:block pointer-events-none" />
           {sorted.map((resume, i) => (
             <ScrollReveal 
               key={resume.id}
@@ -157,8 +157,8 @@ const Resumes = () => {
               className="relative z-10"
             >
               <TiltCard className="h-full">
-                <div className="rp-card flex flex-col gap-5 h-full bg-surface-50/80 backdrop-blur-xl border border-border-default/50 hover:border-brand-500/30 transition-colors shadow-lg hover:shadow-[0_8px_30px_rgba(139,92,246,0.1)] relative overflow-hidden group">
-                  <div className="absolute inset-0 bg-gradient-to-br from-brand-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                <div className="flex flex-col gap-5 h-full bg-white/80 rounded-xl p-6 backdrop-blur-xl border border-border/50 hover:border-primary/30 transition-colors shadow-lg hover:shadow-[0_8px_30px_rgba(37,99,235,0.1)] relative overflow-hidden group">
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
                   
                   <div className="flex items-start gap-5 relative z-10">
                     {/* Score badge */}
@@ -170,24 +170,24 @@ const Resumes = () => {
                       <span className={cn("text-2xl font-black leading-none", scoreColor(resume.feedback?.overallScore || 0))}>
                         {resume.feedback?.overallScore || 0}
                       </span>
-                      <span className="text-[10px] font-bold text-text-muted uppercase tracking-wider mt-1">Score</span>
+                      <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mt-1">Score</span>
                     </div>
 
                     {/* Info */}
                     <div className="flex-1 flex flex-col min-w-0 py-1">
                       <div className="flex items-start justify-between gap-2 flex-wrap">
-                        <p className="font-bold text-text-primary text-lg truncate pr-2">
+                        <p className="font-bold text-foreground text-lg truncate pr-2">
                           {resume.jobTitle || "Resume Analysis"}
                         </p>
                         {resume.createdAt && (
-                          <span className="text-[10px] font-bold text-text-muted bg-surface-200 px-2 py-1 rounded-md flex-shrink-0">
+                          <span className="text-[10px] font-bold text-slate-500 bg-slate-100 px-2 py-1 rounded-md flex-shrink-0">
                             {new Date(resume.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
                           </span>
                         )}
                       </div>
                       
                       {resume.companyName && (
-                        <span className="text-brand-400 font-semibold text-xs mt-1 truncate">
+                        <span className="text-primary font-semibold text-xs mt-1 truncate">
                           @ {resume.companyName}
                         </span>
                       )}
@@ -195,17 +195,17 @@ const Resumes = () => {
                   </div>
 
                   {/* Metrics */}
-                  <div className="flex flex-col gap-3 mt-auto relative z-10 bg-surface-100/50 p-4 rounded-xl border border-border-subtle">
-                    <div className="flex justify-between items-center text-xs font-bold text-text-muted uppercase tracking-wider">
+                  <div className="flex flex-col gap-3 mt-auto relative z-10 bg-slate-50/50 p-4 rounded-xl border border-border">
+                    <div className="flex justify-between items-center text-xs font-bold text-slate-500 uppercase tracking-wider">
                       <span>ATS</span>
                       <span>Skills</span>
                       {resume.feedback.jobMatch && resume.feedback.jobMatch.score > 0 && <span>Match</span>}
                     </div>
-                    <div className="flex justify-between items-center text-sm font-black text-text-primary">
+                    <div className="flex justify-between items-center text-sm font-black text-foreground">
                       <span>{resume.feedback.ATS?.score ?? "—"}/100</span>
                       <span>{resume.feedback.skills?.score ?? "—"}/100</span>
                       {resume.feedback.jobMatch && resume.feedback.jobMatch.score > 0 && (
-                        <span className="text-brand-400">{resume.feedback.jobMatch.score}%</span>
+                        <span className="text-primary">{resume.feedback.jobMatch.score}%</span>
                       )}
                     </div>
                     <ProgressBar value={resume.feedback?.overallScore || 0} className="mt-1" />
@@ -215,14 +215,14 @@ const Resumes = () => {
                   <div className="flex gap-3 relative z-10 pt-2">
                     <Link
                       to={`/resume/${resume.id}`}
-                      className="group/btn relative flex-1 rp-btn rp-secondary bg-surface-200/50 hover:bg-brand-500 hover:text-white transition-all overflow-hidden border-transparent hover:border-brand-400"
+                      className="group/btn relative flex-1 px-4 py-2 rounded-lg bg-slate-100/50 hover:bg-primary hover:text-white border border-transparent hover:border-primary/50 flex items-center justify-center transition-colors text-slate-700 overflow-hidden"
                     >
                       <span className="relative z-10 font-bold">View Analytics →</span>
                     </Link>
                     <button
                       onClick={() => handleDelete(resume.id)}
                       disabled={deleting === resume.id}
-                      className="rp-btn rp-danger aspect-square p-0 flex items-center justify-center bg-surface-200/50 hover:bg-error hover:text-white transition-all border-transparent"
+                      className="aspect-square p-2 rounded-lg bg-slate-100/50 hover:bg-red-500 hover:text-white border border-transparent flex items-center justify-center transition-colors text-slate-500"
                       aria-label="Delete analysis"
                       title="Delete Analysis"
                     >
