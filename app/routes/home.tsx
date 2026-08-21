@@ -268,7 +268,8 @@ export default function Home() {
              </ScrollReveal>
            </div>
 
-           {/* Step 2 */            <div className="grid md:grid-cols-2 gap-16 items-center">
+           {/* Step 2 */}
+           <div className="grid md:grid-cols-2 gap-16 items-center">
              <ScrollReveal direction="right" className="order-2 md:order-1">
                <CardContainer className="inter-var w-full">
                  <CardBody className="w-full h-full relative group/card">
@@ -289,7 +290,7 @@ export default function Home() {
                           </div>
                        </div>
                      </CardItem>
-                   </SpotlightCard>d>
+                   </SpotlightCard>
                  </CardBody>
                </CardContainer>
              </ScrollReveal>
