@@ -14,9 +14,10 @@ export default function Navbar() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const handleAuth = () => {
+  const handleAuth = async () => {
     if (auth.isAuthenticated) {
-      auth.signOut();
+      await auth.signOut();
+      navigate("/");
     } else {
       navigate(`/auth?next=${location.pathname}`);
     }
