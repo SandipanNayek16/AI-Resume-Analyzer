@@ -7,6 +7,7 @@ import { BorderGlow } from "~/components/reactbits/BorderGlow";
 import { AIOrb } from "~/components/3d/AIOrb";
 import { motion, AnimatePresence } from "framer-motion";
 import { Canvas } from "@react-three/fiber";
+import { WebGLErrorBoundary } from "~/components/WebGLErrorBoundary";
 
 type Message = {
   role: "user" | "assistant";
@@ -119,11 +120,13 @@ If the user asks you to rewrite a bullet point, provide the new bullet point dir
           </p>
         </ScrollReveal>
         
-        <div className="flex-1 w-full flex items-center justify-center opacity-80 min-h-[200px]">
-          <Canvas camera={{ position: [0, 0, 5] }}>
-            <ambientLight intensity={0.5} />
-            <AIOrb isProcessing={isTyping} scale={2} />
-          </Canvas>
+        <div className="flex-1 w-full flex items-center justify-center opacity-80 min-h-[200px] pointer-events-none hidden md:flex">
+          <WebGLErrorBoundary fallback={<div className="size-24 rounded-full bg-blue-500/20 animate-pulse" />}>
+            <Canvas camera={{ position: [0, 0, 5] }}>
+              <ambientLight intensity={0.5} />
+              <AIOrb isProcessing={isTyping} scale={2} />
+            </Canvas>
+          </WebGLErrorBoundary>
         </div>
         
         <ScrollReveal delay={0.2} direction="up" distance={20} className="bg-white/50 border border-border p-4 rounded-xl backdrop-blur-md">

@@ -6,6 +6,7 @@ import { PageTransition } from "~/components/motion/PageTransition";
 import { ScrollReveal } from "~/components/motion/ScrollReveal";
 import { TiltCard } from "~/components/motion/TiltCard";
 import { TextLoop } from "~/components/reactbits/TextLoop";
+import { parseAIResponse } from "~/lib/utils";
 
 function SkillNetwork({ matched, missing }: { matched: string[], missing: string[] }) {
   return (
@@ -128,11 +129,7 @@ Only return raw JSON.`;
         ? aiResponse.message.content 
         : aiResponse.message.content[0].text;
       
-      // Extract JSON using regex in case AI adds conversational padding
-      const jsonMatch = text.match(/\{[\s\S]*\}/);
-      if (!jsonMatch) throw new Error("No JSON found in response");
-      
-      const result: JobMatchResult = JSON.parse(jsonMatch[0]);
+      const result: JobMatchResult = parseAIResponse(text);
       setMatchResult(result);
     } catch (err) {
       console.error(err);

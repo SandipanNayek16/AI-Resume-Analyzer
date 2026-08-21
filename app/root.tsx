@@ -5,6 +5,7 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useNavigate,
 } from "react-router";
 
 import type { Route } from "./+types/root";
@@ -65,15 +66,15 @@ export default function App() {
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
-  let message = "Oops!";
-  let details = "An unexpected error occurred.";
+  let message = "A fatal error occurred.";
+  let details = "The application encountered an unexpected state and could not recover.";
   let stack: string | undefined;
 
   if (isRouteErrorResponse(error)) {
-    message = error.status === 404 ? "404" : "Error";
+    message = error.status === 404 ? "Signal Lost" : "System Error";
     details =
       error.status === 404
-        ? "The requested page could not be found."
+        ? "The requested intelligence vector could not be located in our database."
         : error.statusText || details;
   } else if (import.meta.env.DEV && error && error instanceof Error) {
     details = error.message;
@@ -81,14 +82,35 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
   }
 
   return (
-    <main style={{ padding: "2rem", fontFamily: "Inter, sans-serif" }}>
-      <h1 style={{ fontSize: "2rem", marginBottom: "1rem" }}>{message}</h1>
-      <p style={{ color: "#666" }}>{details}</p>
+    <div className="min-h-screen bg-background flex flex-col items-center justify-center p-6 text-center font-sans text-foreground">
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(220,38,38,0.05),transparent)] pointer-events-none" />
+      
+      <div className="size-20 rounded-full border border-red-500/30 bg-red-500/10 flex items-center justify-center mb-8 shadow-[0_0_40px_rgba(220,38,38,0.2)]">
+        <span className="text-3xl">⚠️</span>
+      </div>
+      
+      <h1 className="text-4xl md:text-5xl font-black tracking-tighter mb-4">
+        {message}
+      </h1>
+      
+      <p className="text-lg text-slate-400 max-w-lg mb-10 leading-relaxed font-light">
+        {details}
+      </p>
+
       {stack && (
-        <pre style={{ whiteSpace: "pre-wrap", fontSize: "0.8rem", marginTop: "1rem", color: "#999" }}>
-          <code>{stack}</code>
-        </pre>
+        <div className="w-full max-w-3xl mb-10 text-left bg-black/40 border border-red-900/50 rounded-xl p-6 overflow-auto">
+          <pre className="text-xs text-red-400 font-mono leading-relaxed">
+            {stack}
+          </pre>
+        </div>
       )}
-    </main>
+
+      <button
+        onClick={() => window.location.href = '/dashboard'}
+        className="px-8 py-3 bg-blue-600 text-white rounded-full font-medium hover:bg-blue-700 transition-colors shadow-lg shadow-blue-600/20"
+      >
+        Reboot System
+      </button>
+    </div>
   );
 }

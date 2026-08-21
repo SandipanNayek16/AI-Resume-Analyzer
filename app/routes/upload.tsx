@@ -6,7 +6,7 @@ import { convertPdfToImage } from "~/lib/pdf2img";
 import { generateUUID } from "~/lib/utils";
 import { prepareInstructions } from "../../constants";
 import { useDropzone } from "react-dropzone";
-import { cn, formatSize } from "~/lib/utils";
+import { cn, formatSize, parseAIResponse } from "~/lib/utils";
 
 export const meta = () => ([
   { title: "ResumeIQ — Analyze Resume" },
@@ -25,6 +25,7 @@ const STAGES: { key: Stage; label: string; detail: string }[] = [
 
 import { Canvas } from "@react-three/fiber";
 import { AIOrb } from "~/components/3d/AIOrb";
+import { WebGLErrorBoundary } from "~/components/WebGLErrorBoundary";
 import { PageTransition } from "~/components/motion/PageTransition";
 
 function ProcessingView({ stage, error }: { stage: Stage; error?: string }) {
@@ -198,10 +199,10 @@ const Upload = () => {
     setStage("scoring");
     let feedback: Feedback;
     try {
-      feedback = JSON.parse(feedbackText);
+      feedback = parseAIResponse(feedbackText);
     } catch {
       setStage("error");
-      setErrorMsg("Failed to parse AI response. Please try again.");
+      setErrorMsg("Failed to parse AI response. The model did not return valid JSON. Please try again.");
       return;
     }
 
