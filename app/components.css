@@ -34,18 +34,18 @@
 .rp-primary:active:not(:disabled) { transform: scale(0.98); }
 
 .rp-secondary {
-  background: #1e1e35;
-  color: #f0f0ff;
-  border: 1px solid #26263f;
+  background: var(--border);
+  color: var(--foreground);
+  border: 1px solid var(--muted);
 }
-.rp-secondary:hover:not(:disabled) { background: #26263f; border-color: #3d3d6b; }
+.rp-secondary:hover:not(:disabled) { background: var(--muted); border-color: var(--ring); }
 .rp-secondary:active:not(:disabled) { transform: scale(0.98); }
 
 .rp-ghost {
   background: transparent;
-  color: #9090c0;
+  color: var(--muted-foreground);
 }
-.rp-ghost:hover:not(:disabled) { background: #1e1e35; color: #f0f0ff; }
+.rp-ghost:hover:not(:disabled) { background: var(--border); color: var(--foreground); }
 
 .rp-danger {
   background: rgba(239,68,68,0.1);
@@ -57,21 +57,21 @@
 /* CARDS */
 .rp-card {
   border-radius: 1rem;
-  border: 1px solid #1e1e35;
-  background: #111122;
+  border: 1px solid var(--border);
+  background: var(--card);
   box-shadow: 0 4px 24px rgba(0,0,0,0.3);
   padding: 1.25rem;
 }
 .rp-card-glass {
-  background: rgba(17,17,34,0.7);
+  background: color-mix(in srgb, var(--card) 70%, transparent);
   backdrop-filter: blur(20px);
   border-radius: 1rem;
-  border: 1px solid #1e1e35;
+  border: 1px solid var(--border);
   box-shadow: 0 8px 32px rgba(0,0,0,0.4);
 }
 .rp-card-hover { transition: all 0.2s; }
 .rp-card-hover:hover {
-  border-color: #3d3d6b;
+  border-color: var(--ring);
   box-shadow: 0 8px 32px rgba(99,102,241,0.1);
 }
 
@@ -115,15 +115,15 @@
   width: 100%;
   padding: 0.75rem 1rem;
   border-radius: 0.75rem;
-  background: #16162a;
-  border: 1px solid #26263f;
-  color: #f0f0ff;
+  background: var(--muted);
+  border: 1px solid var(--muted);
+  color: var(--foreground);
   font-family: inherit;
   font-size: 0.875rem;
   transition: all 0.2s;
   outline: none;
 }
-.rp-input::placeholder { color: #5a5a8a; }
+.rp-input::placeholder { color: var(--muted-foreground); }
 .rp-input:focus {
   border-color: #6366f1;
   box-shadow: 0 0 0 3px rgba(99,102,241,0.15);
@@ -132,7 +132,7 @@
   display: block;
   font-size: 0.875rem;
   font-weight: 500;
-  color: #9090c0;
+  color: var(--muted-foreground);
   margin-bottom: 0.375rem;
 }
 
@@ -142,8 +142,8 @@
   align-items: center;
   justify-content: space-between;
   padding: 1rem 1.5rem;
-  border-bottom: 1px solid #1e1e35;
-  background: rgba(13,13,26,0.8);
+  border-bottom: 1px solid var(--border);
+  background: color-mix(in srgb, var(--background) 80%, transparent);
   backdrop-filter: blur(20px);
   position: sticky;
   top: 0;
@@ -153,7 +153,7 @@
 /* PROGRESS */
 .rp-progress-track {
   height: 0.375rem;
-  background: #26263f;
+  background: var(--muted);
   border-radius: 9999px;
   overflow: hidden;
 }
@@ -165,9 +165,9 @@
 
 /* SKELETON */
 .rp-skeleton {
-  background: #1e1e35;
+  background: var(--border);
   border-radius: 0.5rem;
-  background-image: linear-gradient(90deg, #1e1e35 0%, #26263f 50%, #1e1e35 100%);
+  background-image: linear-gradient(90deg, var(--border) 0%, var(--muted) 50%, var(--border) 100%);
   background-size: 200% 100%;
   animation: rp-shimmer 1.5s infinite linear;
 }
@@ -184,8 +184,8 @@
   justify-content: center;
   gap: 1rem;
   border-radius: 1rem;
-  border: 2px dashed #26263f;
-  background: #16162a;
+  border: 2px dashed var(--muted);
+  background: var(--muted);
   padding: 2.5rem;
   text-align: center;
   transition: all 0.2s;
@@ -205,8 +205,8 @@
   justify-content: space-between;
   padding: 1rem;
   border-radius: 0.75rem;
-  background: #1e1e35;
-  border: 1px solid #3d3d6b;
+  background: var(--border);
+  border: 1px solid var(--ring);
 }
 
 /* STEP DOTS */
@@ -219,7 +219,7 @@
 }
 .rp-step-done   { background: #10b981; }
 .rp-step-active { background: #818cf8; box-shadow: 0 0 0 4px rgba(129,140,248,0.25); }
-.rp-step-pending { background: #26263f; }
+.rp-step-pending { background: var(--muted); }
 
 /* RESUME CARD */
 .rp-resume-card {
@@ -227,8 +227,8 @@
   flex-direction: column;
   gap: 1.25rem;
   border-radius: 1rem;
-  border: 1px solid #1e1e35;
-  background: #111122;
+  border: 1px solid var(--border);
+  background: var(--card);
   padding: 1.25rem;
   cursor: pointer;
   position: relative;
@@ -237,7 +237,7 @@
   text-decoration: none;
 }
 .rp-resume-card:hover {
-  border-color: #3d3d6b;
+  border-color: var(--ring);
   box-shadow: 0 8px 32px rgba(99,102,241,0.1);
 }
 .rp-resume-card::before {
@@ -276,8 +276,8 @@
   position: relative;
   overflow: hidden;
   border-radius: 1rem;
-  border: 1px solid #1e1e35;
-  background: #111122;
+  border: 1px solid var(--border);
+  background: var(--card);
   padding: 1.25rem;
 }
 .rp-stat-card::after {
@@ -298,9 +298,9 @@
   display: flex;
   gap: 0.25rem;
   padding: 0.25rem;
-  background: #16162a;
+  background: var(--muted);
   border-radius: 0.75rem;
-  border: 1px solid #1e1e35;
+  border: 1px solid var(--border);
 }
 .rp-tab {
   flex: 1;
@@ -308,7 +308,7 @@
   font-size: 0.875rem;
   font-weight: 500;
   border-radius: 0.5rem;
-  color: #5a5a8a;
+  color: var(--muted-foreground);
   transition: all 0.15s;
   cursor: pointer;
   background: none;
@@ -317,10 +317,10 @@
   white-space: nowrap;
 }
 .rp-tab.rp-tab-active {
-  background: #26263f;
-  color: #f0f0ff;
+  background: var(--muted);
+  color: var(--foreground);
 }
-.rp-tab:hover:not(.rp-tab-active) { color: #9090c0; }
+.rp-tab:hover:not(.rp-tab-active) { color: var(--muted-foreground); }
 
 /* AUTH */
 .rp-auth-card {
@@ -329,10 +329,10 @@
   max-width: 28rem;
   margin-left: auto;
   margin-right: auto;
-  background: rgba(17,17,34,0.7);
+  background: color-mix(in srgb, var(--card) 70%, transparent);
   backdrop-filter: blur(20px);
   border-radius: 1rem;
-  border: 1px solid #1e1e35;
+  border: 1px solid var(--border);
   box-shadow: 0 8px 32px rgba(0,0,0,0.4);
 }
 
@@ -356,13 +356,13 @@
   flex-direction: column;
   gap: 1rem;
   border-radius: 1rem;
-  border: 1px solid #1e1e35;
-  background: #111122;
+  border: 1px solid var(--border);
+  background: var(--card);
   padding: 1.5rem;
   transition: all 0.2s;
 }
 .rp-feature-card:hover {
-  border-color: #3d3d6b;
+  border-color: var(--ring);
   box-shadow: 0 8px 32px rgba(99,102,241,0.1);
 }
 
