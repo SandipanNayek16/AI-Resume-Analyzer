@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap");
 @import "tailwindcss";
 @import "tw-animate-css";
@@ -11,25 +12,41 @@
    ResumeIQ — CINEMATIC DESIGN TOKENS (Tailwind v4 @theme)
    ============================================================ */
 @theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
-  --color-brand-300: #a78bfa;
-  --color-brand-400: #8b5cf6;
-  --color-brand-500: #7c3aed;
-  --color-brand-600: #6d28d9;
-  --color-accent-cyan: #06b6d4;
-  --color-surface-0:   #030305;
-  --color-surface-50:  #0d0d1a;
-  --color-surface-100: #111122;
-  --color-surface-200: #16162a;
-  --color-surface-300: #1e1e35;
-  --color-surface-400: #26263f;
-  --color-border-subtle:  #1e1e35;
-  --color-border-muted:   #26263f;
-  --color-border-default: #3d3d6b;
-  --color-text-primary:   #f0f0ff;
-  --color-text-secondary: #9090c0;
-  --color-text-muted:     #5a5a8a;
+  
+  --color-primary: #2563EB;
+  --color-on-primary: #FFFFFF;
+  --color-secondary: #3B82F6;
+  --color-on-secondary: #000000;
+  --color-accent: #EA580C;
+  --color-on-accent: #000000;
+  
+  --color-brand-300: #60a5fa;
+  --color-brand-400: #3b82f6;
+  --color-brand-500: #2563eb;
+  --color-brand-600: #1d4ed8;
+  
+  --color-surface-0:   #F8FAFC;
+  --color-surface-50:  #F1F5F9;
+  --color-surface-100: #E2E8F0;
+  --color-surface-200: #CBD5E1;
+  --color-surface-300: #94A3B8;
+  --color-surface-400: #64748B;
+  
+  --color-background: #F8FAFC;
+  --color-foreground: #1E293B;
+  --color-card: #FFFFFF;
+  --color-card-foreground: #1E293B;
+  
+  --color-border-subtle:  #E2E8F0;
+  --color-border-muted:   #CBD5E1;
+  --color-border-default: #94A3B8;
+  
+  --color-text-primary:   #1E293B;
+  --color-text-secondary: #475569;
+  --color-text-muted:     #64748B;
+  
   --color-success: #10b981;
   --color-warning: #f59e0b;
   --color-error:   #ef4444;
@@ -39,9 +56,8 @@
    BASE
    ============================================================ */
 html { scroll-behavior: smooth; }
-html[data-theme="dark"],
-html[data-theme="dark"] body {
-  background-color: var(--color-surface-0);
+html, body {
+  background-color: var(--color-background);
   color: var(--color-text-primary);
 }
 body {
