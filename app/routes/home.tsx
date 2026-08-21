@@ -10,7 +10,6 @@ import { TypewriterEffect } from "~/components/ui/typewriter-effect";
 import { SparklesCore } from "~/components/ui/sparkles";
 import { MagicCursor } from "~/components/ui/magic-cursor";
 import { ContainerScroll } from "~/components/ui/container-scroll-animation";
-import { ResumeScene } from "~/components/3d/ResumeScene";
 import { SpotlightCard } from "~/components/reactbits/SpotlightCard";
 import { SplitText } from "~/components/reactbits/SplitText";
 import gsap from "gsap";

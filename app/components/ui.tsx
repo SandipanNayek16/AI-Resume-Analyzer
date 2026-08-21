@@ -172,13 +172,26 @@ export function EmptyState({
   action?: React.ReactNode;
 }) {
   return (
-    <div className="flex flex-col items-center justify-center gap-4 py-16 text-center">
-      <div className="text-5xl">{icon}</div>
-      <div className="flex flex-col gap-2">
-        <h3 className="text-lg font-semibold text-foreground">{title}</h3>
-        <p className="text-sm text-slate-500 max-w-sm">{description}</p>
+    <div className="relative w-full overflow-hidden rounded-3xl border border-blue-500/20 bg-gradient-to-b from-blue-600/5 to-transparent p-12 text-center shadow-[0_20px_60px_-15px_rgba(37,99,235,0.1)] backdrop-blur-xl">
+      <div className="absolute -top-32 -left-32 w-64 h-64 bg-blue-600/20 blur-[100px] rounded-full pointer-events-none" />
+      <div className="absolute -bottom-32 -right-32 w-64 h-64 bg-cyan-600/20 blur-[100px] rounded-full pointer-events-none" />
+      
+      <div className="relative z-10 flex flex-col items-center justify-center gap-6">
+        <div className="flex h-24 w-24 items-center justify-center rounded-2xl bg-gradient-to-br from-white/80 to-white/20 border border-white/40 shadow-xl backdrop-blur-md animate-bounce" style={{ animationDuration: '3s' }}>
+          <span className="text-5xl drop-shadow-md">{icon}</span>
+        </div>
+        
+        <div className="flex flex-col gap-3">
+          <h3 className="text-2xl font-bold text-foreground tracking-tight">{title}</h3>
+          <p className="text-base text-slate-500 max-w-md mx-auto font-light leading-relaxed">{description}</p>
+        </div>
+        
+        {action && (
+          <div className="mt-4 hover:scale-105 active:scale-95 transition-transform duration-300">
+            {action}
+          </div>
+        )}
       </div>
-      {action}
     </div>
   );
 }

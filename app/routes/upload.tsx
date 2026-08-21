@@ -23,24 +23,51 @@ const STAGES: { key: Stage; label: string; detail: string }[] = [
   { key: "rp-step-done",     label: "Complete",         detail: "Analysis complete! Redirecting..." },
 ];
 
-import { Canvas } from "@react-three/fiber";
-import { AIOrb } from "~/components/3d/AIOrb";
+import { lazy, Suspense } from "react";
+const Canvas = lazy(() => import("@react-three/fiber").then(m => ({ default: m.Canvas })));
+const AIOrb = lazy(() => import("~/components/3d/AIOrb").then(m => ({ default: m.AIOrb })));
 import { WebGLErrorBoundary } from "~/components/WebGLErrorBoundary";
 import { PageTransition } from "~/components/motion/PageTransition";
+
+const analyzingMessages = [
+  "AI is reading and understanding your resume...",
+  "Extracting your professional experience...",
+  "Analyzing skill keywords and density...",
+  "Evaluating ATS compatibility...",
+  "Simulating recruiter parsing...",
+];
 
 function ProcessingView({ stage, error }: { stage: Stage; error?: string }) {
   const stageKeys = STAGES.map((s) => s.key);
   const currentIdx = stageKeys.indexOf(stage);
   const current = STAGES.find((s) => s.key === stage);
 
+  const [messageIndex, setMessageIndex] = useState(0);
+
+  useEffect(() => {
+    let interval: ReturnType<typeof setInterval>;
+    if (stage === "analyzing") {
+      interval = setInterval(() => {
+        setMessageIndex((prev) => (prev + 1) % analyzingMessages.length);
+      }, 2500);
+    } else {
+      setMessageIndex(0);
+    }
+    return () => clearInterval(interval);
+  }, [stage]);
+
+  const displayDetail = stage === "analyzing" ? analyzingMessages[messageIndex] : current?.detail;
+
   return (
     <PageTransition className="flex flex-col items-center justify-center min-h-[60vh] gap-8">
       {/* Cinematic AI Orb */}
       <div className="w-full max-w-sm h-64 relative">
-        <Canvas camera={{ position: [0, 0, 4] }}>
-          <ambientLight intensity={0.5} />
-          <AIOrb scale={error ? 0.8 : 1.2} color={error ? "#ef4444" : "#06b6d4"} />
-        </Canvas>
+        <Suspense fallback={<div className="w-full h-full flex items-center justify-center text-blue-600/50"><div className="size-8 rounded-full border-2 border-current border-t-blue-600 animate-spin" /></div>}>
+          <Canvas camera={{ position: [0, 0, 4] }}>
+            <ambientLight intensity={0.5} />
+            <AIOrb scale={error ? 0.8 : 1.2} color={error ? "#ef4444" : "#06b6d4"} />
+          </Canvas>
+        </Suspense>
         
         {/* Scanning grid overlay */}
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#06b6d40a_1px,transparent_1px),linear-gradient(to_bottom,#06b6d40a_1px,transparent_1px)] bg-[size:14px_14px] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_20%,transparent_100%)] pointer-events-none" />
@@ -58,8 +85,8 @@ function ProcessingView({ stage, error }: { stage: Stage; error?: string }) {
             <p className="text-sm font-semibold text-blue-600 uppercase tracking-[0.2em] animate-pulse">
               {current?.label || "Processing"}
             </p>
-            <p className="text-lg text-foreground font-light">
-              {current?.detail}
+            <p className="text-lg text-foreground font-light transition-all duration-300">
+              {displayDetail}
             </p>
           </>
         )}

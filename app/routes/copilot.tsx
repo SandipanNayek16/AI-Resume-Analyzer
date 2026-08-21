@@ -1,12 +1,12 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, lazy, Suspense } from "react";
 import { usePuterStore } from "~/lib/puter";
 import { Send, Bot, User, Sparkles } from "lucide-react";
 import { PageTransition } from "~/components/motion/PageTransition";
 import { ScrollReveal } from "~/components/motion/ScrollReveal";
 import { BorderGlow } from "~/components/reactbits/BorderGlow";
-import { AIOrb } from "~/components/3d/AIOrb";
 import { motion, AnimatePresence } from "framer-motion";
-import { Canvas } from "@react-three/fiber";
+const Canvas = lazy(() => import("@react-three/fiber").then(m => ({ default: m.Canvas })));
+const AIOrb = lazy(() => import("~/components/3d/AIOrb").then(m => ({ default: m.AIOrb })));
 import { WebGLErrorBoundary } from "~/components/WebGLErrorBoundary";
 
 type Message = {
@@ -122,10 +122,12 @@ If the user asks you to rewrite a bullet point, provide the new bullet point dir
         
         <div className="flex-1 w-full flex items-center justify-center opacity-80 min-h-[200px] pointer-events-none hidden md:flex">
           <WebGLErrorBoundary fallback={<div className="size-24 rounded-full bg-blue-500/20 animate-pulse" />}>
-            <Canvas camera={{ position: [0, 0, 5] }}>
-              <ambientLight intensity={0.5} />
-              <AIOrb isProcessing={isTyping} scale={2} />
-            </Canvas>
+              <Suspense fallback={<div className="w-12 h-12 flex items-center justify-center text-blue-600/50"><div className="size-4 rounded-full border-2 border-current border-t-blue-600 animate-spin" /></div>}>
+                <Canvas camera={{ position: [0, 0, 4] }}>
+                  <ambientLight intensity={0.5} />
+                  <AIOrb scale={1.2} color={isTyping ? "#a855f7" : "#06b6d4"} />
+                </Canvas>
+              </Suspense>
           </WebGLErrorBoundary>
         </div>
         

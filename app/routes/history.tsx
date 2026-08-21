@@ -120,8 +120,11 @@ const History = () => {
             title="No analyses yet"
             description="Upload and analyze your first resume to see it here."
             action={
-              <Link to="/upload" className="inline-block px-6 py-3 bg-blue-600 text-white rounded-xl font-medium shadow-sm hover:bg-blue-700 transition-colors mt-2">
-                Analyze a Resume
+              <Link to="/upload" className="rp-btn rp-lg rp-primary mt-4 group">
+                <span className="flex items-center">
+                  Analyze a Resume
+                  <span className="ml-2 group-hover:translate-x-1 transition-transform text-lg leading-none">→</span>
+                </span>
               </Link>
             }
           />
