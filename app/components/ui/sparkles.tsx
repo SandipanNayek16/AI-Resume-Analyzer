@@ -17,6 +17,10 @@ type ParticlesProps = {
   particleDensity?: number;
 };
 
+const initParticles = async (engine: any) => {
+  await loadSlim(engine);
+};
+
 export const SparklesCore = (props: ParticlesProps) => {
   const {
     id,
@@ -37,7 +41,7 @@ export const SparklesCore = (props: ParticlesProps) => {
       animate={{ opacity: 1 }}
       className={cn("h-full w-full", className)}
     >
-      <ParticlesProvider init={async (engine) => { await loadSlim(engine); }}>
+      <ParticlesProvider init={initParticles}>
         <Particles
           id={id || generatedId}
           className={cn("h-full w-full")}

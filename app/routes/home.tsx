@@ -6,7 +6,7 @@ import { ArrowRight, CheckCircle2, FileSearch, Sparkles, Target, Zap } from "luc
 import { Canvas } from "@react-three/fiber";
 import { ResumeScene } from "~/components/3d/ResumeScene";
 import { ScrollReveal } from "~/components/motion/ScrollReveal";
-import { SplitText } from "~/components/reactbits/SplitText";
+import { TypewriterEffect } from "~/components/ui/typewriter-effect";
 import { SpotlightCard } from "~/components/reactbits/SpotlightCard";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -156,10 +156,17 @@ export default function Home() {
           </ScrollReveal>
           
           <div className="mb-6 max-w-5xl text-center">
-            <SplitText 
-              text="Turn your resume into an unfair advantage."
-              className="text-6xl md:text-8xl font-black tracking-tighter bg-gradient-to-b from-white via-white to-text-secondary bg-clip-text text-transparent leading-[1.05]"
-              delay={0.2}
+            <TypewriterEffect 
+              words={[
+                { text: "Turn", className: "text-white" },
+                { text: "your", className: "text-white" },
+                { text: "resume", className: "text-white" },
+                { text: "into", className: "text-white" },
+                { text: "an", className: "text-brand-300" },
+                { text: "unfair", className: "text-brand-400" },
+                { text: "advantage.", className: "text-brand-500" },
+              ]}
+              className="text-6xl md:text-8xl font-black tracking-tighter leading-[1.05]"
             />
           </div>
           
