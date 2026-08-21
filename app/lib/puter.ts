@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { withRetry } from "./utils";
 
 declare global {
     interface Window {
@@ -271,7 +272,7 @@ export const usePuterStore = create<PuterStore>((set, get) => {
             setError("Puter.js not available");
             return;
         }
-        return puter.fs.write(path, data);
+        return withRetry(() => puter.fs.write(path, data));
     };
 
     const readDir = async (path: string) => {
@@ -280,7 +281,7 @@ export const usePuterStore = create<PuterStore>((set, get) => {
             setError("Puter.js not available");
             return;
         }
-        return puter.fs.readdir(path);
+        return withRetry(() => puter.fs.readdir(path));
     };
 
     const readFile = async (path: string) => {
@@ -289,7 +290,7 @@ export const usePuterStore = create<PuterStore>((set, get) => {
             setError("Puter.js not available");
             return;
         }
-        return puter.fs.read(path);
+        return withRetry(() => puter.fs.read(path));
     };
 
     const upload = async (files: File[] | Blob[]) => {
@@ -298,7 +299,7 @@ export const usePuterStore = create<PuterStore>((set, get) => {
             setError("Puter.js not available");
             return;
         }
-        return puter.fs.upload(files);
+        return withRetry(() => puter.fs.upload(files));
     };
 
     const deleteFile = async (path: string) => {
@@ -307,7 +308,7 @@ export const usePuterStore = create<PuterStore>((set, get) => {
             setError("Puter.js not available");
             return;
         }
-        return puter.fs.delete(path);
+        return withRetry(() => puter.fs.delete(path));
     };
 
     const chat = async (
@@ -369,7 +370,7 @@ export const usePuterStore = create<PuterStore>((set, get) => {
             setError("Puter.js not available");
             return;
         }
-        return puter.kv.get(key);
+        return withRetry(() => puter.kv.get(key));
     };
 
     const setKV = async (key: string, value: string) => {
@@ -378,7 +379,7 @@ export const usePuterStore = create<PuterStore>((set, get) => {
             setError("Puter.js not available");
             return;
         }
-        return puter.kv.set(key, value);
+        return withRetry(() => puter.kv.set(key, value));
     };
 
     const deleteKV = async (key: string) => {
@@ -387,7 +388,7 @@ export const usePuterStore = create<PuterStore>((set, get) => {
             setError("Puter.js not available");
             return;
         }
-        return puter.kv.delete(key);
+        return withRetry(() => puter.kv.delete(key));
     };
 
     const listKV = async (pattern: string, returnValues?: boolean) => {
@@ -399,7 +400,7 @@ export const usePuterStore = create<PuterStore>((set, get) => {
         if (returnValues === undefined) {
             returnValues = false;
         }
-        return puter.kv.list(pattern, returnValues);
+        return withRetry(() => puter.kv.list(pattern, returnValues));
     };
 
     const flushKV = async () => {

@@ -46,3 +46,28 @@ export function parseAIResponse<T>(response: string): T {
     throw new Error("Failed to parse AI response. The model did not return valid JSON.");
   }
 }
+
+/**
+ * Executes a promise-returning function with exponential backoff retry logic.
+ */
+export async function withRetry<T>(
+  operation: () => Promise<T>,
+  maxRetries: number = 3,
+  baseDelayMs: number = 500
+): Promise<T> {
+  let attempt = 0;
+  while (true) {
+    try {
+      return await operation();
+    } catch (error) {
+      attempt++;
+      if (attempt > maxRetries) {
+        throw error;
+      }
+      
+      const delayMs = baseDelayMs * Math.pow(2, attempt - 1);
+      console.warn(`Operation failed, retrying in ${delayMs}ms (Attempt ${attempt}/${maxRetries})...`, error);
+      await new Promise(resolve => setTimeout(resolve, delayMs));
+    }
+  }
+}
