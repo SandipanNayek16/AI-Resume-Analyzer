@@ -249,7 +249,7 @@ export default function Home() {
           <img
             src="/images/resume_02.png"
             alt="Resume Analysis Dashboard"
-            className="mx-auto rounded-2xl object-cover h-full object-left-top shadow-2xl border border-slate-200"
+            className="w-full h-full mx-auto rounded-2xl object-cover object-left-top shadow-2xl border border-slate-200"
             draggable={false}
           />
         </ContainerScroll>
