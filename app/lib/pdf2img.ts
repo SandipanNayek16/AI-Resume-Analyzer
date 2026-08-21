@@ -1,3 +1,5 @@
+import PdfWorker from '../workers/pdf.worker.ts?worker';
+
 export interface PdfConversionResult {
     imageUrl: string;
     file: File | null;
@@ -11,10 +13,8 @@ export async function convertPdfToImage(
         try {
             const arrayBuffer = await file.arrayBuffer();
 
-            // Instantiate the worker using Vite's native worker support
-            const worker = new Worker(new URL('../workers/pdf.worker.ts', import.meta.url), {
-                type: 'module'
-            });
+            // Instantiate the worker using Vite's ?worker import
+            const worker = new PdfWorker();
 
             worker.onmessage = (e: MessageEvent) => {
                 const { success, blob, fileName, error } = e.data;
