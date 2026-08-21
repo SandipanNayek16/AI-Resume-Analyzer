@@ -10,6 +10,7 @@ import { TypewriterEffect } from "~/components/ui/typewriter-effect";
 import { SpotlightCard } from "~/components/reactbits/SpotlightCard";
 import { CardBody, CardContainer, CardItem } from "~/components/ui/3d-card";
 import { ContainerScroll } from "~/components/ui/container-scroll-animation";
+import { MagicCursor } from "~/components/ui/magic-cursor";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import React, { Component } from "react";
@@ -105,7 +106,8 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-transparent text-text-primary selection:bg-brand-500/30 font-sans">
+    <div className="min-h-screen bg-transparent text-text-primary overflow-x-hidden selection:bg-brand-500/30 font-sans">
+      <MagicCursor colors={["139 92 246", "236 72 153"]} />
       
       {/* Navbar */}
       <nav className="h-20 border-b border-border-subtle bg-surface-0/50 backdrop-blur-xl sticky top-0 z-50 px-6 md:px-12 flex items-center justify-between">
