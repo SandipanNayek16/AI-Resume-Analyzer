@@ -213,7 +213,7 @@ export default function Home() {
               { text: "advantage.", className: "text-[#ea580c]" },
             ]}
             className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-[1.1] max-w-4xl"
-            cursorClassName="bg-blue-600"
+            cursorClassName="hidden"
           />
           
           <ScrollReveal delay={0.8} direction="up" distance={20}>
