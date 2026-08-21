@@ -156,18 +156,19 @@ export default function Home() {
             </div>
           </ScrollReveal>
           
-          <div className="mb-6 max-w-5xl text-center">
+          <div className="mb-6 max-w-4xl text-center mx-auto">
             <TypewriterEffect 
               words={[
-                { text: "Turn", className: "text-white" },
-                { text: "your", className: "text-white" },
-                { text: "resume", className: "text-white" },
-                { text: "into", className: "text-white" },
-                { text: "an", className: "text-brand-300" },
-                { text: "unfair", className: "text-brand-400" },
-                { text: "advantage.", className: "text-brand-500" },
+                { text: "Turn", className: "text-white font-black" },
+                { text: "your", className: "text-white font-black" },
+                { text: "resume", className: "text-white font-black" },
+                { text: "into", className: "text-white font-black" },
+                { text: "an", className: "text-brand-300 font-black" },
+                { text: "unfair", className: "text-brand-400 font-black" },
+                { text: "advantage.", className: "text-brand-500 font-black" },
               ]}
-              className="text-6xl md:text-8xl font-black tracking-tighter leading-[1.05]"
+              className="text-7xl md:text-8xl lg:text-9xl font-black tracking-tighter leading-[1.05]"
+              cursorClassName="h-12 md:h-20 lg:h-24 bg-brand-500"
             />
           </div>
           
