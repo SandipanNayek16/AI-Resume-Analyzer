@@ -131,10 +131,11 @@ export default function Home() {
             </ScrollReveal>
             
             <div className="flex flex-col gap-4">
-              <h1 className="text-5xl md:text-6xl lg:text-7xl font-black tracking-tighter leading-[1.05] text-foreground">
-                <SplitText text="Your resume," className="inline" delay={30} />
-                <br />
-                <SplitText text="understood by AI." className="inline text-blue-600" delay={30} />
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter leading-[1.05] text-foreground">
+                <SplitText text="Turn your" className="inline block" delay={30} />
+                <SplitText text="resume into" className="inline block" delay={30} />
+                <SplitText text="an unfair" className="inline block text-blue-600" delay={30} />
+                <SplitText text="advantage." className="inline block text-blue-600" delay={30} />
               </h1>
               
               <ScrollReveal delay={0.4} direction="up" distance={20}>
