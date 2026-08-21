@@ -64,17 +64,31 @@ export default function Copilot() {
 You are analyzing the provided resume. Be concise, actionable, and encouraging.
 If the user asks you to rewrite a bullet point, provide the new bullet point directly. Use metrics where appropriate.`;
 
-      const chatMessages = messages.filter(m => m.role !== "assistant" || m.content !== "Hi! I'm your Resume Copilot. Select a resume and ask me anything. For example:\n- \"Can you rewrite my third bullet point under Experience?\"\n- \"What skills should I add for a Frontend role?\"\n- \"How can I make my summary sound more impactful?\"").map(m => ({
+      const chatMessages = messages.filter(m => m.role !== "assistant" || !m.content.includes("Hi! I'm your Resume Copilot")).map(m => ({
         role: m.role,
         content: m.content
       }));
 
-      const aiResponse = await ai.chat([
-        { role: "system", content: systemPrompt },
-        { role: "user", content: [{ type: "file", puter_path: resume.resumePath }, { type: "text", text: "Here is my resume." }] },
-        ...chatMessages,
-        { role: "user", content: userMsg }
-      ], { model: "gpt-4o-mini" });
+      const payloadMessages: { role: "system" | "user" | "assistant"; content: any }[] = [
+        { role: "system", content: systemPrompt }
+      ];
+
+      if (chatMessages.length === 0) {
+        // First message ever: combine resume file and user prompt into one user message
+        payloadMessages.push({
+          role: "user",
+          content: [
+            { type: "file", puter_path: resume.resumePath },
+            { type: "text", text: `Here is my resume.\n\nUser Question: ${userMsg}` }
+          ]
+        });
+      } else {
+        // Subsequent messages: resume is already in context (the first message in chatMessages), just append new user message
+        payloadMessages.push(...chatMessages);
+        payloadMessages.push({ role: "user", content: userMsg });
+      }
+
+      const aiResponse = await ai.chat(payloadMessages);
 
       if (!aiResponse) throw new Error("No response from AI.");
 

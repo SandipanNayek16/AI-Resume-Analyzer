@@ -120,7 +120,7 @@ Only return raw JSON.`;
             { type: "text", text: prompt }
           ]
         }
-      ], { model: "gpt-4o-mini" });
+      ]);
 
       if (!aiResponse) throw new Error("AI analysis failed.");
 
