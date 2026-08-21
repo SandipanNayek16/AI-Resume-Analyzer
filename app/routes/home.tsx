@@ -245,7 +245,7 @@ export default function Home() {
           }
         >
           <img
-            src="https://images.unsplash.com/photo-1586281380349-632531db7ed4?q=80&w=2070&auto=format&fit=crop"
+            src="/images/resume_02.png"
             alt="Resume Analysis Dashboard"
             className="mx-auto rounded-2xl object-cover h-full object-left-top shadow-2xl border border-slate-200"
             draggable={false}
