@@ -294,9 +294,9 @@ export default function Home() {
                             <div className="size-10 rounded-lg bg-slate-100 flex items-center justify-center"><CheckCircle2 size={20} className="text-slate-400" /></div>
                             <div className="flex-1 space-y-2"><div className="h-2 w-32 bg-slate-300 rounded" /><div className="h-2 w-48 bg-slate-200 rounded" /></div>
                           </div>
-                          <div className="p-4 rounded-xl border border-accent/30 bg-accent/10 shadow-lg flex items-center gap-4 scale-105 z-10 group-hover/card:scale-110 transition-transform">
-                            <div className="size-10 rounded-lg bg-accent flex items-center justify-center"><Zap size={20} className="text-white" /></div>
-                            <div className="flex-1 space-y-2"><div className="h-2 w-40 bg-orange-300 rounded" /><div className="h-2 w-full bg-accent/50 rounded" /></div>
+                          <div className="p-4 rounded-xl border border-orange-500/30 bg-orange-500/10 shadow-lg flex items-center gap-4 scale-105 z-10 group-hover/card:scale-110 transition-transform">
+                            <div className="size-10 rounded-lg bg-orange-500 flex items-center justify-center"><Zap size={20} className="text-white" /></div>
+                            <div className="flex-1 space-y-2"><div className="h-2 w-40 bg-orange-300 rounded" /><div className="h-2 w-full bg-orange-500/50 rounded" /></div>
                           </div>
                           <div className="p-4 rounded-xl border border-border-subtle bg-white shadow-xl flex items-center gap-4 -translate-x-4 opacity-80 group-hover/card:-translate-x-6 transition-transform">
                             <div className="size-10 rounded-lg bg-slate-100 flex items-center justify-center"><CheckCircle2 size={20} className="text-slate-400" /></div>
@@ -310,7 +310,7 @@ export default function Home() {
              </ScrollReveal>
 
              <ScrollReveal direction="left" className="order-1 md:order-2 flex flex-col gap-6">
-               <div className="size-16 rounded-2xl bg-orange-50 border border-accent/20 flex items-center justify-center text-accent shadow-lg">
+               <div className="size-16 rounded-2xl bg-orange-50 border border-orange-500/20 flex items-center justify-center text-orange-500 shadow-lg">
                  <FileSearch size={32} />
                </div>
                <h2 className="text-4xl md:text-5xl font-bold tracking-tight">AI-Powered Iteration.</h2>

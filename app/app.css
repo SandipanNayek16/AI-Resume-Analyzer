@@ -11,6 +11,17 @@
 /* ============================================================
    ResumeIQ — CINEMATIC DESIGN TOKENS (Tailwind v4 @theme)
    ============================================================ */
+:root {
+  --primary: 221.2 83.2% 53.3%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 217.2 91.2% 59.8%;
+  --secondary-foreground: 0 0% 100%;
+  --accent: 24.6 95% 53.1%;
+  --accent-foreground: 0 0% 100%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 0 0% 100%;
+}
+
 @theme {
   --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
