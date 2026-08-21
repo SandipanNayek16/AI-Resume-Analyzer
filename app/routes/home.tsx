@@ -11,6 +11,7 @@ import { SpotlightCard } from "~/components/reactbits/SpotlightCard";
 import { CardBody, CardContainer, CardItem } from "~/components/ui/3d-card";
 import { ContainerScroll } from "~/components/ui/container-scroll-animation";
 import { MagicCursor } from "~/components/ui/magic-cursor";
+import { SparklesCore } from "~/components/ui/sparkles";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import React, { Component } from "react";
@@ -128,7 +129,7 @@ export default function Home() {
           </button>
           <button 
             onClick={() => navigate("/auth")}
-            className="hidden md:flex items-center gap-2 px-5 py-2.5 bg-accent text-white rounded-full text-sm font-semibold hover:bg-orange-600 transition-all hover:scale-105"
+            className="hidden md:flex items-center gap-2 px-5 py-2.5 bg-orange-600 text-white rounded-full text-sm font-semibold hover:bg-orange-700 transition-all hover:scale-105 shadow-sm"
           >
             Get Started <ArrowRight size={16} />
           </button>
@@ -137,6 +138,19 @@ export default function Home() {
 
       {/* Cinematic Hero Section */}
       <section ref={heroRef} className="relative w-full min-h-[100vh] py-32 flex flex-col items-center justify-center text-center px-4 overflow-hidden">
+        {/* Background Sparkles */}
+        <div className="absolute inset-0 w-full h-full z-0 pointer-events-none opacity-50">
+          <SparklesCore
+            id="hero-sparkles"
+            background="transparent"
+            minSize={0.4}
+            maxSize={1}
+            particleDensity={60}
+            className="w-full h-full"
+            particleColor="#2563EB"
+          />
+        </div>
+        
         {/* 3D Canvas Background for Hero */}
         <div ref={sceneContainerRef} className="fixed inset-0 z-0 pointer-events-none opacity-80" style={{ transformOrigin: 'center center' }}>
           <WebGLErrorBoundary fallback={<div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent" />}>
@@ -166,12 +180,12 @@ export default function Home() {
                 { text: "your", className: "text-foreground font-black" },
                 { text: "resume", className: "text-foreground font-black" },
                 { text: "into", className: "text-foreground font-black" },
-                { text: "an", className: "text-secondary font-black" },
-                { text: "unfair", className: "text-primary font-black" },
-                { text: "advantage.", className: "text-accent font-black" },
+                { text: "an", className: "text-blue-600 font-black" },
+                { text: "unfair", className: "text-blue-600 font-black" },
+                { text: "advantage.", className: "text-orange-600 font-black" },
               ]}
               className="text-7xl md:text-8xl lg:text-9xl font-black tracking-tighter leading-[1.05]"
-              cursorClassName="h-12 md:h-20 lg:h-24 bg-accent"
+              cursorClassName="h-12 md:h-20 lg:h-24 bg-orange-600"
             />
           </div>
           
@@ -185,9 +199,9 @@ export default function Home() {
             <div className="flex flex-col sm:flex-row items-center gap-6">
               <button 
                 onClick={() => navigate("/auth")}
-                className="group relative px-8 py-4 bg-accent text-white rounded-full text-lg font-semibold overflow-hidden transition-all hover:scale-105 shadow-xl hover:shadow-orange-500/20"
+                className="group relative px-8 py-4 bg-orange-600 text-white rounded-full text-lg font-semibold overflow-hidden transition-all hover:scale-105 shadow-xl hover:shadow-orange-500/20"
               >
-                <div className="absolute inset-0 bg-gradient-to-r from-orange-400 to-accent opacity-0 group-hover:opacity-10 transition-opacity" />
+                <div className="absolute inset-0 bg-gradient-to-r from-orange-400 to-orange-600 opacity-0 group-hover:opacity-20 transition-opacity" />
                 <span className="flex items-center gap-2 relative z-10">Analyze My Resume <ArrowRight size={20} className="transition-transform group-hover:translate-x-1" /></span>
               </button>
             </div>
