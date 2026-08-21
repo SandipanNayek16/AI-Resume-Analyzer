@@ -2,10 +2,14 @@ import type { Route } from "./+types/home";
 import { Link, useNavigate } from "react-router";
 import { useEffect, Suspense, useRef } from "react";
 import { usePuterStore } from "~/lib/puter";
-import { ArrowRight, CheckCircle2, FileSearch, Target, Zap } from "lucide-react";
+import { ArrowRight, FileText, CheckCircle2, Zap, BrainCircuit, Target, Sparkles, Activity, FileSearch } from "lucide-react";
 import { Canvas } from "@react-three/fiber";
-import { ResumeScene } from "~/components/3d/ResumeScene";
+import { PageTransition } from "~/components/motion/PageTransition";
 import { ScrollReveal } from "~/components/motion/ScrollReveal";
+import { TypewriterEffect } from "~/components/ui/typewriter-effect";
+import { SparklesCore } from "~/components/ui/sparkles";
+import { ContainerScroll } from "~/components/ui/container-scroll-animation";
+import { ResumeScene } from "~/components/3d/ResumeScene";
 import { SpotlightCard } from "~/components/reactbits/SpotlightCard";
 import { SplitText } from "~/components/reactbits/SplitText";
 import gsap from "gsap";
@@ -137,29 +141,6 @@ export default function Home() {
     }
   }, [isLoading, auth.isAuthenticated, navigate]);
 
-  // GSAP subtle parallax for 3D scene
-  const sceneContainerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      gsap.registerPlugin(ScrollTrigger);
-      
-      if (sceneContainerRef.current) {
-        gsap.to(sceneContainerRef.current, {
-          y: 80,
-          opacity: 0.3,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: sceneContainerRef.current,
-            start: "top top",
-            end: "bottom top",
-            scrub: 1,
-          }
-        });
-      }
-    }
-  }, []);
-
   if (isLoading) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
@@ -197,71 +178,79 @@ export default function Home() {
         </div>
       </nav>
 
-      {/* Hero Section — Split Layout */}
-      <section className="relative w-full min-h-[90vh] flex items-center px-6 md:px-12 overflow-hidden">
-        
-        {/* Subtle background gradient */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-20%,rgba(37,99,235,0.08),transparent)] pointer-events-none" />
+      {/* Centered Hero Section with Typewriter & Sparkles */}
+      <section className="relative w-full min-h-[90vh] flex flex-col items-center justify-center px-6 md:px-12 overflow-hidden bg-background">
+        <div className="absolute inset-0 w-full h-full">
+          <SparklesCore
+            id="tsparticlesfullpage"
+            background="transparent"
+            minSize={0.6}
+            maxSize={1.4}
+            particleDensity={100}
+            className="w-full h-full"
+            particleColor="#2563eb"
+          />
+        </div>
 
-        <div className="max-w-7xl mx-auto w-full grid lg:grid-cols-2 gap-16 items-center relative z-10">
-          
-          {/* Left — Copy */}
-          <div className="flex flex-col gap-8 py-20 lg:py-0">
-            <ScrollReveal delay={0.1} direction="up" distance={20}>
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-blue-600/20 bg-blue-600/10 text-blue-600 text-xs font-semibold uppercase tracking-widest w-fit">
-                <div className="size-1.5 rounded-full bg-blue-600 animate-pulse" />
-                Resume Intelligence Engine
-              </div>
-            </ScrollReveal>
-            
-            <div className="flex flex-col gap-4">
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter leading-[1.05] text-foreground">
-                <SplitText text="Turn your" className="inline block" delay={30} />
-                <SplitText text="resume into" className="inline block" delay={30} />
-                <SplitText text="an unfair" className="inline block text-blue-600" delay={30} />
-                <SplitText text="advantage." className="inline block text-blue-600" delay={30} />
-              </h1>
-              
-              <ScrollReveal delay={0.4} direction="up" distance={20}>
-                <p className="text-lg md:text-xl text-slate-600 max-w-lg leading-relaxed font-light">
-                  Analyze, optimize, and tailor your resume for the jobs you actually want. Get precise ATS scores, keyword analysis, and AI-powered improvement suggestions.
-                </p>
-              </ScrollReveal>
+        <div className="flex flex-col items-center gap-8 relative z-10 text-center mt-12">
+          <ScrollReveal delay={0.1} direction="up" distance={20}>
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-blue-600/20 bg-blue-600/5 text-blue-600 text-xs font-semibold uppercase tracking-widest w-fit">
+              <Sparkles size={14} className="text-blue-500" />
+              Resume Intelligence Engine
             </div>
+          </ScrollReveal>
+          
+          <TypewriterEffect 
+            words={[
+              { text: "Turn", className: "text-foreground" },
+              { text: "your", className: "text-foreground" },
+              { text: "resume", className: "text-foreground" },
+              { text: "into", className: "text-foreground" },
+              { text: "an", className: "text-blue-600" },
+              { text: "unfair", className: "text-blue-600" },
+              { text: "advantage.", className: "text-[#ea580c]" },
+            ]}
+            className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-[1.1] max-w-4xl"
+            cursorClassName="bg-blue-600"
+          />
+          
+          <ScrollReveal delay={0.8} direction="up" distance={20}>
+            <p className="text-lg md:text-xl text-slate-600 max-w-2xl leading-relaxed font-light mx-auto">
+              Stop guessing what recruiters want. Let our AI engine analyze, optimize, and score your resume precisely against ATS algorithms.
+            </p>
+          </ScrollReveal>
 
-            <ScrollReveal delay={0.6} direction="up" distance={20}>
-              <div className="flex flex-col sm:flex-row items-start gap-4">
-                <button 
-                  onClick={() => navigate("/auth")}
-                  className="group relative px-8 py-4 bg-blue-600 text-white rounded-full text-lg font-semibold overflow-hidden transition-all hover:scale-105 shadow-lg hover:shadow-blue-600/20"
-                >
-                  <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-blue-700 opacity-0 group-hover:opacity-100 transition-opacity" />
-                  <span className="flex items-center gap-2 relative z-10">Analyze My Resume <ArrowRight size={20} className="transition-transform group-hover:translate-x-1" /></span>
-                </button>
-              </div>
-            </ScrollReveal>
-          </div>
+          <ScrollReveal delay={1.0} direction="up" distance={20}>
+            <button 
+              onClick={() => navigate("/auth")}
+              className="group relative px-8 py-4 bg-[#ea580c] text-white rounded-full text-lg font-semibold overflow-hidden transition-all hover:scale-105 shadow-lg shadow-orange-500/20 mt-4"
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-[#ea580c] to-orange-500 opacity-0 group-hover:opacity-100 transition-opacity" />
+              <span className="flex items-center gap-2 relative z-10">Analyze My Resume <ArrowRight size={20} className="transition-transform group-hover:translate-x-1" /></span>
+            </button>
+          </ScrollReveal>
+        </div>
+      </section>
 
-          {/* Right — 3D Resume Scene */}
-          <div ref={sceneContainerRef} className="relative h-[500px] lg:h-[600px] hidden lg:block">
-            <WebGLErrorBoundary fallback={<div className="absolute inset-0 bg-gradient-to-b from-blue-600/5 to-transparent rounded-3xl" />}>
-              <Suspense fallback={null}>
-                <Canvas camera={{ position: [0, 0, 5], fov: 45 }}>
-                  <ambientLight intensity={0.5} />
-                  <directionalLight position={[10, 10, 5]} intensity={1} />
-                  <directionalLight position={[-10, -10, -5]} intensity={0.3} color="#3b82f6" />
-                  <ResumeScene scale={1.1} />
-                </Canvas>
-              </Suspense>
-            </WebGLErrorBoundary>
-          </div>
-        </div>
-        
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex-col items-center gap-2 text-text-muted animate-pulse hidden lg:flex">
-           <span className="text-xs uppercase tracking-widest font-medium">Scroll to explore</span>
-           <div className="w-px h-12 bg-gradient-to-b from-text-muted to-transparent" />
-        </div>
+      {/* Container Scroll Section */}
+      <section className="relative bg-background w-full mt-24">
+        <ContainerScroll
+          titleComponent={
+            <div className="flex flex-col items-center justify-center mb-8">
+              <h2 className="text-3xl md:text-5xl font-black text-foreground tracking-tight">
+                Unleash the power of <br />
+                <span className="text-blue-600 text-5xl md:text-7xl mt-2 inline-block">AI-Powered Analysis</span>
+              </h2>
+            </div>
+          }
+        >
+          <img
+            src="https://images.unsplash.com/photo-1586281380349-632531db7ed4?q=80&w=2070&auto=format&fit=crop"
+            alt="Resume Analysis Dashboard"
+            className="mx-auto rounded-2xl object-cover h-full object-left-top shadow-2xl border border-slate-200"
+            draggable={false}
+          />
+        </ContainerScroll>
       </section>
 
       {/* Feature Storytelling Section */}
