@@ -8,6 +8,7 @@ import { ResumeScene } from "~/components/3d/ResumeScene";
 import { ScrollReveal } from "~/components/motion/ScrollReveal";
 import { TypewriterEffect } from "~/components/ui/typewriter-effect";
 import { SpotlightCard } from "~/components/reactbits/SpotlightCard";
+import { CardBody, CardContainer, CardItem } from "~/components/ui/3d-card";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import React, { Component } from "react";
@@ -213,46 +214,58 @@ export default function Home() {
              </ScrollReveal>
              
              <ScrollReveal direction="left">
-               <SpotlightCard spotlightColor="rgba(6, 182, 212, 0.15)" spotlightSize={500} className="relative h-[400px] border border-border-default bg-surface-100/50 overflow-hidden backdrop-blur-sm flex items-center justify-center p-8">
-                 <div className="relative z-10 w-full max-w-sm rounded-2xl border border-border-default bg-surface-50 p-8 shadow-2xl flex flex-col items-center gap-6 hover:-translate-y-2 transition-transform duration-500">
-                    <div className="size-32 rounded-full border-[6px] border-surface-200 flex items-center justify-center relative">
-                       <svg className="absolute inset-0 size-full -rotate-90" viewBox="0 0 100 100">
-                         <circle cx="50" cy="50" r="46" fill="none" stroke="rgba(6,182,212,0.2)" strokeWidth="8" />
-                         <circle cx="50" cy="50" r="46" fill="none" stroke="#06b6d4" strokeWidth="8" strokeDasharray="289" strokeDashoffset="28.9" className="transition-all duration-1000 ease-out" />
-                       </svg>
-                       <span className="text-4xl font-black font-mono">90</span>
-                    </div>
-                    <div className="w-full space-y-4">
-                       <div className="flex justify-between text-sm font-medium"><span className="text-text-muted">Keywords</span><span className="text-success">Perfect</span></div>
-                       <div className="h-1.5 w-full bg-surface-200 rounded-full overflow-hidden"><div className="h-full w-[95%] bg-success" /></div>
-                       
-                       <div className="flex justify-between text-sm font-medium"><span className="text-text-muted">Formatting</span><span className="text-warning">Review</span></div>
-                       <div className="h-1.5 w-full bg-surface-200 rounded-full overflow-hidden"><div className="h-full w-[65%] bg-warning" /></div>
-                    </div>
-                 </div>
-               </SpotlightCard>
+               <CardContainer className="inter-var w-full">
+                 <CardBody className="w-full h-full relative group/card">
+                   <SpotlightCard spotlightColor="rgba(6, 182, 212, 0.15)" spotlightSize={500} className="relative h-[400px] border border-border-default bg-surface-100/50 overflow-hidden backdrop-blur-sm flex items-center justify-center p-8">
+                     <CardItem translateZ="50" className="w-full max-w-sm">
+                       <div className="relative z-10 w-full rounded-2xl border border-border-default bg-surface-50 p-8 shadow-2xl flex flex-col items-center gap-6 group-hover/card:shadow-xl transition-shadow duration-500">
+                          <div className="size-32 rounded-full border-[6px] border-surface-200 flex items-center justify-center relative">
+                             <svg className="absolute inset-0 size-full -rotate-90" viewBox="0 0 100 100">
+                               <circle cx="50" cy="50" r="46" fill="none" stroke="rgba(6,182,212,0.2)" strokeWidth="8" />
+                               <circle cx="50" cy="50" r="46" fill="none" stroke="#06b6d4" strokeWidth="8" strokeDasharray="289" strokeDashoffset="28.9" className="transition-all duration-1000 ease-out" />
+                             </svg>
+                             <span className="text-4xl font-black font-mono">90</span>
+                          </div>
+                          <div className="w-full space-y-4">
+                             <div className="flex justify-between text-sm font-medium"><span className="text-text-muted">Keywords</span><span className="text-success">Perfect</span></div>
+                             <div className="h-1.5 w-full bg-surface-200 rounded-full overflow-hidden"><div className="h-full w-[95%] bg-success" /></div>
+                             
+                             <div className="flex justify-between text-sm font-medium"><span className="text-text-muted">Formatting</span><span className="text-warning">Review</span></div>
+                             <div className="h-1.5 w-full bg-surface-200 rounded-full overflow-hidden"><div className="h-full w-[65%] bg-warning" /></div>
+                          </div>
+                       </div>
+                     </CardItem>
+                   </SpotlightCard>
+                 </CardBody>
+               </CardContainer>
              </ScrollReveal>
            </div>
 
            {/* Step 2 */}
            <div className="grid md:grid-cols-2 gap-16 items-center">
              <ScrollReveal direction="right" className="order-2 md:order-1">
-               <SpotlightCard spotlightColor="rgba(139, 92, 246, 0.15)" spotlightSize={500} className="relative h-[400px] border border-border-default bg-surface-100/50 overflow-hidden backdrop-blur-sm flex items-center justify-center p-8">
-                 <div className="relative z-10 w-full flex flex-col gap-4">
-                    <div className="p-4 rounded-xl border border-border-subtle bg-surface-50 shadow-lg flex items-center gap-4 translate-x-4 opacity-80">
-                      <div className="size-10 rounded-lg bg-surface-200 flex items-center justify-center"><CheckCircle2 size={20} className="text-text-muted" /></div>
-                      <div className="flex-1 space-y-2"><div className="h-2 w-32 bg-surface-300 rounded" /><div className="h-2 w-48 bg-surface-200 rounded" /></div>
-                    </div>
-                    <div className="p-4 rounded-xl border border-brand-500/50 bg-brand-500/10 shadow-[0_0_30px_rgba(139,92,246,0.15)] flex items-center gap-4 scale-105 z-10">
-                      <div className="size-10 rounded-lg bg-brand-500 flex items-center justify-center"><Zap size={20} className="text-white" /></div>
-                      <div className="flex-1 space-y-2"><div className="h-2 w-40 bg-brand-300 rounded" /><div className="h-2 w-full bg-brand-500/50 rounded" /></div>
-                    </div>
-                    <div className="p-4 rounded-xl border border-border-subtle bg-surface-50 shadow-lg flex items-center gap-4 -translate-x-4 opacity-80">
-                      <div className="size-10 rounded-lg bg-surface-200 flex items-center justify-center"><CheckCircle2 size={20} className="text-text-muted" /></div>
-                      <div className="flex-1 space-y-2"><div className="h-2 w-24 bg-surface-300 rounded" /><div className="h-2 w-56 bg-surface-200 rounded" /></div>
-                    </div>
-                 </div>
-               </SpotlightCard>
+               <CardContainer className="inter-var w-full">
+                 <CardBody className="w-full h-full relative group/card">
+                   <SpotlightCard spotlightColor="rgba(139, 92, 246, 0.15)" spotlightSize={500} className="relative h-[400px] border border-border-default bg-surface-100/50 overflow-hidden backdrop-blur-sm flex items-center justify-center p-8">
+                     <CardItem translateZ="50" className="w-full">
+                       <div className="relative z-10 w-full flex flex-col gap-4">
+                          <div className="p-4 rounded-xl border border-border-subtle bg-surface-50 shadow-lg flex items-center gap-4 translate-x-4 opacity-80 group-hover/card:translate-x-6 transition-transform">
+                            <div className="size-10 rounded-lg bg-surface-200 flex items-center justify-center"><CheckCircle2 size={20} className="text-text-muted" /></div>
+                            <div className="flex-1 space-y-2"><div className="h-2 w-32 bg-surface-300 rounded" /><div className="h-2 w-48 bg-surface-200 rounded" /></div>
+                          </div>
+                          <div className="p-4 rounded-xl border border-brand-500/50 bg-brand-500/10 shadow-[0_0_30px_rgba(139,92,246,0.15)] flex items-center gap-4 scale-105 z-10 group-hover/card:scale-110 transition-transform">
+                            <div className="size-10 rounded-lg bg-brand-500 flex items-center justify-center"><Zap size={20} className="text-white" /></div>
+                            <div className="flex-1 space-y-2"><div className="h-2 w-40 bg-brand-300 rounded" /><div className="h-2 w-full bg-brand-500/50 rounded" /></div>
+                          </div>
+                          <div className="p-4 rounded-xl border border-border-subtle bg-surface-50 shadow-lg flex items-center gap-4 -translate-x-4 opacity-80 group-hover/card:-translate-x-6 transition-transform">
+                            <div className="size-10 rounded-lg bg-surface-200 flex items-center justify-center"><CheckCircle2 size={20} className="text-text-muted" /></div>
+                            <div className="flex-1 space-y-2"><div className="h-2 w-24 bg-surface-300 rounded" /><div className="h-2 w-56 bg-surface-200 rounded" /></div>
+                          </div>
+                       </div>
+                     </CardItem>
+                   </SpotlightCard>
+                 </CardBody>
+               </CardContainer>
              </ScrollReveal>
 
              <ScrollReveal direction="left" className="order-1 md:order-2 flex flex-col gap-6">
