@@ -9,6 +9,7 @@ import { ScrollReveal } from "~/components/motion/ScrollReveal";
 import { TypewriterEffect } from "~/components/ui/typewriter-effect";
 import { SpotlightCard } from "~/components/reactbits/SpotlightCard";
 import { CardBody, CardContainer, CardItem } from "~/components/ui/3d-card";
+import { ContainerScroll } from "~/components/ui/container-scroll-animation";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import React, { Component } from "react";
@@ -195,6 +196,29 @@ export default function Home() {
         <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-text-muted animate-pulse">
            <span className="text-xs uppercase tracking-widest font-medium">Scroll to explore</span>
            <div className="w-px h-12 bg-gradient-to-b from-text-muted to-transparent" />
+        </div>
+      </section>
+
+      {/* 3D Container Scroll Showcase */}
+      <section className="relative w-full z-20 -mt-20 flex flex-col items-center bg-transparent pointer-events-none">
+        <div className="pointer-events-auto">
+          <ContainerScroll
+            titleComponent={
+              <h1 className="text-4xl font-semibold text-text-primary mb-8">
+                Unleash the power of <br />
+                <span className="text-4xl md:text-[6rem] font-bold mt-1 leading-none text-brand-500">
+                  AI-Powered Analysis
+                </span>
+              </h1>
+            }>
+            <img
+              src="/images/resume_02.png"
+              alt="Resume Analysis Dashboard"
+              height={720}
+              width={1400}
+              className="mx-auto rounded-2xl object-cover h-full object-left-top"
+              draggable={false} />
+          </ContainerScroll>
         </div>
       </section>
 
