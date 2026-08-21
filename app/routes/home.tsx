@@ -134,7 +134,7 @@ export default function Home() {
       </nav>
 
       {/* Cinematic Hero Section */}
-      <section ref={heroRef} className="relative w-full h-[90vh] flex flex-col items-center justify-center text-center px-4 overflow-hidden">
+      <section ref={heroRef} className="relative w-full min-h-[100vh] py-32 flex flex-col items-center justify-center text-center px-4 overflow-hidden">
         {/* 3D Canvas Background for Hero */}
         <div ref={sceneContainerRef} className="fixed inset-0 z-0 pointer-events-none opacity-80" style={{ transformOrigin: 'center center' }}>
           <WebGLErrorBoundary fallback={<div className="absolute inset-0 bg-gradient-to-b from-brand-500/10 to-transparent" />}>
