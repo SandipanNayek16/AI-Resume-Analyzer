@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { usePuterStore } from "~/lib/puter";
-import Navbar from "~/components/Navbar";
 
 export const meta = () => ([
-  { title: "ResumePilot — Settings" },
+  { title: "ResumeIQ — Settings" },
 ]);
 
 const Settings = () => {
@@ -47,10 +46,9 @@ const Settings = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      <Navbar />
+    <div className="max-w-2xl mx-auto py-8">
 
-      <div className="max-w-2xl mx-auto px-4 py-10">
+      <div className="max-w-2xl mx-auto px-4">
         <div className="page-header rp-fade-up">
           <h2 className="text-foreground text-2xl font-bold">Settings</h2>
           <p className="text-slate-600 text-sm">Manage your account and data.</p>
@@ -96,7 +94,7 @@ const Settings = () => {
         <div className="bg-red-50/50 border border-red-200 p-6 rounded-2xl backdrop-blur-sm rp-fade-up delay-300">
           <h3 className="font-semibold text-error mb-2">Danger Zone</h3>
           <p className="text-sm text-slate-600 mb-4">
-            Wipe all ResumePilot data from your Puter account. This deletes all uploaded resumes,
+            Wipe all ResumeIQ data from your Puter account. This deletes all uploaded resumes,
             preview images, and analysis history. This action cannot be undone.
           </p>
           {wiped ? (

@@ -27,10 +27,10 @@ export default function Navbar() {
       {/* Logo */}
       <Link to="/" className="flex items-center gap-2.5 flex-shrink-0">
         <div className="size-8 rounded-lg rp-gradient-brand flex items-center justify-center">
-          <span className="text-white text-sm font-bold">RP</span>
+          <span className="text-white text-sm font-bold">IQ</span>
         </div>
         <span className="text-lg font-bold text-text-blue-600 tracking-tight">
-          Resume<span className="rp-text-gradient">Pilot</span>
+          Resume<span className="rp-text-gradient">IQ</span>
         </span>
       </Link>
 

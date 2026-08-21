@@ -9,7 +9,7 @@ import { TiltCard } from "~/components/motion/TiltCard";
 import { ScrollReveal } from "~/components/motion/ScrollReveal";
 
 export const meta = () => ([
-  { title: "ResumePilot — Dashboard" },
+  { title: "ResumeIQ — Dashboard" },
   { name: "description", content: "Overview of your resume analyses." },
 ]);
 

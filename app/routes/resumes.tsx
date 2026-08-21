@@ -10,7 +10,7 @@ import { TiltCard } from "~/components/motion/TiltCard";
 import { Clock, TrendingUp, TrendingDown, Star } from "lucide-react";
 
 export const meta = () => ([
-  { title: "ResumePilot — My Resumes" },
+  { title: "ResumeIQ — My Resumes" },
   { name: "description", content: "Manage your uploaded resumes and versions." },
 ]);
 
@@ -70,11 +70,11 @@ const Resumes = () => {
       <ScrollReveal direction="down" distance={20} className="flex flex-col sm:flex-row items-start sm:items-center justify-between flex-wrap gap-6 mb-12">
         <div className="flex flex-col gap-2">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-600/10 border border-blue-600/20 text-blue-600 text-xs font-bold uppercase tracking-widest w-fit">
-            <Clock size={14} /> Career Timeline
+            <Clock size={14} /> History
           </div>
           <h2 className="text-4xl font-black text-foreground tracking-tight">Analysis History</h2>
           <p className="text-slate-600 text-lg mt-1">
-            {loading ? "Loading archives..." : `${resumes.length} total ${resumes.length === 1 ? "analysis" : "analyses"} stored in your secure vault.`}
+            {loading ? "Loading..." : `${resumes.length} total ${resumes.length === 1 ? "analysis" : "analyses"}`}
           </p>
         </div>
 
@@ -131,12 +131,12 @@ const Resumes = () => {
             <div className="absolute inset-0 bg-gradient-to-b from-blue-600/5 to-transparent pointer-events-none" />
             <EmptyState
               icon="🚀"
-              title="Your Vault is Empty"
-              description="Upload your first resume to begin your career progression tracking."
+              title="No analyses yet"
+              description="Upload your first resume to get started."
               action={
                 <Link to="/upload" className="px-8 py-4 bg-blue-600 text-white rounded-xl text-lg font-semibold mt-4 group relative overflow-hidden inline-flex items-center">
                   <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-blue-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  <span className="relative z-10">Initialize First Analysis →</span>
+                  <span className="relative z-10">Analyze a Resume →</span>
                 </Link>
               }
             />
@@ -217,7 +217,7 @@ const Resumes = () => {
                       to={`/resume/${resume.id}`}
                       className="group/btn relative flex-1 px-4 py-2 rounded-lg bg-slate-100/50 hover:bg-blue-600 hover:text-white border border-transparent hover:border-blue-600/50 flex items-center justify-center transition-colors text-slate-700 overflow-hidden"
                     >
-                      <span className="relative z-10 font-bold">View Analytics →</span>
+                      <span className="relative z-10 font-bold">View Results →</span>
                     </Link>
                     <button
                       onClick={() => handleDelete(resume.id)}

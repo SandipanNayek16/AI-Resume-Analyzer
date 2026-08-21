@@ -6,7 +6,7 @@ import { EmptyState, ProgressBar, Skeleton } from "~/components/ui";
 import { cn } from "~/lib/utils";
 
 export const meta = () => ([
-  { title: "ResumePilot — Analysis History" },
+  { title: "ResumeIQ — Analysis History" },
   { name: "description", content: "View and manage your past resume analyses." },
 ]);
 

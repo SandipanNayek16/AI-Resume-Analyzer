@@ -9,7 +9,7 @@ import { useDropzone } from "react-dropzone";
 import { cn, formatSize } from "~/lib/utils";
 
 export const meta = () => ([
-  { title: "ResumePilot — Analyze Resume" },
+  { title: "ResumeIQ — Analyze Resume" },
   { name: "description", content: "Upload your resume and get an AI-powered ATS score and improvement tips." },
 ]);
 

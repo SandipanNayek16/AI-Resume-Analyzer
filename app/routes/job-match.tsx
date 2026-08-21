@@ -197,7 +197,7 @@ Only return raw JSON.`;
             >
               <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-blue-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               <span className="relative z-10 flex items-center justify-center gap-2 font-bold tracking-wide">
-                {processing ? "Analyzing Match..." : "Initialize Match Sequence →"}
+                {processing ? "Analyzing Match..." : "Analyze Match →"}
               </span>
             </button>
             {error && (
@@ -223,11 +223,11 @@ Only return raw JSON.`;
                 <TextLoop 
                   className="mt-8 text-xl font-medium text-blue-600 tracking-wider font-mono w-[300px] text-center" 
                   texts={[
-                    "INITIALIZING NEURAL NET...",
-                    "PARSING RESUME VECTORS...",
-                    "ANALYZING JOB DESCRIPTION...",
-                    "MAPPING SKILL CONSTELLATION...",
-                    "COMPUTING MATCH PROBABILITY..."
+                    "Reading resume...",
+                    "Extracting skills...",
+                    "Analyzing requirements...",
+                    "Comparing qualifications...",
+                    "Calculating match score..."
                   ]}
                   interval={2500}
                 />
@@ -252,7 +252,7 @@ Only return raw JSON.`;
 
               <ScrollReveal delay={0.1} direction="up" distance={20}>
                 <h3 className="text-xl font-bold text-foreground mb-4 flex items-center gap-3">
-                  <span className="text-blue-600">⚡</span> Skill Network Constellation
+                  <span className="text-blue-600">⚡</span> Skills Comparison
                 </h3>
                 <SkillNetwork 
                   matched={[...new Set([...(matchResult.matchedSkills || []), ...(matchResult.matchedKeywords || [])])]} 
@@ -275,9 +275,9 @@ Only return raw JSON.`;
                 <div className="size-24 rounded-full bg-slate-200 flex items-center justify-center mb-2">
                   <span className="text-4xl">🎯</span>
                 </div>
-                <h3 className="text-xl font-bold text-foreground">Awaiting Target</h3>
+                <h3 className="text-xl font-bold text-foreground">Ready to Compare</h3>
                 <p className="text-sm text-slate-500 max-w-sm">
-                  Select a resume and paste a job description to initiate the intelligence matching sequence.
+                  Select a resume and paste a job description to initiate the analysis process.
                 </p>
               </div>
             </div>

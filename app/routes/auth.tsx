@@ -3,8 +3,8 @@ import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router";
 
 export const meta = () => ([
-  { title: "ResumePilot — Sign In" },
-  { name: "description", content: "Sign in to ResumePilot to analyze and optimize your resume." },
+  { title: "ResumeIQ — Sign In" },
+  { name: "description", content: "Sign in to ResumeIQ to analyze and optimize your resume." },
 ]);
 
 const Auth = () => {
@@ -25,10 +25,10 @@ const Auth = () => {
       {/* Logo */}
       <div className="flex items-center gap-3 mb-10 rp-fade-up">
         <div className="size-10 rounded-xl bg-gradient-to-br from-blue-600 to-blue-500 flex items-center justify-center">
-          <span className="text-white font-bold">RP</span>
+          <span className="text-white font-bold">IQ</span>
         </div>
         <span className="text-xl font-bold text-foreground">
-          Resume<span className="text-blue-600">Pilot</span>
+          Resume<span className="text-blue-600">IQ</span>
         </span>
       </div>
 
@@ -44,7 +44,7 @@ const Auth = () => {
         {/* Auth action */}
         <div className="flex flex-col gap-4">
           {isLoading ? (
-            <div className="flex items-center gap-2 px-8 py-4 bg-orange-500/70 text-white rounded-xl text-lg font-semibold justify-center pointer-events-none">
+            <div className="flex items-center gap-2 px-8 py-4 bg-blue-600/70 text-white rounded-xl text-lg font-semibold justify-center pointer-events-none">
               <div className="size-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
               <span>Signing you in...</span>
             </div>
@@ -53,8 +53,8 @@ const Auth = () => {
               Sign Out
             </button>
           ) : (
-            <button className="group relative px-8 py-4 bg-orange-500 text-white rounded-xl text-lg font-semibold overflow-hidden transition-all hover:scale-105 shadow-lg hover:shadow-orange-500/20" onClick={auth.signIn}>
-              <div className="absolute inset-0 bg-gradient-to-r from-orange-400 to-orange-500 opacity-0 group-hover:opacity-10 transition-opacity" />
+            <button className="group relative px-8 py-4 bg-blue-600 text-white rounded-xl text-lg font-semibold overflow-hidden transition-all hover:scale-105 shadow-lg hover:shadow-blue-600/20" onClick={auth.signIn}>
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-blue-600 opacity-0 group-hover:opacity-10 transition-opacity" />
               <span className="relative z-10">Continue with Puter →</span>
             </button>
           )}
@@ -63,7 +63,7 @@ const Auth = () => {
         {/* Info */}
         <div className="mt-8 pt-6 border-t border-border-subtle">
           <p className="text-xs text-slate-500 text-center leading-relaxed">
-            ResumePilot uses Puter for authentication and secure cloud storage.
+            ResumeIQ uses Puter for authentication and secure cloud storage.
             Your resume data is private and stored in your own Puter account.
           </p>
         </div>

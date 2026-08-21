@@ -7,7 +7,7 @@ import { PageTransition } from "~/components/motion/PageTransition";
 import { ScrollReveal } from "~/components/motion/ScrollReveal";
 
 export const meta = () => ([
-  { title: "ResumePilot — Resume Analysis" },
+  { title: "ResumeIQ — Resume Analysis" },
   { name: "description", content: "Your AI-powered resume analysis results." },
 ]);
 
