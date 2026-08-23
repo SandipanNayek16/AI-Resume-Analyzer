@@ -30,9 +30,7 @@ export function Sidebar() {
       {/* Brand */}
       <div className="h-16 flex items-center px-6 border-b border-border">
         <Link to="/" className="flex items-center gap-3">
-          <div className="size-10 rounded-2xl bg-blue-500 flex items-center justify-center shadow-[0_4px_24px_-4px_rgba(59,130,246,0.5)]">
-            <span className="text-white text-base font-black tracking-tight">IQ</span>
-          </div>
+          <img src="/logo.png" alt="ResumeIQ Logo" className="size-10 object-contain" />
           <span className="text-2xl font-black text-foreground tracking-tighter">
             Resume<span className="text-blue-500">IQ</span>
           </span>
