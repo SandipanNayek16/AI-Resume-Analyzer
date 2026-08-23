@@ -207,6 +207,7 @@ export const usePuterStore = create<PuterStore>((set, get) => {
                 },
                 isLoading: false,
             });
+            window.location.href = "/";
         } catch (err) {
             const msg = err instanceof Error ? err.message : "Sign out failed";
             setError(msg);

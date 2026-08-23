@@ -56,11 +56,17 @@ function PuterInitializer() {
   return null;
 }
 
+import { AnimatePresence } from "framer-motion";
+import { useLocation } from "react-router";
+
 export default function App() {
+  const location = useLocation();
   return (
     <GlowBackground>
       <PuterInitializer />
-      <Outlet />
+      <AnimatePresence mode="wait">
+        <Outlet key={location.pathname} />
+      </AnimatePresence>
     </GlowBackground>
   );
 }

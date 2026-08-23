@@ -10,6 +10,7 @@ import { TypewriterEffect } from "~/components/ui/typewriter-effect";
 import { SparklesCore } from "~/components/ui/sparkles";
 import { MagicCursor } from "~/components/ui/magic-cursor";
 import { ContainerScroll } from "~/components/ui/container-scroll-animation";
+import { MagneticButton } from "~/components/ui/MagneticButton";
 import { SpotlightCard } from "~/components/reactbits/SpotlightCard";
 import { SplitText } from "~/components/reactbits/SplitText";
 import gsap from "gsap";
@@ -167,12 +168,14 @@ export default function Home() {
           >
             Sign In
           </button>
-          <button 
-            onClick={() => navigate("/auth")}
-            className="hidden md:flex items-center gap-2 px-5 py-2.5 bg-blue-600 text-white rounded-full text-sm font-semibold hover:bg-blue-700 transition-all hover:scale-105 shadow-sm"
-          >
-            Get Started <ArrowRight size={16} />
-          </button>
+          <MagneticButton>
+            <button 
+              onClick={() => navigate("/auth")}
+              className="hidden md:flex items-center gap-2 px-5 py-2.5 bg-blue-600 text-white rounded-full text-sm font-semibold hover:bg-blue-700 transition-all hover:scale-105 shadow-sm"
+            >
+              Get Started <ArrowRight size={16} />
+            </button>
+          </MagneticButton>
         </div>
       </nav>
 
@@ -221,13 +224,15 @@ export default function Home() {
           </ScrollReveal>
 
           <ScrollReveal delay={1.0} direction="up" distance={20}>
-            <button 
-              onClick={() => navigate("/auth")}
-              className="group relative px-8 py-4 bg-[#ea580c] text-white rounded-full text-lg font-semibold overflow-hidden transition-all hover:scale-105 shadow-lg shadow-orange-500/20 mt-4"
-            >
-              <div className="absolute inset-0 bg-gradient-to-r from-[#ea580c] to-orange-500 opacity-0 group-hover:opacity-100 transition-opacity" />
-              <span className="flex items-center gap-2 relative z-10">Analyze My Resume <ArrowRight size={20} className="transition-transform group-hover:translate-x-1" /></span>
-            </button>
+            <MagneticButton>
+              <button 
+                onClick={() => navigate("/auth")}
+                className="group relative px-8 py-4 bg-[#ea580c] text-white rounded-full text-lg font-semibold overflow-hidden transition-all hover:scale-105 shadow-[0_8px_32px_rgba(234,88,12,0.3)] mt-4"
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-[#ea580c] to-orange-500 opacity-0 group-hover:opacity-100 transition-opacity" />
+                <span className="flex items-center gap-2 relative z-10">Analyze My Resume <ArrowRight size={20} className="transition-transform group-hover:translate-x-1" /></span>
+              </button>
+            </MagneticButton>
           </ScrollReveal>
         </div>
       </section>

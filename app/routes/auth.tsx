@@ -31,7 +31,7 @@ const Auth = () => {
       </div>
 
       {/* Card */}
-      <div className="w-full max-w-md border border-border bg-white/70 shadow-xl backdrop-blur-xl rounded-2xl p-8 rp-scale-in relative z-10">
+      <div className="w-full max-w-md glass shadow-layered rounded-3xl p-10 rp-scale-in relative z-10">
         <div className="flex flex-col items-center gap-2 text-center mb-8">
           <h2 className="text-foreground text-2xl font-bold">Welcome back</h2>
           <p className="text-slate-500 text-sm">
