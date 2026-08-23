@@ -120,8 +120,25 @@ function ProcessingView({ stage, error }: { stage: Stage; error?: string }) {
 }
 
 function FileDropzone({ onFileSelect, file }: { onFileSelect: (f: File | null) => void; file: File | null }) {
+  const [error, setError] = useState<string>("");
+
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop: (files) => onFileSelect(files[0] ?? null),
+    onDrop: (acceptedFiles, fileRejections) => {
+      setError("");
+      if (fileRejections.length > 0) {
+        const err = fileRejections[0].errors[0];
+        if (err.code === "file-too-large") {
+          setError("File is too large (max 20MB).");
+        } else if (err.code === "file-invalid-type") {
+          setError("Invalid file type. Please upload a PDF.");
+        } else {
+          setError(err.message);
+        }
+        onFileSelect(null);
+        return;
+      }
+      onFileSelect(acceptedFiles[0] ?? null);
+    },
     multiple: false,
     accept: { "application/pdf": [".pdf"] },
     maxSize: 20 * 1024 * 1024,
@@ -164,6 +181,11 @@ function FileDropzone({ onFileSelect, file }: { onFileSelect: (f: File | null) =
         </p>
         <p className="text-sm text-slate-500 font-light">PDF format up to 20MB</p>
       </div>
+      {error && (
+        <p className="absolute bottom-3 text-xs font-semibold text-error/90 bg-error/10 px-3 py-1 rounded-full z-20">
+          {error}
+        </p>
+      )}
     </div>
   );
 }
