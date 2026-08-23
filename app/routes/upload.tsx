@@ -193,7 +193,7 @@ const Upload = () => {
     // 2. Convert to image
     setStage("parsing");
     const imageResult = await convertPdfToImage(file);
-    if (!imageResult.file) { setStage("error"); setErrorMsg("Failed to convert PDF to preview. The file may be corrupted."); return; }
+    if (!imageResult.file) { setStage("error"); setErrorMsg(imageResult.error || "Failed to convert PDF to preview."); return; }
 
     const uploadedImage = await fs.upload(imageResult.file);
     if (!uploadedImage) { setStage("error"); setErrorMsg("Failed to upload preview image."); return; }

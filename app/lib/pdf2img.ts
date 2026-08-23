@@ -36,7 +36,7 @@ export async function convertPdfToImage(
                     resolve({
                         imageUrl: "",
                         file: null,
-                        error: error || "Failed to create image blob in worker",
+                        error: error ? `Worker says: ${error}` : "Failed to create image blob in worker",
                     });
                 }
             };
