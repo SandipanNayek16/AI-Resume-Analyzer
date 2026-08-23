@@ -213,7 +213,7 @@ const Upload = () => {
 
     // 4. AI analysis
     const aiResponse = await ai.feedback(
-      uploadedFile.path,
+      uploadedImage.path,
       prepareInstructions({ jobTitle, jobDescription })
     );
     if (!aiResponse) { setStage("error"); setErrorMsg("AI analysis failed. This may be a temporary issue — please try again."); return; }
