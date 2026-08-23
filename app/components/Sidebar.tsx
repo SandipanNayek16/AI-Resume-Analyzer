@@ -29,12 +29,12 @@ export function Sidebar() {
     <aside className="w-64 flex-shrink-0 border-r border-border bg-background flex flex-col h-screen sticky top-0">
       {/* Brand */}
       <div className="h-16 flex items-center px-6 border-b border-border">
-        <Link to="/" className="flex items-center gap-2.5">
-          <div className="size-8 rounded-lg bg-gradient-to-br from-blue-600 to-blue-500 flex items-center justify-center shadow-sm">
-            <span className="text-white text-sm font-bold">IQ</span>
+        <Link to="/" className="flex items-center gap-3">
+          <div className="size-10 rounded-2xl bg-blue-500 flex items-center justify-center shadow-[0_4px_24px_-4px_rgba(59,130,246,0.5)]">
+            <span className="text-white text-base font-black tracking-tight">IQ</span>
           </div>
-          <span className="text-lg font-bold text-foreground tracking-tight">
-            Resume<span className="text-blue-600">IQ</span>
+          <span className="text-2xl font-black text-foreground tracking-tighter">
+            Resume<span className="text-blue-500">IQ</span>
           </span>
         </Link>
       </div>

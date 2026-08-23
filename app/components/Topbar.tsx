@@ -15,11 +15,11 @@ export function Topbar({ onMenuClick }: { onMenuClick: () => void }) {
           <Menu size={20} />
         </button>
         <Link to="/" className="flex items-center gap-2">
-          <div className="size-6 rounded-md bg-gradient-to-br from-blue-600 to-blue-500 flex items-center justify-center shadow-sm">
-            <span className="text-white text-xs font-bold">IQ</span>
+          <div className="size-7 rounded-xl bg-blue-500 flex items-center justify-center shadow-[0_2px_12px_-2px_rgba(59,130,246,0.5)]">
+            <span className="text-white text-xs font-black tracking-tight">IQ</span>
           </div>
-          <span className="font-bold text-foreground">
-            Resume<span className="text-blue-600">IQ</span>
+          <span className="text-lg font-black text-foreground tracking-tighter">
+            Resume<span className="text-blue-500">IQ</span>
           </span>
         </Link>
       </div>

@@ -155,11 +155,11 @@ export default function Home() {
       {/* Navbar */}
       <nav className="h-20 border-b border-border-subtle bg-background/70 backdrop-blur-xl sticky top-0 z-50 px-6 md:px-12 flex items-center justify-between">
         <div className="flex items-center gap-3 group cursor-pointer" onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}>
-          <div className="size-10 rounded-xl bg-gradient-to-br from-blue-600 to-blue-500 flex items-center justify-center shadow-[0_0_20px_rgba(37,99,235,0.3)] transition-transform group-hover:scale-105">
-            <span className="text-white text-sm font-bold tracking-wider">IQ</span>
+          <div className="size-10 rounded-2xl bg-blue-500 flex items-center justify-center shadow-[0_4px_24px_-4px_rgba(59,130,246,0.5)] transition-transform group-hover:scale-105">
+            <span className="text-white text-base font-black tracking-tight">IQ</span>
           </div>
-          <span className="text-xl font-bold tracking-tight text-foreground">
-            Resume<span className="text-blue-600">IQ</span>
+          <span className="text-2xl font-black tracking-tighter text-foreground">
+            Resume<span className="text-blue-500">IQ</span>
           </span>
         </div>
         <div className="flex items-center gap-6">
