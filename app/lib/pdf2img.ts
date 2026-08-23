@@ -17,6 +17,11 @@ export async function convertPdfToImage(
             const worker = new PdfWorker();
 
             worker.onmessage = (e: MessageEvent) => {
+                // Ignore Vite HMR messages or other internal messages
+                if (!e.data || typeof e.data.success !== "boolean") {
+                    return;
+                }
+
                 const { success, blob, fileName, error } = e.data;
                 
                 // Cleanup worker
