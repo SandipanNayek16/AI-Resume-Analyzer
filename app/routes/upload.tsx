@@ -187,7 +187,7 @@ const Upload = () => {
     setStage("upload");
 
     // 1. Upload PDF
-    const uploadedFile = await fs.upload([file]);
+    const uploadedFile = await fs.upload(file);
     if (!uploadedFile) { setStage("error"); setErrorMsg("Failed to upload PDF. Please try again."); return; }
 
     // 2. Convert to image
@@ -195,7 +195,7 @@ const Upload = () => {
     const imageResult = await convertPdfToImage(file);
     if (!imageResult.file) { setStage("error"); setErrorMsg("Failed to convert PDF to preview. The file may be corrupted."); return; }
 
-    const uploadedImage = await fs.upload([imageResult.file]);
+    const uploadedImage = await fs.upload(imageResult.file);
     if (!uploadedImage) { setStage("error"); setErrorMsg("Failed to upload preview image."); return; }
 
     // 3. Save initial record
