@@ -29,7 +29,7 @@ export function ResumeScene({ scale = 1 }) {
       <group ref={groupRef} scale={scale}>
         
         {/* Holographic Document Base with realistic thickness */}
-        <RoundedBox args={[3.2, 4.2, 0.05]} radius={0.05} position={[0, 0, 0]} castShadow receiveShadow>
+        <RoundedBox args={[3.2, 4.2, 0.05]} radius={0.025} position={[0, 0, 0]} castShadow receiveShadow>
           <meshStandardMaterial 
             color="#0f172a" 
             metalness={0.8} 
@@ -41,7 +41,7 @@ export function ResumeScene({ scale = 1 }) {
         </RoundedBox>
 
         {/* Inner page edge glowing trim */}
-        <RoundedBox args={[3.15, 4.15, 0.06]} radius={0.04} position={[0, 0, 0.01]}>
+        <RoundedBox args={[3.15, 4.15, 0.06]} radius={0.02} position={[0, 0, 0.01]}>
           <meshBasicMaterial color="#38bdf8" transparent opacity={0.1} wireframe/>
         </RoundedBox>
 
@@ -90,13 +90,13 @@ export function ResumeScene({ scale = 1 }) {
           </Text>
           {/* Skill Nodes */}
           <group position={[-1.0, -1.1, 0.02]}>
-             <RoundedBox args={[0.8, 0.2, 0.02]} radius={0.05} position={[0, 0, 0]}>
+             <RoundedBox args={[0.8, 0.2, 0.02]} radius={0.01} position={[0, 0, 0]}>
                 <meshStandardMaterial color="#0284c7" emissive="#0284c7" emissiveIntensity={0.2}/>
              </RoundedBox>
-             <RoundedBox args={[0.7, 0.2, 0.02]} radius={0.05} position={[0.9, 0, 0]}>
+             <RoundedBox args={[0.7, 0.2, 0.02]} radius={0.01} position={[0.9, 0, 0]}>
                 <meshStandardMaterial color="#0f766e" emissive="#0f766e" emissiveIntensity={0.2}/>
              </RoundedBox>
-             <RoundedBox args={[0.6, 0.2, 0.02]} radius={0.05} position={[1.7, 0, 0]}>
+             <RoundedBox args={[0.6, 0.2, 0.02]} radius={0.01} position={[1.7, 0, 0]}>
                 <meshStandardMaterial color="#4338ca" emissive="#4338ca" emissiveIntensity={0.2}/>
              </RoundedBox>
           </group>
@@ -105,7 +105,7 @@ export function ResumeScene({ scale = 1 }) {
         {/* Floating Data Tags - High-tech UI overlays */}
         <Float speed={2} rotationIntensity={0.5} floatIntensity={1.5}>
           <group position={[2.2, 1, 0.5]}>
-             <RoundedBox args={[1.2, 0.4, 0.02]} radius={0.05} position={[0, 0, 0]}>
+             <RoundedBox args={[1.2, 0.4, 0.02]} radius={0.01} position={[0, 0, 0]}>
                <meshStandardMaterial color="#10b981" emissive="#10b981" emissiveIntensity={0.4} transparent opacity={0.7} metalness={0.8} roughness={0.2}/>
              </RoundedBox>
              <Text position={[-0.4, 0, 0.02]} fontSize={0.12} color="#ffffff" anchorX="left" anchorY="middle">
@@ -119,7 +119,7 @@ export function ResumeScene({ scale = 1 }) {
 
         <Float speed={2.5} rotationIntensity={0.5} floatIntensity={2}>
           <group position={[-2.2, -0.5, 0.8]}>
-             <RoundedBox args={[1.4, 0.4, 0.02]} radius={0.05} position={[0, 0, 0]}>
+             <RoundedBox args={[1.4, 0.4, 0.02]} radius={0.01} position={[0, 0, 0]}>
                <meshStandardMaterial color="#06b6d4" emissive="#06b6d4" emissiveIntensity={0.4} transparent opacity={0.7} metalness={0.8} roughness={0.2}/>
              </RoundedBox>
              <Text position={[-0.5, 0, 0.02]} fontSize={0.12} color="#ffffff" anchorX="left" anchorY="middle">

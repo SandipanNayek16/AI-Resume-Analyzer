@@ -1,5 +1,3 @@
-"use client";
-
 import * as React from "react";
 import { Sparkle } from "lucide-react";
 import { createRoot } from "react-dom/client";

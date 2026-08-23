@@ -1,4 +1,3 @@
-"use client";
 import React, { useId } from "react";
 import Particles, { ParticlesProvider } from "@tsparticles/react";
 import { loadSlim } from "@tsparticles/slim";
