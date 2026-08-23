@@ -205,61 +205,72 @@ const Upload = () => {
   const handleAnalyze = async ({
     companyName, jobTitle, jobDescription, file,
   }: { companyName: string; jobTitle: string; jobDescription: string; file: File }) => {
-    setProcessing(true);
-    setStage("upload");
-
-    // 1. Upload PDF
-    const uploadedFile = await fs.upload(file);
-    if (!uploadedFile) { setStage("error"); setErrorMsg("Failed to upload PDF. Please try again."); return; }
-
-    // 2. Convert to image
-    setStage("parsing");
-    const imageResult = await convertPdfToImage(file);
-    if (!imageResult.file) { setStage("error"); setErrorMsg(imageResult.error || "Failed to convert PDF to preview."); return; }
-
-    const uploadedImage = await fs.upload(imageResult.file);
-    if (!uploadedImage) { setStage("error"); setErrorMsg("Failed to upload preview image."); return; }
-
-    // 3. Save initial record
-    setStage("analyzing");
-    const uuid = generateUUID();
-    const data: Resume = {
-      id: uuid,
-      resumePath: uploadedFile.path,
-      imagePath: uploadedImage.path,
-      companyName, jobTitle,
-      feedback: {} as Feedback,
-      createdAt: new Date().toISOString(),
-    };
-    await kv.set(`resume:${uuid}`, JSON.stringify(data));
-
-    // 4. AI analysis
-    const aiResponse = await ai.feedback(
-      uploadedImage.path,
-      prepareInstructions({ jobTitle, jobDescription })
-    );
-    if (!aiResponse) { setStage("error"); setErrorMsg("AI analysis failed. This may be a temporary issue — please try again."); return; }
-
-    const feedbackText = typeof aiResponse.message.content === "string"
-      ? aiResponse.message.content
-      : aiResponse.message.content[0].text;
-
-    // 5. Parse and save
-    setStage("scoring");
-    let feedback: Feedback;
     try {
-      feedback = parseAIResponse(feedbackText);
-    } catch {
+      setProcessing(true);
+      setStage("upload");
+
+      // 1. Upload PDF
+      const uploadedFile = await fs.upload(file);
+      if (!uploadedFile) { setStage("error"); setErrorMsg("Failed to upload PDF. Please try again."); return; }
+
+      // 2. Convert to image
+      setStage("parsing");
+      const imageResult = await convertPdfToImage(file);
+      if (!imageResult.file) { setStage("error"); setErrorMsg(imageResult.error || "Failed to convert PDF to preview."); return; }
+
+      const uploadedImage = await fs.upload(imageResult.file);
+      if (!uploadedImage) { setStage("error"); setErrorMsg("Failed to upload preview image."); return; }
+
+      // 3. Save initial record
+      setStage("analyzing");
+      
+      // Use fallback UUID if crypto is unavailable (e.g., non-secure context)
+      const uuid = typeof crypto !== 'undefined' && crypto.randomUUID 
+        ? crypto.randomUUID() 
+        : Math.random().toString(36).substring(2) + Date.now().toString(36);
+        
+      const data: Resume = {
+        id: uuid,
+        resumePath: uploadedFile.path,
+        imagePath: uploadedImage.path,
+        companyName, jobTitle,
+        feedback: {} as Feedback,
+        createdAt: new Date().toISOString(),
+      };
+      await kv.set(`resume:${uuid}`, JSON.stringify(data));
+
+      // 4. AI analysis
+      const aiResponse = await ai.feedback(
+        uploadedImage.path,
+        prepareInstructions({ jobTitle, jobDescription })
+      );
+      if (!aiResponse) { setStage("error"); setErrorMsg("AI analysis failed. This may be a temporary issue — please try again."); return; }
+
+      const feedbackText = typeof aiResponse.message.content === "string"
+        ? aiResponse.message.content
+        : aiResponse.message.content[0].text;
+
+      // 5. Parse and save
+      setStage("scoring");
+      let feedback: Feedback;
+      try {
+        feedback = parseAIResponse(feedbackText);
+      } catch {
+        setStage("error");
+        setErrorMsg("Failed to parse AI response. The model did not return valid JSON. Please try again.");
+        return;
+      }
+
+      data.feedback = feedback;
+      await kv.set(`resume:${uuid}`, JSON.stringify(data));
+
+      setStage("rp-step-done");
+      setTimeout(() => navigate(`/resume/${uuid}`), 800);
+    } catch (err: any) {
+      console.error("Unhandled error in handleAnalyze:", err);
       setStage("error");
-      setErrorMsg("Failed to parse AI response. The model did not return valid JSON. Please try again.");
-      return;
+      setErrorMsg(err.message || "An unexpected error occurred during analysis.");
     }
-
-    data.feedback = feedback;
-    await kv.set(`resume:${uuid}`, JSON.stringify(data));
-
-    setStage("rp-step-done");
-    setTimeout(() => navigate(`/resume/${uuid}`), 800);
   };
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
