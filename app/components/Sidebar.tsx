@@ -95,7 +95,9 @@ export function Sidebar() {
                <User size={14} strokeWidth={2.5} />
             </div>
             <div className="flex flex-col min-w-0">
-               <span className="text-sm font-bold text-foreground truncate">{user.username}</span>
+               <span className="text-sm font-bold text-foreground truncate capitalize">
+                 {user.email ? user.email.split('@')[0].replace(/[^a-zA-Z]/g, ' ') : "Account"}
+               </span>
                <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest truncate">Account</span>
             </div>
           </div>
