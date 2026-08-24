@@ -181,7 +181,7 @@ export default function Dashboard() {
 
   // Metrics calculation
   const totalAnalyzed = resumes.length;
-  const validScores = resumes.map(r => r.feedback?.overallScore || 0).filter(s => s > 0);
+  const validScores = resumes.map(r => r.feedback?.overallScore).filter(s => typeof s === "number") as number[];
   const avgScore = validScores.length > 0 ? Math.round(validScores.reduce((a, b) => a + b, 0) / validScores.length) : 0;
   const highestScore = validScores.length > 0 ? Math.max(...validScores) : 0;
 
@@ -191,11 +191,11 @@ export default function Dashboard() {
   // Score Trend Data (Reverse to show oldest to newest)
   // Get resumes that have a valid score, limit to 7 for chart
   const trendResumes = [...resumes]
-    .filter(r => (r.feedback?.overallScore || 0) > 0)
+    .filter(r => typeof r.feedback?.overallScore === "number")
     .slice(0, 7)
     .reverse();
     
-  const scoreTrendData = trendResumes.map(r => r.feedback?.overallScore || 0);
+  const scoreTrendData = trendResumes.map(r => r.feedback!.overallScore);
   const scoreTrendDates = trendResumes.map(r => new Date(r.createdAt || Date.now()).toLocaleDateString());
 
   if (loading) {
@@ -239,7 +239,7 @@ export default function Dashboard() {
   }
 
   // Derive intelligence from latest resume
-  const latestScore = latestResume.feedback?.overallScore || 0;
+  const latestScore = latestResume?.feedback?.overallScore ?? 0;
   const statusLabel = latestScore >= 80 ? "EXCELLENT" : latestScore >= 65 ? "GOOD" : "NEEDS IMPROVEMENT";
   const statusColor = latestScore >= 80 ? "text-emerald-500" : latestScore >= 65 ? "text-blue-500" : "text-amber-500";
   
@@ -300,17 +300,17 @@ export default function Dashboard() {
                 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6">
                   {[
-                    { label: "ATS Compatibility", score: latestResume.feedback?.ATS?.score || 0 },
-                    { label: "Content Quality", score: latestResume.feedback?.content?.score || 0 },
-                    { label: "Structure & Style", score: latestResume.feedback?.structure?.score || 0 },
-                    { label: "Skills Coverage", score: latestResume.feedback?.skills?.score || 0 },
+                    { label: "ATS Compatibility", score: latestResume.feedback?.ATS?.score ?? "—" },
+                    { label: "Content Quality", score: latestResume.feedback?.content?.score ?? "—" },
+                    { label: "Structure & Style", score: latestResume.feedback?.structure?.score ?? "—" },
+                    { label: "Skills Coverage", score: latestResume.feedback?.skills?.score ?? "—" },
                   ].map((metric, i) => (
                     <div key={i} className="flex flex-col gap-2">
                       <div className="flex justify-between items-end">
                         <span className="text-sm font-semibold text-slate-600 dark:text-slate-300">{metric.label}</span>
                         <span className="text-sm font-bold">{metric.score}</span>
                       </div>
-                      <ProgressBar value={metric.score} className="h-1.5 bg-black/5 dark:bg-white/5" />
+                      <ProgressBar value={typeof metric.score === "number" ? metric.score : 0} className="h-1.5 bg-black/5 dark:bg-white/5" />
                     </div>
                   ))}
                 </div>
@@ -391,8 +391,8 @@ export default function Dashboard() {
                   to={`/resume/${resume.id}`}
                   className="bg-white/50 dark:bg-slate-900/50 backdrop-blur-md border border-border/50 rounded-2xl p-4 flex items-center gap-4 hover:bg-white dark:hover:bg-slate-900 hover:shadow-lg transition-all group"
                 >
-                  <div className="shrink-0 size-12 rounded-full flex items-center justify-center font-bold text-sm bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/5" style={{ color: scoreColor(resume.feedback?.overallScore || 0) }}>
-                    {resume.feedback?.overallScore || 0}
+                  <div className="shrink-0 size-12 rounded-full flex items-center justify-center font-bold text-sm bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/5" style={{ color: typeof resume.feedback?.overallScore === "number" ? scoreColor(resume.feedback.overallScore) : "inherit" }}>
+                    {resume.feedback?.overallScore ?? "—"}
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="font-bold text-foreground text-sm truncate group-hover:text-blue-600 transition-colors">

@@ -1,6 +1,7 @@
 import { Menu } from "lucide-react";
 import { Link } from "react-router";
 import { usePuterStore } from "~/lib/puter";
+import { getUserInitial } from "~/lib/utils";
 
 export function Topbar({ onMenuClick }: { onMenuClick: () => void }) {
   const { auth } = usePuterStore();
@@ -25,7 +26,7 @@ export function Topbar({ onMenuClick }: { onMenuClick: () => void }) {
       <div className="flex items-center">
         {auth.isAuthenticated && (
           <div className="size-8 rounded-full bg-blue-600 flex items-center justify-center text-sm font-bold text-white shadow-sm">
-            {auth.user?.username?.[0]?.toUpperCase() ?? "U"}
+            {getUserInitial(auth.user)}
           </div>
         )}
       </div>

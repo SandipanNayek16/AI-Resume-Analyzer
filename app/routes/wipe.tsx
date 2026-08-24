@@ -4,7 +4,7 @@ import { usePuterStore } from "~/lib/puter";
 import { PageTransition } from "~/components/motion/PageTransition";
 import { ScrollReveal } from "~/components/motion/ScrollReveal";
 import { AlertTriangle, User, Database, ShieldAlert, CheckCircle2, HardDrive, FileText, ChevronRight } from "lucide-react";
-import { cn } from "~/lib/utils";
+import { cn, getUserDisplayName } from "~/lib/utils";
 
 export const meta = () => ([
   { title: "ResumeIQ — Settings" },
@@ -13,7 +13,7 @@ export const meta = () => ([
 const Settings = () => {
   const { auth, isLoading, fs, kv } = usePuterStore();
   const navigate = useNavigate();
-  const [files, setFiles] = useState<FSItem[]>([]);
+  const [filesCount, setFilesCount] = useState<number>(0);
   const [kvKeys, setKvKeys] = useState<string[]>([]);
   const [wiping, setWiping] = useState(false);
   const [wiped, setWiped] = useState(false);
@@ -29,10 +29,21 @@ const Settings = () => {
 
   const loadData = async () => {
     try {
-      const f = (await fs.readDir("./")) as FSItem[];
-      setFiles(f || []);
-      const k = (await kv.list("resume:*")) as string[];
-      setKvKeys(k || []);
+      const keys = (await kv.list("resume:*")) as string[] || [];
+      setKvKeys(keys);
+      
+      let ownedFiles = 0;
+      for (const key of keys) {
+         try {
+           const val = await kv.get(key);
+           if (val) {
+              const item = JSON.parse(val);
+              if (item.resumePath) ownedFiles++;
+              if (item.imagePath) ownedFiles++;
+           }
+         } catch(e) {}
+      }
+      setFilesCount(ownedFiles);
     } catch {}
   };
 
@@ -42,12 +53,19 @@ const Settings = () => {
     setWiping(true);
     setWipeError(false);
     try {
-      for (const file of files) {
-        await fs.delete(file.path);
+      for (const key of kvKeys) {
+        try {
+           const val = await kv.get(key);
+           if (val) {
+              const item = JSON.parse(val);
+              if (item.resumePath) await fs.delete(item.resumePath).catch(() => {});
+              if (item.imagePath) await fs.delete(item.imagePath).catch(() => {});
+           }
+           await kv.delete(key);
+        } catch(e) {}
       }
-      await kv.flush();
       setWiped(true);
-      setFiles([]);
+      setFilesCount(0);
       setKvKeys([]);
       setIsModalOpen(false);
     } catch (e) {
@@ -55,14 +73,6 @@ const Settings = () => {
     } finally {
       setWiping(false);
     }
-  };
-  
-  const getDisplayName = () => {
-      if (!auth.user) return "Account";
-      if (auth.user.email) {
-          return auth.user.email.split('@')[0].replace(/[^a-zA-Z]/g, ' ') || "Account";
-      }
-      return "Account";
   };
 
   if (isLoading) {
@@ -76,7 +86,7 @@ const Settings = () => {
       );
   }
 
-  const hasData = files.length > 0 || kvKeys.length > 0;
+  const hasData = filesCount > 0 || kvKeys.length > 0;
 
   return (
     <PageTransition className="max-w-[960px] mx-auto py-8 lg:py-12 px-4 sm:px-6">
@@ -99,7 +109,7 @@ const Settings = () => {
                 <User size={24} strokeWidth={2} />
               </div>
               <div>
-                <h3 className="font-bold text-foreground text-lg capitalize">{getDisplayName()}</h3>
+                <h3 className="font-bold text-foreground text-lg capitalize">{getUserDisplayName(auth.user)}</h3>
                 <p className="text-sm text-slate-500 font-medium">Puter Account connected</p>
                 {auth.user?.email && (
                     <p className="text-xs text-slate-400 mt-0.5">{auth.user.email}</p>
@@ -135,7 +145,7 @@ const Settings = () => {
                            <HardDrive size={16} />
                            <span className="text-xs font-bold uppercase tracking-widest">Stored Files</span>
                         </div>
-                        <p className="text-3xl font-black font-mono text-foreground">{files.length}</p>
+                        <p className="text-3xl font-black font-mono text-foreground">{filesCount}</p>
                     </div>
                  </div>
              </div>

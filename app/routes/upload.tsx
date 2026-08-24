@@ -273,18 +273,7 @@ const Upload = () => {
     }
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (!file) return;
-    const form = e.currentTarget;
-    const formData = new FormData(form);
-    handleAnalyze({
-      companyName: formData.get("company-name") as string || "",
-      jobTitle: formData.get("job-title") as string || "",
-      jobDescription: formData.get("job-description") as string || "",
-      file,
-    });
-  };
+
 
   return (
     <div className="max-w-2xl mx-auto py-8">
@@ -302,7 +291,7 @@ const Upload = () => {
                 className="bg-white/70 border border-border rounded-2xl p-8 shadow-sm backdrop-blur-xl flex flex-col gap-6"
                 onSubmit={(e) => {
                   e.preventDefault();
-                  if (!file) return;
+                  if (!file || processing) return;
                   const fd = new FormData(e.currentTarget);
                   // Use setTimeout to ensure native event bubbling finishes before any potential heavy state changes
                   setTimeout(() => {

@@ -223,7 +223,7 @@ You are analyzing the user's active resume.
               </div>
               <div className="flex flex-col items-end">
                 <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">ATS Score</span>
-                <span className="font-black text-xl text-blue-600">{selectedResume?.feedback?.overallScore || 0}</span>
+                <span className="font-black text-xl text-blue-600">{selectedResume?.feedback?.overallScore ?? "—"}</span>
               </div>
             </div>
             

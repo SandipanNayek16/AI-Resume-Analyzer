@@ -52,8 +52,8 @@ const Resumes = () => {
     switch (sortKey) {
       case "newest": return (b.createdAt ?? b.id) > (a.createdAt ?? a.id) ? 1 : -1;
       case "oldest": return (a.createdAt ?? a.id) > (b.createdAt ?? b.id) ? 1 : -1;
-      case "highest": return (b.feedback?.overallScore || 0) - (a.feedback?.overallScore || 0);
-      case "lowest":  return (a.feedback?.overallScore || 0) - (b.feedback?.overallScore || 0);
+      case "highest": return (b.feedback?.overallScore ?? 0) - (a.feedback?.overallScore ?? 0);
+      case "lowest":  return (a.feedback?.overallScore ?? 0) - (b.feedback?.overallScore ?? 0);
     }
   });
 
@@ -172,11 +172,11 @@ const Resumes = () => {
                     {/* Score badge */}
                     <div className={cn(
                       "flex-shrink-0 size-20 rounded-2xl border-2 flex flex-col items-center justify-center relative overflow-hidden",
-                      scoreBg(resume.feedback?.overallScore || 0)
+                      scoreBg(typeof resume.feedback?.overallScore === "number" ? resume.feedback.overallScore : 0)
                     )}>
                       <div className="absolute inset-0 bg-white/5" />
-                      <span className={cn("text-2xl font-black leading-none", scoreColor(resume.feedback?.overallScore || 0))}>
-                        {resume.feedback?.overallScore || 0}
+                      <span className={cn("text-2xl font-black leading-none", scoreColor(typeof resume.feedback?.overallScore === "number" ? resume.feedback.overallScore : 0))}>
+                        {resume.feedback?.overallScore ?? "—"}
                       </span>
                       <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mt-1">Score</span>
                     </div>
@@ -216,7 +216,7 @@ const Resumes = () => {
                         <span className="text-blue-600">{resume.feedback.jobMatch.score}%</span>
                       )}
                     </div>
-                    <ProgressBar value={resume.feedback?.overallScore || 0} className="mt-1" />
+                    <ProgressBar value={typeof resume.feedback?.overallScore === "number" ? resume.feedback.overallScore : 0} className="mt-1" />
                   </div>
 
                   {/* Actions */}

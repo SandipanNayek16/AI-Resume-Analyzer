@@ -1,6 +1,6 @@
 import { Link, useLocation, useNavigate } from "react-router";
 import { usePuterStore } from "~/lib/puter";
-import { cn } from "~/lib/utils";
+import { cn, getUserDisplayName, getUserInitial } from "~/lib/utils";
 
 const NAV_ITEMS = [
   { label: "Dashboard", href: "/", icon: "⊞" },
@@ -73,11 +73,11 @@ export default function Navbar() {
             >
               <div className="size-6 rounded-full rp-gradient-brand flex items-center justify-center flex-shrink-0">
                 <span className="text-white text-xs font-bold">
-                  {auth.user?.username?.[0]?.toUpperCase() ?? "U"}
+                  {getUserInitial(auth.user)}
                 </span>
               </div>
-              <span className="hidden sm:block max-w-[100px] truncate">
-                {auth.user?.username}
+              <span className="hidden sm:block max-w-[100px] truncate capitalize">
+                {getUserDisplayName(auth.user)}
               </span>
             </button>
           </div>

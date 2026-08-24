@@ -109,7 +109,7 @@ const Resume = () => {
     { key: "skills",       title: "Skills Coverage",    data: feedback.skills },
   ] : [];
 
-  const overallScore = feedback?.overallScore || 0;
+  const overallScore = feedback?.overallScore ?? 0;
   
   let scoreStatus = "Needs Work";
   let scoreColor = "text-rose-500";
@@ -253,7 +253,7 @@ const Resume = () => {
                         </div>
                         <span className="font-bold text-lg">{s.data.score}/100</span>
                       </div>
-                      <ProgressBar value={s.data.score || 0} className="h-2.5 rounded-full" />
+                      <ProgressBar value={typeof s.data.score === "number" ? s.data.score : 0} className="h-2.5 rounded-full" />
                     </div>
                   ))}
                 </div>

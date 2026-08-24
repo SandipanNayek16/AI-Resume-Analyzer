@@ -71,3 +71,26 @@ export async function withRetry<T>(
     }
   }
 }
+
+/**
+ * Returns a human-readable display name for the user, falling back safely without exposing internal IDs.
+ */
+export function getUserDisplayName(user: PuterUser | null | undefined): string {
+  if (!user) return "Account";
+  
+  if (user.email) {
+    const emailName = user.email.split('@')[0].replace(/[^a-zA-Z]/g, ' ').trim();
+    if (emailName) return emailName;
+  }
+  
+  return "Account";
+}
+
+/**
+ * Returns a safe initial for the user's avatar.
+ */
+export function getUserInitial(user: PuterUser | null | undefined): string {
+  const name = getUserDisplayName(user);
+  if (name === "Account") return "U";
+  return name.charAt(0).toUpperCase();
+}
