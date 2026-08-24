@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 
 interface Suggestion {
   type: "good" | "improve";
@@ -11,26 +11,30 @@ interface ATSProps {
 }
 
 const ATS: React.FC<ATSProps> = ({ score, suggestions }) => {
-  // Determine background gradient based on score
-  const gradientClass = score > 69
-    ? 'from-green-100'
-    : score > 49
-      ? 'from-yellow-100'
-      : 'from-red-100';
+  const { gradientClass, iconSrc, subtitle } = useMemo(() => {
+    // Determine background gradient based on score
+    const gradientClass = score > 69
+      ? 'from-green-100'
+      : score > 49
+        ? 'from-yellow-100'
+        : 'from-red-100';
 
-  // Determine icon based on score
-  const iconSrc = score > 69
-    ? '/icons/ats-good.svg'
-    : score > 49
-      ? '/icons/ats-warning.svg'
-      : '/icons/ats-bad.svg';
+    // Determine icon based on score
+    const iconSrc = score > 69
+      ? '/icons/ats-good.svg'
+      : score > 49
+        ? '/icons/ats-warning.svg'
+        : '/icons/ats-bad.svg';
 
-  // Determine subtitle based on score
-  const subtitle = score > 69
-    ? 'Great Job!'
-    : score > 49
-      ? 'Good Start'
-      : 'Needs Improvement';
+    // Determine subtitle based on score
+    const subtitle = score > 69
+      ? 'Great Job!'
+      : score > 49
+        ? 'Good Start'
+        : 'Needs Improvement';
+
+    return { gradientClass, iconSrc, subtitle };
+  }, [score]);
 
   return (
     <div className={`bg-gradient-to-b ${gradientClass} to-white rounded-2xl shadow-md w-full p-6`}>

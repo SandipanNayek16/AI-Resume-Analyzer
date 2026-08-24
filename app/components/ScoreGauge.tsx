@@ -1,10 +1,10 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useMemo } from "react";
 
 const ScoreGauge = ({ score = 75 }: { score: number }) => {
     const [pathLength, setPathLength] = useState(0);
     const pathRef = useRef<SVGPathElement>(null);
 
-    const percentage = score / 100;
+    const percentage = useMemo(() => score / 100, [score]);
 
     useEffect(() => {
         if (pathRef.current) {

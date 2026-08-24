@@ -14,21 +14,52 @@ self.onmessage = async (e: MessageEvent) => {
             cMapUrl: "/pdfjs/cmaps/",
             cMapPacked: true,
         }).promise;
-        const page = await pdf.getPage(1);
-        const viewport = page.getViewport({ scale: 2.0 });
+        const numPages = Math.min(pdf.numPages, 3); // Cap at 3 pages to prevent memory issues
+        const pages = [];
+        let totalHeight = 0;
+        let maxWidth = 0;
 
-        // Use OffscreenCanvas in the worker
-        const canvas = new OffscreenCanvas(viewport.width, viewport.height);
-        const context = canvas.getContext("2d");
-        
-        if (context) {
-            context.imageSmoothingEnabled = true;
-            context.imageSmoothingQuality = "high";
+        for (let i = 1; i <= numPages; i++) {
+            const page = await pdf.getPage(i);
+            const viewport = page.getViewport({ scale: 2.0 });
+            pages.push({ page, viewport });
+            totalHeight += viewport.height;
+            maxWidth = Math.max(maxWidth, viewport.width);
+            
+            // Yield control back to the event loop
+            await new Promise(resolve => setTimeout(resolve, 0));
         }
 
-        await page.render({ canvasContext: context as any, viewport }).promise;
+        const masterCanvas = new OffscreenCanvas(maxWidth, totalHeight);
+        const masterContext = masterCanvas.getContext("2d");
+        
+        if (masterContext) {
+            masterContext.fillStyle = "white";
+            masterContext.fillRect(0, 0, maxWidth, totalHeight);
+            masterContext.imageSmoothingEnabled = true;
+            masterContext.imageSmoothingQuality = "high";
+        }
 
-        const blob = await canvas.convertToBlob({
+        let currentY = 0;
+        for (let i = 0; i < pages.length; i++) {
+            const { page, viewport } = pages[i];
+            const tempCanvas = new OffscreenCanvas(viewport.width, viewport.height);
+            const tempContext = tempCanvas.getContext("2d");
+            
+            await page.render({ canvasContext: tempContext as any, viewport }).promise;
+            
+            if (masterContext) {
+                masterContext.drawImage(tempCanvas, 0, currentY);
+            }
+            
+            currentY += viewport.height;
+            
+            // Notify main thread of progress and yield
+            self.postMessage({ type: 'progress', current: i + 1, total: numPages });
+            await new Promise(resolve => setTimeout(resolve, 0));
+        }
+
+        const blob = await masterCanvas.convertToBlob({
             type: "image/jpeg",
             quality: 0.8
         });

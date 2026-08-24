@@ -18,7 +18,15 @@ export async function convertPdfToImage(
 
             worker.onmessage = (e: MessageEvent) => {
                 // Ignore Vite HMR messages or other internal messages
-                if (!e.data || typeof e.data.success !== "boolean") {
+                if (!e.data) {
+                    return;
+                }
+
+                if (e.data.type === 'progress') {
+                    return;
+                }
+
+                if (typeof e.data.success !== "boolean") {
                     return;
                 }
 
