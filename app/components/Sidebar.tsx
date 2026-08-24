@@ -88,20 +88,7 @@ export function Sidebar() {
       {/* Footer Area */}
       <div className="p-4 border-t border-border/60 relative z-10 flex flex-col gap-1 bg-slate-50/50 dark:bg-slate-900/20 shrink-0">
         
-        {/* User Profile */}
-        {user && (
-          <div className="px-3 py-3 mb-2 flex items-center gap-3 rounded-xl border border-border/80 bg-white dark:bg-slate-900 shadow-sm">
-            <div className="size-8 rounded-full bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400 flex items-center justify-center flex-shrink-0 border border-blue-200 dark:border-blue-800">
-               <User size={14} strokeWidth={2.5} />
-            </div>
-            <div className="flex flex-col min-w-0">
-               <span className="text-sm font-bold text-foreground truncate capitalize">
-                 {user.email ? user.email.split('@')[0].replace(/[^a-zA-Z]/g, ' ') : "Account"}
-               </span>
-               <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest truncate">Account</span>
-            </div>
-          </div>
-        )}
+
 
         <div className="px-3 mb-2 mt-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
           System
