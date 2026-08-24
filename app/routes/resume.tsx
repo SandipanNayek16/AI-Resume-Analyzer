@@ -1,35 +1,69 @@
 import { Link, useNavigate, useParams } from "react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { usePuterStore } from "~/lib/puter";
-import { ScoreRing, ProgressBar, TipCard, SectionCard, Skeleton } from "~/components/ui";
+import { ScoreRing, ProgressBar, Skeleton, TipCard } from "~/components/ui";
 import { cn } from "~/lib/utils";
 import { PageTransition } from "~/components/motion/PageTransition";
 import { ScrollReveal } from "~/components/motion/ScrollReveal";
+import { motion, AnimatePresence } from "framer-motion";
 
 export const meta = () => ([
-  { title: "ResumeIQ — Resume Analysis" },
-  { name: "description", content: "Your AI-powered resume analysis results." },
+  { title: "ResumeIQ — Resume Intelligence" },
+  { name: "description", content: "AI-powered resume analysis." },
 ]);
 
 type Tab = "overview" | "sections" | "jobmatch";
 
-function ScoreLabel({ score }: { score: number }) {
-  if (score >= 80) return <span className="text-success font-medium text-sm">Excellent</span>;
-  if (score >= 65) return <span className="text-success/80 font-medium text-sm">Good</span>;
-  if (score >= 50) return <span className="text-warning font-medium text-sm">Fair</span>;
-  return <span className="text-error font-medium text-sm">Needs Work</span>;
+// Premium Insight Card Component
+function InsightCard({ type, category, finding, explanation, action }: any) {
+  const isPositive = type === "strong" || type === "good";
+  const colors = {
+    strong: "bg-emerald-500/10 border-emerald-500/20 text-emerald-700 dark:text-emerald-400",
+    good: "bg-blue-500/10 border-blue-500/20 text-blue-700 dark:text-blue-400",
+    attention: "bg-amber-500/10 border-amber-500/20 text-amber-700 dark:text-amber-400",
+    critical: "bg-rose-500/10 border-rose-500/20 text-rose-700 dark:text-rose-400"
+  };
+  const icons = {
+    strong: "✨",
+    good: "✓",
+    attention: "⚠",
+    critical: "✕"
+  };
+
+  return (
+    <div className={`p-5 rounded-2xl border backdrop-blur-sm transition-all duration-300 hover:shadow-md ${colors[type as keyof typeof colors]}`}>
+      <div className="flex gap-4">
+        <div className="text-xl mt-1">{icons[type as keyof typeof icons]}</div>
+        <div className="flex flex-col gap-2">
+          <div className="flex items-center gap-2">
+            <span className="text-xs uppercase tracking-wider font-bold opacity-70">{category}</span>
+            <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-white/50 dark:bg-black/20 uppercase tracking-widest">{type}</span>
+          </div>
+          <h4 className="font-bold text-base leading-tight">{finding}</h4>
+          <p className="text-sm opacity-90 leading-relaxed">{explanation}</p>
+          {action && (
+            <div className="mt-2 text-sm font-semibold flex items-center gap-1 opacity-80 cursor-pointer hover:opacity-100 transition-opacity">
+              {action} <span className="text-lg leading-none">→</span>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
 }
 
 const Resume = () => {
   const { auth, isLoading, fs, kv } = usePuterStore();
   const { id } = useParams();
   const navigate = useNavigate();
+  
   const [imageUrl, setImageUrl] = useState("");
   const [resumeUrl, setResumeUrl] = useState("");
   const [feedback, setFeedback] = useState<Feedback | null>(null);
   const [resumeData, setResumeData] = useState<Resume | null>(null);
   const [loadingData, setLoadingData] = useState(true);
   const [tab, setTab] = useState<Tab>("overview");
+  const [activeSection, setActiveSection] = useState<string | null>(null);
 
   useEffect(() => {
     if (!isLoading && !auth.isAuthenticated) navigate(`/auth?next=/resume/${id}`);
@@ -75,301 +109,316 @@ const Resume = () => {
     { key: "skills",       title: "Skills Coverage",    data: feedback.skills },
   ] : [];
 
-  const goodTips = feedback
-    ? sections.flatMap((s) => (s.data?.tips || []).filter((t) => t.type === "good").map((t) => ({ ...t, section: s.title })))
-    : [];
-  const improveTips = feedback
-    ? sections.flatMap((s) => (s.data?.tips || []).filter((t) => t.type === "improve").map((t) => ({ ...t, section: s.title })))
-    : [];
+  const overallScore = feedback?.overallScore || 0;
+  
+  let scoreStatus = "Needs Work";
+  let scoreColor = "text-rose-500";
+  if (overallScore >= 80) { scoreStatus = "Excellent"; scoreColor = "text-emerald-500"; }
+  else if (overallScore >= 65) { scoreStatus = "Good"; scoreColor = "text-blue-500"; }
+  else if (overallScore >= 50) { scoreStatus = "Fair"; scoreColor = "text-amber-500"; }
+
+  // Map backend tips to insight categories
+  const insights = feedback ? sections.flatMap((s) => {
+    return (s.data?.tips || []).map((t) => ({
+      ...t,
+      finding: t.tip,
+      explanation: t.explanation,
+      category: s.title,
+      type: t.type === "good" ? (s.data.score > 80 ? "strong" : "good") : (s.data.score < 60 ? "critical" : "attention")
+    }));
+  }) : [];
+
+  const strengths = insights.filter(i => i.type === "strong" || i.type === "good");
+  const issues = insights.filter(i => i.type === "critical" || i.type === "attention");
 
   return (
-    <PageTransition className="flex flex-col lg:flex-row h-full gap-8 p-2">
-      {/* Left — Resume Preview */}
-      <aside className="lg:w-[380px] xl:w-[420px] flex-shrink-0 border border-border/50 rounded-2xl bg-slate-50/50 backdrop-blur-md flex flex-col items-center p-6 lg:h-[calc(100vh-8rem)] lg:overflow-y-auto shadow-2xl relative overflow-hidden">
-          <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-blue-600/10 to-transparent pointer-events-none" />
-          
-          {loadingData ? (
-            <Skeleton className="w-full aspect-[3/4] max-w-[300px]" />
-          ) : imageUrl ? (
-            <a href={resumeUrl} target="_blank" rel="noopener noreferrer" className="w-full max-w-[300px] relative z-10 group">
-              <div className="rounded-xl overflow-hidden border border-border shadow-2xl transition-all duration-500 hover:scale-[1.02] hover:shadow-[0_20px_50px_rgba(37,99,235,0.2)]">
-                <img src={imageUrl} alt="Resume preview" className="w-full h-auto" />
-                <div className="absolute inset-0 bg-blue-600/0 group-hover:bg-blue-600/10 transition-colors pointer-events-none" />
-              </div>
-            </a>
-          ) : (
-            <div className="w-full max-w-[300px] aspect-[3/4] rounded-xl bg-slate-200 flex items-center justify-center relative z-10">
-              <p className="text-slate-500 text-sm">Preview unavailable</p>
-            </div>
-          )}
-
-          {/* Meta info */}
-          {resumeData && (
-            <div className="mt-8 w-full max-w-[300px] flex flex-col gap-3 relative z-10 p-4 rounded-xl bg-white/50 border border-border">
-              {resumeData.companyName && (
-                <div className="flex justify-between items-center text-sm">
-                  <span className="text-slate-500 uppercase tracking-wider text-xs">Target</span>
-                  <span className="text-foreground font-medium truncate max-w-[150px]">{resumeData.companyName}</span>
-                </div>
-              )}
-              {resumeData.jobTitle && (
-                <div className="flex justify-between items-center text-sm">
-                  <span className="text-slate-500 uppercase tracking-wider text-xs">Role</span>
-                  <span className="text-foreground font-medium truncate max-w-[150px]">{resumeData.jobTitle}</span>
-                </div>
-              )}
-              <div className="flex justify-between items-center text-sm border-t border-border pt-3 mt-1">
-                  <span className="text-slate-500 uppercase tracking-wider text-xs">Analyzed</span>
-                  <span className="text-foreground">
-                  {resumeData.createdAt ? new Date(resumeData.createdAt).toLocaleDateString("en-US", {
-                    month: "short", day: "numeric", year: "numeric"
-                  }) : "—"}
-                  </span>
-              </div>
-            </div>
-          )}
-        </aside>
-
-        {/* Right — Analysis */}
-        <main className="flex-1 px-2 sm:px-4 py-4 max-w-3xl">
-          {loadingData ? (
-            <div className="flex flex-col gap-6">
-              <Skeleton className="h-8 w-48" />
-              <div className="flex gap-4">
-                {[1,2,3,4].map(i => <Skeleton key={i} className="h-24 flex-1" />)}
-              </div>
-              <Skeleton className="h-48 w-full" />
-              <Skeleton className="h-48 w-full" />
-            </div>
-          ) : !feedback ? (
-            <div className="flex flex-col items-center justify-center gap-4 py-16 text-center h-full">
-              <span className="text-4xl animate-bounce">⚠️</span>
-              <h3 className="text-foreground font-semibold text-xl">Analysis not found</h3>
-              <p className="text-slate-500">This resume analysis may have been deleted.</p>
-              <Link to="/dashboard" className="px-6 py-3 bg-blue-600 text-white rounded-xl font-semibold mt-4">Go to Dashboard</Link>
-            </div>
-          ) : (
-            <div className="flex flex-col gap-8">
-              {/* Header: Score */}
-              <ScrollReveal direction="up" distance={20}>
-                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-8 bg-white/50 p-6 rounded-3xl border border-border/50 shadow-lg">
-                  <ScoreRing score={feedback.overallScore || 0} size={140} strokeWidth={10} />
-                  <div className="flex flex-col gap-3">
-                    <h2 className="text-3xl font-black text-foreground tracking-tight">Resume Analysis</h2>
-                    <p className="text-slate-600 leading-relaxed max-w-md">
-                      ATS-style compatibility estimate based on content, structure, and keyword analysis.
-                    </p>
-                    <div className="flex items-center gap-2 mt-2 px-3 py-1.5 rounded-full bg-slate-100 w-fit">
-                      <ScoreLabel score={feedback.overallScore || 0} />
-                      <span className="text-slate-500 text-xs">·</span>
-                      <span className="text-xs text-slate-500">{(feedback.overallScore || 0)}/100 overall</span>
+    <PageTransition className="flex flex-col lg:flex-row min-h-screen bg-slate-50 dark:bg-slate-950 overflow-hidden">
+      
+      {/* LEFT PANEL: Cinematic Resume Viewer */}
+      <aside className="order-2 lg:order-1 lg:w-[42%] xl:w-[45%] lg:sticky lg:top-0 lg:h-screen bg-slate-200/50 dark:bg-slate-900/50 border-t lg:border-t-0 lg:border-r border-border/50 flex flex-col items-center justify-center p-6 lg:p-12 relative overflow-hidden shadow-[inset_-10px_0_30px_rgba(0,0,0,0.02)] dark:shadow-[inset_-10px_0_30px_rgba(0,0,0,0.2)]">
+        
+        {/* Subtle background glow */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-blue-500/5 dark:bg-blue-500/10 blur-[100px] pointer-events-none rounded-full" />
+        
+        {loadingData ? (
+          <Skeleton className="w-full max-w-[450px] aspect-[1/1.4] rounded-sm shadow-2xl" />
+        ) : imageUrl ? (
+          <div className="relative w-full max-w-[450px] group perspective-[1000px]">
+            {/* The Document Container */}
+            <motion.div 
+              initial={{ opacity: 0, y: 20, rotateX: 5 }}
+              animate={{ opacity: 1, y: 0, rotateX: 0 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              className="relative rounded bg-white shadow-[0_20px_50px_rgba(0,0,0,0.1)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.4)] border border-black/5 overflow-hidden ring-1 ring-black/5"
+            >
+              <img src={imageUrl} alt="Resume Preview" className="w-full h-auto block select-none pointer-events-none" />
+              
+              {/* Contextual Highlight Overlay */}
+              <AnimatePresence>
+                {activeSection && (
+                  <motion.div 
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="absolute inset-0 bg-blue-900/20 dark:bg-blue-400/20 backdrop-blur-[1px] mix-blend-multiply dark:mix-blend-screen transition-all duration-500"
+                  >
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 px-6 py-3 bg-black/80 text-white font-semibold rounded-full shadow-2xl text-sm tracking-wider uppercase backdrop-blur-md">
+                      Focusing: {activeSection}
                     </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+              
+              {/* Scanning Laser (Simulated load/processing effect) */}
+              <motion.div 
+                animate={{ top: ["-10%", "110%", "-10%"] }}
+                transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+                className="absolute left-0 right-0 h-1 bg-blue-500/50 shadow-[0_0_20px_4px_rgba(59,130,246,0.5)] z-20 pointer-events-none hidden group-hover:block"
+              />
+            </motion.div>
+
+            {/* Document Controls */}
+            <div className="absolute -right-16 top-1/2 -translate-y-1/2 flex flex-col gap-3 opacity-0 group-hover:opacity-100 transition-opacity">
+               <button className="w-10 h-10 rounded-full bg-white dark:bg-slate-800 shadow-xl border border-border flex items-center justify-center text-slate-600 hover:text-blue-600 hover:scale-110 transition-all">🔍</button>
+               <a href={resumeUrl} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white dark:bg-slate-800 shadow-xl border border-border flex items-center justify-center text-slate-600 hover:text-blue-600 hover:scale-110 transition-all">⛶</a>
+            </div>
+          </div>
+        ) : (
+           <div className="w-full max-w-[450px] aspect-[1/1.4] bg-slate-200 dark:bg-slate-800 rounded flex items-center justify-center shadow-inner">
+             <span className="text-slate-500 font-medium tracking-wide">Document Unavailable</span>
+           </div>
+        )}
+      </aside>
+
+      {/* RIGHT PANEL: Intelligence Dashboard */}
+      <main className="order-1 lg:order-2 flex-1 px-6 py-12 lg:px-16 lg:py-16 overflow-y-auto relative bg-transparent">
+        
+        {loadingData ? (
+          <div className="flex flex-col gap-12 max-w-3xl mx-auto">
+            <div className="flex gap-8"><Skeleton className="w-32 h-32 rounded-full" /><Skeleton className="flex-1 h-32" /></div>
+            <Skeleton className="h-64 w-full" />
+          </div>
+        ) : !feedback ? (
+          <div className="flex flex-col items-center justify-center h-full text-center max-w-md mx-auto">
+             <div className="text-6xl mb-6">⚠️</div>
+             <h2 className="text-2xl font-bold mb-2">Analysis Missing</h2>
+             <p className="text-slate-500 mb-8">We couldn't retrieve the intelligence data for this document. It may have been deleted.</p>
+             <Link to="/dashboard" className="px-6 py-3 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700 transition-colors">Return to Lab</Link>
+          </div>
+        ) : (
+          <div className="flex flex-col gap-16 max-w-3xl mx-auto pb-24">
+            
+            {/* Main Score - Signature Component */}
+            <ScrollReveal direction="up" distance={30}>
+              <div className="flex flex-col md:flex-row items-center gap-10 bg-white/60 dark:bg-slate-900/60 backdrop-blur-2xl p-8 rounded-[2rem] border border-border/60 shadow-[0_30px_60px_rgba(0,0,0,0.05)] dark:shadow-[0_30px_60px_rgba(0,0,0,0.2)]">
+                <div className="relative shrink-0">
+                  <div className="absolute inset-0 bg-blue-500/10 blur-3xl rounded-full" />
+                  <ScoreRing score={overallScore} size={160} strokeWidth={12} className="relative z-10 drop-shadow-xl" />
+                </div>
+                <div className="flex flex-col text-center md:text-left gap-3">
+                  <h1 className="text-4xl font-black tracking-tight bg-gradient-to-br from-slate-900 to-slate-600 dark:from-white dark:to-slate-400 bg-clip-text text-transparent">
+                    Resume Intelligence
+                  </h1>
+                  <p className="text-slate-500 dark:text-slate-400 text-lg leading-relaxed max-w-md">
+                    ATS health and structured keyword analysis estimate.
+                  </p>
+                  <div className="flex items-center justify-center md:justify-start gap-4 mt-2">
+                     <span className={`text-sm font-bold uppercase tracking-widest px-4 py-1.5 rounded-full bg-slate-100 dark:bg-slate-800 ${scoreColor}`}>
+                       {scoreStatus}
+                     </span>
+                     <span className="text-slate-400 font-medium text-sm">
+                       {overallScore}/100 Overall Health
+                     </span>
                   </div>
                 </div>
-              </ScrollReveal>
+              </div>
+            </ScrollReveal>
 
-              {/* Section score overview */}
-              <ScrollReveal delay={0.1} direction="up" distance={20}>
-                <div className="bg-white/70 border border-border rounded-2xl p-6 shadow-sm backdrop-blur-xl flex flex-col gap-4">
-                  <h3 className="text-foreground font-semibold">Score Breakdown</h3>
-                  <div className="flex flex-col gap-3">
-                    {sections.filter(s => s.data).map((s) => (
-                      <div key={s.key} className="flex flex-col gap-1.5">
-                        <div className="flex items-center justify-between">
-                          <span className="text-sm text-slate-600">{s.title}</span>
-                          <span className="text-sm font-semibold text-foreground">{s.data.score || 0}/100</span>
-                        </div>
-                        <ProgressBar value={s.data.score || 0} />
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </ScrollReveal>
-
-              {/* Tabs */}
-              <div>
-                <div className="flex gap-2 overflow-x-auto pb-2 mb-6">
-                  {([
-                    { key: "overview", label: "Strengths & Issues" },
-                    { key: "sections", label: "Detailed Sections" },
-                    ...(feedback.jobMatch && feedback.jobMatch.score > 0
-                      ? [{ key: "jobmatch", label: `Job Match — ${feedback.jobMatch.score}%` }]
-                      : []),
-                  ] as { key: Tab; label: string }[]).map((t) => (
-                    <button
-                      key={t.key}
-                      className={cn("px-4 py-2 rounded-lg font-medium whitespace-nowrap transition-colors", tab === t.key ? "bg-blue-600 text-white" : "bg-white/50 text-slate-600 hover:bg-slate-100")}
-                      onClick={() => setTab(t.key)}
+            {/* Score Breakdown (Interactive Tracks) */}
+            <ScrollReveal direction="up" delay={0.1} distance={30}>
+              <div className="flex flex-col gap-6">
+                <h3 className="text-xl font-bold tracking-tight">Score Breakdown</h3>
+                <div className="grid grid-cols-1 gap-4">
+                  {sections.filter(s => s.data).map((s) => (
+                    <div 
+                      key={s.key} 
+                      className="group flex flex-col gap-2 p-5 rounded-2xl bg-white/40 dark:bg-slate-900/40 border border-transparent hover:border-border hover:bg-white dark:hover:bg-slate-900 transition-all cursor-crosshair shadow-sm hover:shadow-lg"
+                      onMouseEnter={() => setActiveSection(s.title)}
+                      onMouseLeave={() => setActiveSection(null)}
                     >
-                      {t.label}
-                    </button>
+                      <div className="flex justify-between items-end">
+                        <div className="flex flex-col">
+                           <span className="font-semibold text-foreground group-hover:text-blue-600 transition-colors">{s.title}</span>
+                           <span className="text-xs text-slate-500 mt-0.5 opacity-0 group-hover:opacity-100 transition-opacity">Focus in document view</span>
+                        </div>
+                        <span className="font-bold text-lg">{s.data.score}/100</span>
+                      </div>
+                      <ProgressBar value={s.data.score || 0} className="h-2.5 rounded-full" />
+                    </div>
                   ))}
                 </div>
-
-                {/* Overview tab */}
-                {tab === "overview" && (
-                  <div className="flex flex-col gap-6 rp-fade-in">
-                    {goodTips.length > 0 && (
-                      <div className="flex flex-col gap-3">
-                        <h3 className="text-foreground font-semibold flex items-center gap-2">
-                          <span className="text-success">✓</span> Strengths ({goodTips.length})
-                        </h3>
-                        {goodTips.map((t, i) => (
-                          <div key={i} className="bg-green-500/10 border border-green-500/20 rounded-xl p-4">
-                            <div className="flex items-start gap-3">
-                              <span className="text-success font-bold flex-shrink-0">✓</span>
-                              <div className="flex flex-col gap-1">
-                                <p className="font-semibold text-sm text-green-800">
-                                  {t.tip}
-                                  <span className="ml-2 text-xs font-normal text-green-600/70">({t.section})</span>
-                                </p>
-                                {t.explanation && (
-                                  <p className="text-xs text-green-700/70 leading-relaxed">{t.explanation}</p>
-                                )}
-                              </div>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-
-                    {improveTips.length > 0 && (
-                      <div className="flex flex-col gap-3">
-                        <h3 className="text-foreground font-semibold flex items-center gap-2">
-                          <span className="text-warning">⚠</span> Areas to Improve ({improveTips.length})
-                        </h3>
-                        {improveTips.map((t, i) => (
-                          <div key={i} className="bg-orange-500/10 border border-orange-500/20 rounded-xl p-4">
-                            <div className="flex items-start gap-3">
-                              <span className="text-warning font-bold flex-shrink-0">⚠</span>
-                              <div className="flex flex-col gap-1">
-                                <p className="font-semibold text-sm text-orange-800">
-                                  {t.tip}
-                                  <span className="ml-2 text-xs font-normal text-orange-600/70">({t.section})</span>
-                                </p>
-                                {t.explanation && (
-                                  <p className="text-xs text-orange-700/70 leading-relaxed">{t.explanation}</p>
-                                )}
-                              </div>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                )}
-
-                {/* Sections tab */}
-                {tab === "sections" && (
-                  <div className="flex flex-col gap-5 rp-fade-in">
-                    {sections.filter(s => s.data).map((s) => (
-                      <SectionCard
-                        key={s.key}
-                        title={s.title}
-                        score={s.data.score || 0}
-                        tips={s.data.tips || []}
-                      />
-                    ))}
-                  </div>
-                )}
-
-                {/* Job Match tab */}
-                {tab === "jobmatch" && feedback.jobMatch && (
-                  <div className="flex flex-col gap-6 rp-fade-in">
-                    {/* Match score */}
-                    <div className="bg-white/70 border border-border rounded-2xl p-6 shadow-sm backdrop-blur-xl flex flex-col sm:flex-row items-center gap-6">
-                      <ScoreRing score={feedback.jobMatch.score} size={100} strokeWidth={10} />
-                      <div className="flex flex-col gap-1 text-center sm:text-left">
-                        <h3 className="text-foreground font-semibold">Job Description Match</h3>
-                        <p className="text-slate-500 text-sm">
-                          How well your resume aligns with the job requirements.
-                        </p>
-                      </div>
-                    </div>
-
-                    {/* Keywords */}
-                    {(feedback.jobMatch.matchedKeywords || []).length > 0 && (
-                      <div className="bg-white/70 border border-border rounded-2xl p-6 shadow-sm backdrop-blur-xl flex flex-col gap-3">
-                        <h4 className="text-foreground font-semibold">
-                          ✓ Matched Keywords ({(feedback.jobMatch.matchedKeywords || []).length})
-                        </h4>
-                        <div className="flex flex-wrap gap-2">
-                          {(feedback.jobMatch.matchedKeywords || []).map((kw) => (
-                            <span key={kw} className="px-3 py-1 bg-green-500/10 text-green-700 border border-green-500/20 rounded-lg text-sm font-medium">{kw}</span>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-
-                    {(feedback.jobMatch.missingKeywords || []).length > 0 && (
-                      <div className="bg-white/70 border border-border rounded-2xl p-6 shadow-sm backdrop-blur-xl flex flex-col gap-3">
-                        <h4 className="text-foreground font-semibold">
-                          ✕ Missing Keywords ({(feedback.jobMatch.missingKeywords || []).length})
-                        </h4>
-                        <div className="flex flex-wrap gap-2">
-                          {(feedback.jobMatch.missingKeywords || []).map((kw) => (
-                            <span key={kw} className="px-3 py-1 bg-red-500/10 text-red-700 border border-red-500/20 rounded-lg text-sm font-medium">{kw}</span>
-                          ))}
-                        </div>
-                        <p className="text-xs text-slate-500 italic">
-                          If you genuinely have experience with these, consider adding them to your resume.
-                        </p>
-                      </div>
-                    )}
-
-                    {/* Skills */}
-                    {(feedback.jobMatch.matchedSkills || []).length > 0 && (
-                      <div className="bg-white/70 border border-border rounded-2xl p-6 shadow-sm backdrop-blur-xl flex flex-col gap-3">
-                        <h4 className="text-foreground font-semibold">
-                          ✓ Matched Skills
-                        </h4>
-                        <div className="flex flex-wrap gap-2">
-                          {(feedback.jobMatch.matchedSkills || []).map((s) => (
-                            <span key={s} className="px-3 py-1 bg-green-500/10 text-green-700 border border-green-500/20 rounded-lg text-sm font-medium">{s}</span>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-
-                    {(feedback.jobMatch.missingSkills || []).length > 0 && (
-                      <div className="bg-white/70 border border-border rounded-2xl p-6 shadow-sm backdrop-blur-xl flex flex-col gap-3">
-                        <h4 className="text-foreground font-semibold">
-                          ✕ Missing Skills
-                        </h4>
-                        <div className="flex flex-wrap gap-2">
-                          {(feedback.jobMatch.missingSkills || []).map((s) => (
-                            <span key={s} className="px-3 py-1 bg-red-500/10 text-red-700 border border-red-500/20 rounded-lg text-sm font-medium">{s}</span>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-
-                    {/* Tips */}
-                    {(feedback.jobMatch.tips || []).length > 0 && (
-                      <div className="flex flex-col gap-3">
-                        <h4 className="text-foreground font-semibold">Recommendations</h4>
-                        {(feedback.jobMatch.tips || []).map((t, i) => (
-                          <TipCard key={i} {...t} />
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                )}
               </div>
+            </ScrollReveal>
 
-              {/* CTA */}
-              <div className="bg-blue-600/5 border border-blue-600/20 rounded-2xl p-6 shadow-sm backdrop-blur-xl flex flex-col sm:flex-row items-center justify-between gap-4">
-                <div className="flex flex-col gap-1">
-                  <h4 className="text-foreground font-semibold">Ready to improve?</h4>
-                  <p className="text-slate-500 text-sm">Implement the suggestions above and re-analyze to track your progress.</p>
+            {/* AI Insight Panel (Summary of issues) */}
+            {issues.length > 0 && (
+              <ScrollReveal direction="up" delay={0.2} distance={30}>
+                <div className="p-6 rounded-2xl bg-gradient-to-r from-blue-600/5 to-purple-600/5 border border-blue-500/20 flex gap-6 items-start shadow-inner">
+                  <div className="w-12 h-12 rounded-full bg-blue-600/10 flex items-center justify-center text-blue-600 text-2xl shrink-0">
+                    💡
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <h4 className="font-bold text-lg text-foreground">AI Insight Summary</h4>
+                    <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
+                      Your resume was successfully parsed, but we detected {issues.length} areas requiring attention—mostly involving quantifiable metrics and structural consistency.
+                    </p>
+                  </div>
                 </div>
-                <Link to="/upload" className="px-6 py-3 bg-blue-600 text-white rounded-xl font-semibold flex-shrink-0">
-                  Analyze Another →
-                </Link>
+              </ScrollReveal>
+            )}
+
+            {/* Intelligent Navigation Tabs */}
+            <div className="sticky top-0 z-30 pt-6 pb-4 bg-slate-50/80 dark:bg-slate-950/80 backdrop-blur-xl border-b border-border/50 -mx-6 px-6 lg:-mx-16 lg:px-16 mb-2">
+              <div className="flex gap-2 overflow-x-auto hide-scrollbar">
+                {([
+                  { key: "overview", label: "Key Findings" },
+                  { key: "sections", label: "Detailed Explorer" },
+                  ...(feedback.jobMatch && feedback.jobMatch.score > 0
+                    ? [{ key: "jobmatch", label: `Target Role Match (${feedback.jobMatch.score}%)` }]
+                    : []),
+                ] as { key: Tab; label: string }[]).map((t) => (
+                  <button
+                    key={t.key}
+                    onClick={() => setTab(t.key)}
+                    className={cn(
+                      "px-5 py-2.5 rounded-xl font-bold whitespace-nowrap transition-all duration-300 relative text-sm",
+                      tab === t.key 
+                        ? "bg-slate-900 text-white dark:bg-white dark:text-slate-900 shadow-md" 
+                        : "bg-transparent text-slate-500 hover:bg-black/5 dark:hover:bg-white/5 hover:text-foreground"
+                    )}
+                  >
+                    {t.label}
+                  </button>
+                ))}
               </div>
             </div>
-          )}
-        </main>
+
+            {/* Tab Contents */}
+            <div className="min-h-[500px]">
+              {tab === "overview" && (
+                <div className="flex flex-col gap-10">
+                  {issues.length > 0 && (
+                    <div className="flex flex-col gap-4">
+                      <h3 className="text-xl font-bold border-b border-border/50 pb-2">Needs Attention</h3>
+                      <div className="grid grid-cols-1 gap-4">
+                        {issues.map((insight, i) => (
+                          <div key={i} onMouseEnter={() => setActiveSection(insight.category)} onMouseLeave={() => setActiveSection(null)}>
+                            <InsightCard {...insight} action="Focus on document" />
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {strengths.length > 0 && (
+                    <div className="flex flex-col gap-4">
+                      <h3 className="text-xl font-bold border-b border-border/50 pb-2">Strong Highlights</h3>
+                      <div className="grid grid-cols-1 gap-4">
+                        {strengths.map((insight, i) => (
+                          <div key={i} onMouseEnter={() => setActiveSection(insight.category)} onMouseLeave={() => setActiveSection(null)}>
+                            <InsightCard {...insight} />
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {tab === "sections" && (
+                <div className="flex flex-col gap-6">
+                  <p className="text-slate-500 mb-4">Deep dive into specific areas of your resume. Hover over a section to locate it on the document.</p>
+                  {sections.filter(s => s.data).map((s) => (
+                    <div 
+                       key={s.key} 
+                       className="border border-border/50 bg-white/40 dark:bg-slate-900/40 rounded-2xl p-6 transition-all hover:border-border hover:shadow-lg cursor-crosshair"
+                       onMouseEnter={() => setActiveSection(s.title)}
+                       onMouseLeave={() => setActiveSection(null)}
+                    >
+                      <div className="flex justify-between items-center mb-6">
+                         <h3 className="text-xl font-bold text-foreground">{s.title}</h3>
+                         <div className="flex items-center gap-3">
+                           <span className="text-sm font-semibold text-slate-500">Score</span>
+                           <span className="text-2xl font-black">{s.data.score}/100</span>
+                         </div>
+                      </div>
+                      
+                      <div className="flex flex-col gap-3">
+                         {(s.data.tips || []).map((tip: any, i: number) => (
+                           <div key={i} className="flex gap-3 items-start bg-black/5 dark:bg-white/5 p-4 rounded-xl">
+                              <span className="text-lg mt-0.5">{tip.type === 'good' ? '✅' : '🎯'}</span>
+                              <div className="flex flex-col gap-1">
+                                 <p className="font-semibold text-sm">{tip.tip}</p>
+                                 {tip.explanation && <p className="text-sm text-slate-600 dark:text-slate-400">{tip.explanation}</p>}
+                              </div>
+                           </div>
+                         ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {tab === "jobmatch" && feedback.jobMatch && (
+                <div className="flex flex-col gap-10">
+                   {/* Job Match Implementation (Similar premium styling) */}
+                   <div className="flex flex-col gap-6 bg-white/40 dark:bg-slate-900/40 border border-border/50 rounded-2xl p-8">
+                      <div className="flex items-center gap-6 mb-4">
+                        <ScoreRing score={feedback.jobMatch.score} size={100} strokeWidth={8} />
+                        <div>
+                          <h3 className="text-2xl font-bold">Role Compatibility</h3>
+                          <p className="text-slate-500">How well your resume targets the job description.</p>
+                        </div>
+                      </div>
+                      
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-4">
+                         <div className="flex flex-col gap-4">
+                           <h4 className="font-bold text-emerald-600 flex items-center gap-2"><span>✓</span> Matched Keywords</h4>
+                           <div className="flex flex-wrap gap-2">
+                             {(feedback.jobMatch.matchedKeywords || []).map((kw) => (
+                               <span key={kw} className="px-3 py-1.5 bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/20 rounded-lg text-sm font-medium">{kw}</span>
+                             ))}
+                           </div>
+                         </div>
+                         <div className="flex flex-col gap-4">
+                           <h4 className="font-bold text-rose-600 flex items-center gap-2"><span>✕</span> Missing Keywords</h4>
+                           <div className="flex flex-wrap gap-2">
+                             {(feedback.jobMatch.missingKeywords || []).map((kw) => (
+                               <span key={kw} className="px-3 py-1.5 bg-rose-500/10 text-rose-700 dark:text-rose-400 border border-rose-500/20 rounded-lg text-sm font-medium">{kw}</span>
+                             ))}
+                           </div>
+                         </div>
+                      </div>
+                   </div>
+                </div>
+              )}
+            </div>
+
+            {/* Bottom CTA */}
+            <div className="mt-8 bg-slate-900 dark:bg-slate-800 rounded-3xl p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-2xl relative overflow-hidden group">
+               <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/20 blur-[80px] group-hover:bg-blue-500/30 transition-colors" />
+               <div className="flex flex-col gap-2 relative z-10 text-center md:text-left">
+                 <h4 className="text-2xl font-bold text-white">Ready to iterate?</h4>
+                 <p className="text-slate-300">Apply these insights to your resume and run another scan to track improvements.</p>
+               </div>
+               <Link to="/upload" className="px-8 py-4 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-bold tracking-wide relative z-10 shadow-lg shadow-blue-900/20 transition-all hover:-translate-y-0.5">
+                 New Analysis
+               </Link>
+            </div>
+            
+          </div>
+        )}
+      </main>
     </PageTransition>
   );
 };

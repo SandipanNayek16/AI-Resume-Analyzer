@@ -55,10 +55,12 @@ export function ScoreRing({
   score,
   size = 120,
   strokeWidth = 10,
+  className,
 }: {
   score: number;
   size?: number;
   strokeWidth?: number;
+  className?: string;
 }) {
   const [displayScore, setDisplayScore] = useState(0);
   const ref = useRef<HTMLDivElement>(null);
@@ -97,7 +99,7 @@ export function ScoreRing({
   }, [score, isInView]);
 
   return (
-    <div ref={ref} className="relative flex items-center justify-center group" style={{ width: size, height: size }}>
+    <div ref={ref} className={cn("relative flex items-center justify-center group", className)} style={{ width: size, height: size }}>
       
       {/* Glow Behind */}
       <div 

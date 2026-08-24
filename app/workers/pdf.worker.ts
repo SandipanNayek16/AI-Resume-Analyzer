@@ -24,7 +24,7 @@ self.onmessage = async (e: MessageEvent) => {
 
         for (let i = 1; i <= numPages; i++) {
             const page = await pdf.getPage(i);
-            const viewport = page.getViewport({ scale: 2.0 });
+            const viewport = page.getViewport({ scale: 3.0 });
             pages.push({ page, viewport });
             totalHeight += viewport.height;
             maxWidth = Math.max(maxWidth, viewport.width);
@@ -63,8 +63,8 @@ self.onmessage = async (e: MessageEvent) => {
         }
 
         const blob = await masterCanvas.convertToBlob({
-            type: "image/jpeg",
-            quality: 0.8
+            type: "image/webp",
+            quality: 0.95
         });
 
         // Send the blob back to the main thread
