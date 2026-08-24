@@ -3,16 +3,18 @@
 import * as pdfjsLib from "pdfjs-dist/build/pdf.mjs";
 
 self.onmessage = async (e: MessageEvent) => {
-    const { arrayBuffer, fileName } = e.data;
+    const { arrayBuffer, fileName, origin } = e.data;
 
     try {
         pdfjsLib.GlobalWorkerOptions.workerSrc = "/pdf.worker.min.mjs";
-
+        
+        const baseUrl = origin || "";
         const pdf = await pdfjsLib.getDocument({ 
             data: arrayBuffer,
-            standardFontDataUrl: "/pdfjs/standard_fonts/",
-            cMapUrl: "/pdfjs/cmaps/",
+            standardFontDataUrl: `${baseUrl}/pdfjs/standard_fonts/`,
+            cMapUrl: `${baseUrl}/pdfjs/cmaps/`,
             cMapPacked: true,
+            useSystemFonts: true
         }).promise;
         const numPages = Math.min(pdf.numPages, 3); // Cap at 3 pages to prevent memory issues
         const pages = [];

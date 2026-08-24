@@ -66,7 +66,8 @@ export async function convertPdfToImage(
             // Start the worker
             worker.postMessage({
                 arrayBuffer,
-                fileName: file.name
+                fileName: file.name,
+                origin: window.location.origin
             });
 
         } catch (err) {
