@@ -210,9 +210,9 @@ export default function Dashboard() {
         <div className="pt-6">
           <p className="text-xs font-bold text-blue-600 tracking-widest uppercase mb-2">Resume Intelligence</p>
           <h1 className="text-4xl lg:text-5xl font-black text-foreground tracking-tighter">
-            Good morning, {userName}.
+            Your Resume. Your Next Opportunity.
           </h1>
-          <p className="text-slate-500 mt-2 text-lg lg:text-xl font-light">Your career profile is evolving.</p>
+          <p className="text-slate-500 mt-2 text-lg lg:text-xl font-light">AI-powered insights to help you build a stronger, more targeted resume.</p>
         </div>
       </ScrollReveal>
 
