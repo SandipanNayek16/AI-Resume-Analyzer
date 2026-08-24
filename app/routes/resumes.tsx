@@ -32,7 +32,15 @@ const Resumes = () => {
     setLoading(true);
     const raw = (await kv.list("resume:*", true)) as KVItem[];
     const parsed = (raw || [])
-      .map((item) => { try { return JSON.parse(item.value) as Resume; } catch { return null; } })
+      .map((item) => { 
+        try { 
+          const r = JSON.parse(item.value) as Resume; 
+          if (!r.id) {
+            r.id = item.key.replace("resume:", "");
+          }
+          return r; 
+        } catch { return null; } 
+      })
       .filter(Boolean) as Resume[];
     setResumes(parsed);
     setLoading(false);
@@ -220,7 +228,11 @@ const Resumes = () => {
                       <span className="relative z-10 font-bold">View Results →</span>
                     </Link>
                     <button
-                      onClick={() => handleDelete(resume.id)}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        handleDelete(resume.id);
+                      }}
                       disabled={deleting === resume.id}
                       className="aspect-square p-2 rounded-lg bg-slate-100/50 hover:bg-red-500 hover:text-white border border-transparent flex items-center justify-center transition-colors text-slate-500"
                       aria-label="Delete analysis"
