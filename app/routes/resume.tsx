@@ -45,19 +45,24 @@ const Resume = () => {
       setResumeData(data);
       setFeedback(data.feedback);
 
-      const [resumeBlob, imageBlob] = await Promise.all([
-        fs.read(data.resumePath),
-        fs.read(data.imagePath),
-      ]);
+      try {
+        const [resumeBlob, imageBlob] = await Promise.all([
+          fs.read(data.resumePath),
+          fs.read(data.imagePath),
+        ]);
 
-      if (resumeBlob) {
-        const pdfBlob = new Blob([resumeBlob], { type: "application/pdf" });
-        setResumeUrl(URL.createObjectURL(pdfBlob));
+        if (resumeBlob) {
+          const pdfBlob = new Blob([resumeBlob], { type: "application/pdf" });
+          setResumeUrl(URL.createObjectURL(pdfBlob));
+        }
+        if (imageBlob) {
+          setImageUrl(URL.createObjectURL(imageBlob));
+        }
+      } catch (err) {
+        console.warn("Could not load preview images:", err);
+      } finally {
+        setLoadingData(false);
       }
-      if (imageBlob) {
-        setImageUrl(URL.createObjectURL(imageBlob));
-      }
-      setLoadingData(false);
     };
     loadResume();
   }, [id]);
