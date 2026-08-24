@@ -10,8 +10,8 @@ self.onmessage = async (e: MessageEvent) => {
 
         const pdf = await pdfjsLib.getDocument({ 
             data: arrayBuffer,
-            standardFontDataUrl: `https://unpkg.com/pdfjs-dist@${pdfjsLib.version}/standard_fonts/`,
-            cMapUrl: `https://unpkg.com/pdfjs-dist@${pdfjsLib.version}/cmaps/`,
+            standardFontDataUrl: "/pdfjs/standard_fonts/",
+            cMapUrl: "/pdfjs/cmaps/",
             cMapPacked: true,
         }).promise;
         const page = await pdf.getPage(1);
