@@ -149,25 +149,9 @@ const Resume = () => {
               initial={{ opacity: 0, y: 20, rotateX: 5 }}
               animate={{ opacity: 1, y: 0, rotateX: 0 }}
               transition={{ duration: 0.8, ease: "easeOut" }}
-              className="relative rounded bg-white shadow-[0_20px_50px_rgba(0,0,0,0.1)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.4)] border border-black/5 overflow-hidden ring-1 ring-black/5"
+              className="relative rounded bg-white shadow-[0_20px_50px_rgba(0,0,0,0.1)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.4)] border border-black/5 overflow-y-auto overflow-x-hidden max-h-[80vh] hide-scrollbar ring-1 ring-black/5"
             >
               <img src={imageUrl} alt="Resume Preview" className="w-full h-auto block select-none pointer-events-none" />
-              
-              {/* Contextual Highlight Overlay */}
-              <AnimatePresence>
-                {activeSection && (
-                  <motion.div 
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    className="absolute inset-0 bg-blue-900/20 dark:bg-blue-400/20 backdrop-blur-[1px] mix-blend-multiply dark:mix-blend-screen transition-all duration-500"
-                  >
-                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 px-6 py-3 bg-black/80 text-white font-semibold rounded-full shadow-2xl text-sm tracking-wider uppercase backdrop-blur-md">
-                      Focusing: {activeSection}
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
               
               {/* Scanning Laser (Simulated load/processing effect) */}
               <motion.div 
@@ -176,6 +160,22 @@ const Resume = () => {
                 className="absolute left-0 right-0 h-1 bg-blue-500/50 shadow-[0_0_20px_4px_rgba(59,130,246,0.5)] z-20 pointer-events-none hidden group-hover:block"
               />
             </motion.div>
+
+            {/* Contextual Highlight Overlay */}
+            <AnimatePresence>
+              {activeSection && (
+                <motion.div 
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="absolute inset-0 bg-blue-900/20 dark:bg-blue-400/20 backdrop-blur-[1px] mix-blend-multiply dark:mix-blend-screen transition-all duration-500 pointer-events-none rounded"
+                >
+                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 px-6 py-3 bg-black/80 text-white font-semibold rounded-full shadow-2xl text-sm tracking-wider uppercase backdrop-blur-md whitespace-nowrap">
+                    Focusing: {activeSection}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
 
             {/* Document Controls */}
             <div className="absolute -right-16 top-1/2 -translate-y-1/2 flex flex-col gap-3 opacity-0 group-hover:opacity-100 transition-opacity">
