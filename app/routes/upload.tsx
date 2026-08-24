@@ -288,9 +288,9 @@ const Upload = () => {
 
   return (
     <div className="max-w-2xl mx-auto py-8">
-      {processing ? (
-        <ProcessingView stage={stage} error={errorMsg} />
-      ) : (
+      {processing && <ProcessingView stage={stage} error={errorMsg} />}
+      
+      <div className={processing ? "hidden" : "block"}>
         <PageTransition className="w-full flex justify-center">
             <div className="w-full max-w-xl">
               <div className="text-center mb-8">
@@ -304,12 +304,15 @@ const Upload = () => {
                   e.preventDefault();
                   if (!file) return;
                   const fd = new FormData(e.currentTarget);
-                  handleAnalyze({
-                    companyName: fd.get("company-name") as string,
-                    jobTitle: fd.get("job-title") as string,
-                    jobDescription: fd.get("job-description") as string,
-                    file,
-                  });
+                  // Use setTimeout to ensure native event bubbling finishes before any potential heavy state changes
+                  setTimeout(() => {
+                    handleAnalyze({
+                      companyName: fd.get("company-name") as string,
+                      jobTitle: fd.get("job-title") as string,
+                      jobDescription: fd.get("job-description") as string,
+                      file,
+                    });
+                  }, 0);
                 }}
               >
                 {/* Target Job (optional) */}
@@ -363,10 +366,12 @@ const Upload = () => {
 
                 <button
                   type="submit"
-                  disabled={!file}
+                  disabled={!file || processing}
                   className="px-8 py-4 bg-blue-600 text-white rounded-xl text-lg font-semibold shadow-sm hover:shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all w-full disabled:opacity-40 disabled:cursor-not-allowed group"
                 >
-                  Analyze Resume <span className="transition-transform group-hover:translate-x-1">→</span>
+                  {processing ? "Analyzing Resume..." : (
+                    <>Analyze Resume <span className="transition-transform group-hover:translate-x-1">→</span></>
+                  )}
                 </button>
 
                 <p className="text-xs text-slate-500 text-center">
@@ -375,7 +380,7 @@ const Upload = () => {
               </form>
             </div>
           </PageTransition>
-        )}
+      </div>
     </div>
   );
 };
