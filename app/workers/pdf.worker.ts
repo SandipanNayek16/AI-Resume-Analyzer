@@ -14,7 +14,8 @@ self.onmessage = async (e: MessageEvent) => {
             standardFontDataUrl: `${baseUrl}/pdfjs/standard_fonts/`,
             cMapUrl: `${baseUrl}/pdfjs/cmaps/`,
             cMapPacked: true,
-            useSystemFonts: true
+            useSystemFonts: true,
+            disableFontFace: true
         }).promise;
         const numPages = Math.min(pdf.numPages, 3); // Cap at 3 pages to prevent memory issues
         const pages = [];
