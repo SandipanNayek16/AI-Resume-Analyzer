@@ -11,10 +11,10 @@ export function BorderGlow({
   ...props 
 }: BorderGlowProps) {
   return (
-    <div className={cn("relative group rounded-xl p-[1px] overflow-hidden", className)} {...props}>
+    <div className={cn("relative group rounded-xl p-[1px] overflow-hidden transform-gpu", className)} {...props}>
       {/* Animated glowing gradient border */}
       <div 
-        className="absolute inset-[-1000%] animate-[spin_4s_linear_infinite]"
+        className="absolute inset-[-1000%] animate-[spin_4s_linear_infinite] transform-gpu"
         style={{
           background: `conic-gradient(from 90deg at 50% 50%, transparent 0%, ${glowColor} 50%, transparent 100%)`
         }}
